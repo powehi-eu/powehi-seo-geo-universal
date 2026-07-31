@@ -16,6 +16,34 @@ For each capability, try these transports independently:
 Never stop discovery after one transport fails. Redact credentials, account
 identifiers, and personal filesystem paths from errors.
 
+## Mandatory live-probe gate
+
+The harness tool inventory is the first source of truth. Before running
+`google_auth.py`, inspecting environment variables, or reading local
+configuration, enumerate the callable native and MCP tools available in the
+current session. A locally missing credential file says nothing about a
+connector already authenticated by the harness.
+
+Probe `gsc`, `ga4`, `crux`, and `pagespeed` separately with the smallest useful
+read-only call supported by the discovered transport:
+
+| Capability | Minimal proof | Do not misclassify as unavailable |
+|---|---|---|
+| `gsc` | list accessible properties or query a short date range for the target property | an empty query result, reporting lag, or a failed local credential fallback after a native call passed |
+| `ga4` | list accessible properties or run a minimal report for the target property | a valid property with zero rows or a failed local credential fallback after a native call passed |
+| `crux` | query the target URL or origin | HTTP 404/no public field dataset; record `insufficient_data` |
+| `pagespeed` | request one strategy for the target URL | HTTP 403, quota, or API restriction; record `failed` with the redacted reason |
+
+The audit MUST NOT finalize capability discovery until all four probes have a
+terminal status and the transport attempts are recorded. Do not reuse a prior
+run's `capability-discovery.json` as current evidence.
+
+When several transports disagree, preserve every attempt and derive the final
+capability from the strongest successful result. A successful native or MCP
+probe cannot be overwritten by a failed CLI/local fallback. Conversely, the
+presence of a tool without a successful probe proves only `available`, not
+`authenticated` or `usable`.
+
 ## Capability envelope
 
 ```json
@@ -42,6 +70,10 @@ Each must be tested and recorded independently.
 non-destructive authentication call succeeded. `usable` means it can collect
 data for the requested target. Allowed `status` values are `passed`, `failed`,
 `unavailable`, `insufficient_data`, `partial`, and `not_applicable`.
+
+For every capability, include an `attempts` array containing the tested
+transport, terminal status, and redacted error. This makes transport precedence
+auditable and prevents a local fallback from erasing native evidence.
 
 ## Routing
 

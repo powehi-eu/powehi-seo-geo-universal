@@ -68,3 +68,41 @@ def test_audit_agents_document_output_dir_findings_contract() -> None:
 def test_seo_audit_report_command_keeps_outputs_in_audit_dir() -> None:
     text = (REPO_ROOT / "skills" / "seo-audit" / "SKILL.md").read_text(encoding="utf-8")
     assert "--output-dir {domain}-audit/" in text
+
+
+def test_google_capability_discovery_is_native_first_and_independent() -> None:
+    audit = (REPO_ROOT / "skills" / "seo-audit" / "SKILL.md").read_text(encoding="utf-8")
+    orchestrator = (
+        REPO_ROOT / "skills" / "powehi-seo" / "SKILL.md"
+    ).read_text(encoding="utf-8")
+    agent = (REPO_ROOT / "agents" / "seo-google.md").read_text(encoding="utf-8")
+    contract = (
+        REPO_ROOT / "skills" / "seo-audit" / "references" / "capability-contract.md"
+    ).read_text(encoding="utf-8")
+    audit_flat = " ".join(audit.split())
+    orchestrator_flat = " ".join(orchestrator.split())
+    contract_flat = " ".join(contract.split())
+
+    for text in (audit, orchestrator, agent, contract):
+        for capability in ("GSC", "GA4", "CrUX", "PageSpeed"):
+            assert capability in text
+        assert "local" in text.lower()
+        assert "native" in text.lower()
+
+    assert "Inventory callable harness tools before any local configuration check" in audit_flat
+    assert "successful native/MCP probe MUST NOT be overwritten" in audit_flat
+    assert "current terminal status" in audit_flat
+    assert "successful native/MCP result always outranks" in orchestrator_flat
+    assert "attempts" in agent
+    assert "insufficient_data" in agent
+    assert "## Mandatory live-probe gate" in contract
+    assert "Do not reuse a prior" in contract_flat
+    assert "A successful native or MCP probe cannot be overwritten" in contract_flat
+
+
+def test_manual_installers_copy_the_capability_contract_with_skills() -> None:
+    shell = (REPO_ROOT / "install.sh").read_text(encoding="utf-8")
+    powershell = (REPO_ROOT / "install.ps1").read_text(encoding="utf-8")
+
+    assert 'cp -r "${skill_dir}"* "${target}/"' in shell
+    assert 'Copy-Item -Recurse -Force "$($_.FullName)\\*" $target' in powershell

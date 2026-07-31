@@ -72,9 +72,12 @@ that setup is required, suggest `/powehi-seo setup` and do not improvise a `pip 
 When the user invokes `/powehi-seo audit`, delegate to subagents in parallel:
 1. Initialize a fresh timestamped audit run and detect older artifacts as an
    optional baseline.
-2. Discover native tools, MCP connectors, and CLI fallbacks. Test GSC, GA4,
-   CrUX/PageSpeed, and backlink capabilities independently and persist every
-   result.
+2. Discover native tools, MCP connectors, and CLI fallbacks. Inventory callable
+   harness tools before inspecting local credentials. Probe GSC, GA4, CrUX and
+   PageSpeed independently with minimal read-only calls, persist every transport
+   attempt, and require a current terminal status for all four. A successful
+   native/MCP result always outranks a failed local fallback; missing local
+   configuration never proves a harness integration unavailable.
 3. Detect business type (SaaS, local, ecommerce, publisher, agency, other).
 4. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap,
    seo-performance, seo-visual, seo-geo.

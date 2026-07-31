@@ -19,9 +19,14 @@ metadata:
    baseline. Never present pre-existing artifacts as the current run.
 2. **Discover capabilities**: read
    `references/capability-contract.md`, discover native tools/MCP connectors,
-   and test GSC, GA4, CrUX/PageSpeed, and backlinks independently. Persist
-   `capability-discovery.json`. Local credential checks are fallbacks and never
-   prove a native capability absent.
+   and test GSC, GA4, CrUX, PageSpeed, and backlinks independently. Inventory
+   callable harness tools before any local configuration check, execute a
+   minimal read-only probe for every discovered Google transport, and persist
+   every transport attempt in `capability-discovery.json`. Local credential
+   checks are fallbacks and never prove a native capability absent. A successful
+   native/MCP probe MUST NOT be overwritten by a failed local fallback. Do not
+   continue to specialist routing until GSC, GA4, CrUX, and PageSpeed each have
+   a current terminal status.
 3. **Render homepage**: use `powehi-seo-geo run render_page.py <url> --mode auto --json` to capture raw HTML, rendered HTML, extracted text, SPA status, and accessibility data when needed
 4. **Detect business type**: analyze homepage signals per seo orchestrator
 5. **Crawl site**: follow internal links up to 500 pages, respect robots.txt
