@@ -32,6 +32,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -47,20 +49,64 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _tree_sha256(files: dict[str, str]) -> str:
+    """Recompute the manifest-wide digest.
+
+    Must stay byte-identical to release_sign.py's construction: one
+    ``<sha>  <path>\\n`` line per entry, sorted by path (sha256sum format).
+    """
+    tree_input = "".join(f"{sha}  {path}\n" for path, sha in sorted(files.items()))
+    return hashlib.sha256(tree_input.encode("utf-8")).hexdigest()
+
+
+def _tracked_files(root: Path) -> list[str] | None:
+    """Return git-tracked paths under ``root``, or None if git is unavailable.
+
+    Used to detect files added to the checkout after the manifest was
+    generated. Falls back to None (extra-file detection disabled, and said
+    so in the report) rather than guessing from a filesystem walk, which
+    would flood the result with build artefacts and venvs.
+    """
+    git = shutil.which("git")
+    if not git:
+        return None
+    try:
+        result = subprocess.run(
+            [git, "-C", str(root), "ls-files", "-z"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=60,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0:
+        return None
+    return [p for p in result.stdout.split("\0") if p]
+
+
 def verify(manifest_path: Path, root: Path = REPO_ROOT) -> dict:
     """Compare a manifest against the working tree at ``root``.
 
     Returns a dict with:
-        ok          : True iff every file in manifest matches.
-        manifest    : the manifest payload (for the caller to display
-                      version/tag/commit context).
-        mismatched  : paths whose SHA-256 differs.
-        missing     : paths in manifest but absent from disk.
-        extra       : paths on disk (and git-tracked) but not in
-                      manifest. Empty unless caller passes a tracked
-                      file list; default behaviour leaves this empty.
+        ok            : True iff every manifest file matches AND no
+                        unexpected tracked file is present.
+        manifest      : the manifest payload (for the caller to display
+                        version/tag/commit context).
+        mismatched    : paths whose SHA-256 differs.
+        missing       : paths in manifest but absent from disk.
+        extra         : git-tracked paths present on disk but absent from
+                        the manifest.
+        extra_checked : False when git was unavailable, meaning ``extra``
+                        could not be computed and is not evidence of a
+                        clean tree.
+        tree_sha256   : {"expected", "actual", "ok"} for the manifest-wide
+                        digest, or None when the manifest records none.
     """
-    with manifest_path.open() as fh:
+    # Explicit UTF-8: the manifest is written as UTF-8 JSON, and the default
+    # locale encoding on Windows (cp1252) fails on non-ASCII tracked paths.
+    with manifest_path.open(encoding="utf-8") as fh:
         manifest = json.load(fh)
 
     expected = manifest.get("files", {})
@@ -78,18 +124,55 @@ def verify(manifest_path: Path, root: Path = REPO_ROOT) -> dict:
                 {"path": rel, "expected": expected_sha, "actual": actual_sha}
             )
 
+    # Files added after the manifest was cut are a tamper vector in their own
+    # right: Python auto-executes sitecustomize.py / conftest.py from the
+    # tree, so a checkout can be subverted without modifying any manifest
+    # entry. Reporting only mismatches would call that tree "OK".
+    tracked = _tracked_files(root)
+    extra_checked = tracked is not None
+    extra: list[str] = []
+    if tracked is not None:
+        # release_sign.build_manifest skips tracked entries that are not
+        # regular files (submodules, broken symlinks); mirror that skip or
+        # every such entry would be reported as an unexpected addition.
+        extra = sorted(
+            rel
+            for rel in set(tracked) - set(expected)
+            if (root / rel).is_file()
+        )
+
+    # Recompute the manifest-wide digest instead of only printing it, so a
+    # manifest with entries deleted from `files` cannot pass silently.
+    recorded_tree = manifest.get("tree_sha256")
+    tree_result = None
+    if recorded_tree:
+        actual_tree = _tree_sha256(expected)
+        tree_result = {
+            "expected": recorded_tree,
+            "actual": actual_tree,
+            "ok": actual_tree == recorded_tree,
+        }
+
     return {
-        "ok": not (mismatched or missing),
+        "ok": not (
+            mismatched
+            or missing
+            or extra
+            or (tree_result is not None and not tree_result["ok"])
+        ),
         "manifest": {
             "version": manifest.get("version"),
             "tag": manifest.get("tag"),
             "commit": manifest.get("commit"),
             "generated_at": manifest.get("generated_at"),
-            "tree_sha256": manifest.get("tree_sha256"),
+            "tree_sha256": recorded_tree,
         },
         "checked": len(expected),
         "mismatched": mismatched,
         "missing": missing,
+        "extra": extra,
+        "extra_checked": extra_checked,
+        "tree_sha256": tree_result,
     }
 
 
@@ -129,8 +212,22 @@ def main() -> int:
         print(f"  Manifest version: {m['version']}  tag: {m['tag']}")
         print(f"  Manifest commit:  {m['commit']}")
         print(f"  Generated at:     {m['generated_at']}")
-        print(f"  Tree SHA-256:     {m['tree_sha256']}")
+        tree = result["tree_sha256"]
+        if tree is None:
+            print(f"  Tree SHA-256:     {m['tree_sha256']} (not recorded)")
+        elif tree["ok"]:
+            print(f"  Tree SHA-256:     {tree['expected']} (verified)")
+        else:
+            print(f"  Tree SHA-256:     MISMATCH")
+            print(f"        expected: {tree['expected']}")
+            print(f"        actual:   {tree['actual']}")
         print(f"  Files checked:    {result['checked']}")
+        if not result["extra_checked"]:
+            print("  Extra files:      not checked (git unavailable)")
+        if result["extra"]:
+            print(f"\n  Unexpected tracked files ({len(result['extra'])}):")
+            for path in result["extra"]:
+                print(f"    - {path}")
         if result["mismatched"]:
             print(f"\n  Mismatched ({len(result['mismatched'])}):")
             for row in result["mismatched"]:

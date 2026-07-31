@@ -110,8 +110,9 @@ def _authed_headers():
             text=True,
             encoding="utf-8",
             errors="replace",
+            timeout=15,
         )
-    except FileNotFoundError:
+    except (FileNotFoundError, subprocess.TimeoutExpired):
         return _base_headers()
     if result.returncode != 0 or not result.stdout.strip():
         return _base_headers()
@@ -402,5 +403,9 @@ if __name__ == "__main__":
     parsed_args = parse_args()
     result = sync(parsed_args)
     print(json.dumps(result, sort_keys=True))
-    if result.get("status") == "rejected" and not parsed_args.dry_run:
+    # Exit non-zero on rejection regardless of --dry-run. --dry-run controls
+    # whether files are written, not whether failure is reported: CI uses the
+    # dry run as a non-mutating upstream health check, and swallowing the
+    # exit code there kept pipelines green on a broken upstream contract.
+    if result.get("status") == "rejected":
         raise SystemExit(1)
