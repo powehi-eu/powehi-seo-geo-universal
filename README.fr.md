@@ -1,6 +1,6 @@
 > **Langue :** Français | [English](README.md)
 
-![Powehi Universal SEO fonctionne avec OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI et d’autres environnements d’agents sous Windows, macOS et Linux](assets/universal-platforms.svg)
+![Powehi Universal SEO fonctionne avec OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI et d’autres environnements d’agents sous Windows, macOS et Linux](assets/universal-platforms.png)
 
 ![Plateforme Powehi Universal SEO : audit, SEO technique, contenu, données structurées, Google, backlinks, AI Search et FLOW](assets/cover.svg)
 
