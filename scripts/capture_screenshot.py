@@ -50,6 +50,29 @@ VIEWPORTS = {
 }
 
 
+def _is_within(candidate: str, root: str) -> bool:
+    """True iff ``candidate`` is ``root`` or lives underneath it."""
+    candidate = os.path.normcase(os.path.abspath(candidate))
+    root = os.path.normcase(os.path.abspath(root))
+    try:
+        return os.path.commonpath([candidate, root]) == root
+    except ValueError:
+        # Different drives on Windows — no common path exists.
+        return False
+
+
+def _safe_basename(hostname: str) -> str:
+    """Turn a hostname into a filesystem-safe filename stem.
+
+    Uses the hostname rather than netloc: netloc keeps the port, and ':' is
+    a reserved character on Windows, so https://example.com:8443 previously
+    produced a name that made page.screenshot() fail with OSError 22 after a
+    full page load.
+    """
+    cleaned = "".join(ch if (ch.isalnum() or ch in "-_") else "_" for ch in hostname)
+    return cleaned.strip("_") or "screenshot"
+
+
 def normalize_url(url: str) -> tuple[str, ParseResult]:
     """Normalize URL and return (url, parsed_url).
 
@@ -165,16 +188,19 @@ def main():
 
     args = parser.parse_args()
 
-    # Sanitize output path - prevent directory traversal
+    # Confine the output path to the cwd or the home directory. A plain
+    # startswith() is not a path-boundary test: with cwd /home/u/proj it also
+    # accepts /home/u/proj-secrets. commonpath compares whole components,
+    # and normcase absorbs the drive-letter/separator case differences that
+    # otherwise reject legitimate Windows paths.
     output_dir = os.path.realpath(args.output)
-    cwd = os.getcwd()
-    home = os.path.expanduser("~")
-    if not (output_dir.startswith(cwd) or output_dir.startswith(home)):
+    allowed_roots = [os.path.realpath(os.getcwd()), os.path.realpath(os.path.expanduser("~"))]
+    if not any(_is_within(output_dir, root) for root in allowed_roots):
         print("Error: Output path must be within current directory or home directory", file=sys.stderr)
         sys.exit(1)
 
-    # Create output directory
-    os.makedirs(args.output, exist_ok=True)
+    # Create output directory (the validated path, not the raw argument)
+    os.makedirs(output_dir, exist_ok=True)
 
     try:
         normalized_url, parsed_url = normalize_url(args.url)
@@ -183,13 +209,13 @@ def main():
         sys.exit(1)
 
     # Generate filename from URL
-    base_name = parsed_url.netloc.replace(".", "_")
+    base_name = _safe_basename(parsed_url.hostname or "")
 
     viewports = VIEWPORTS.keys() if args.all else [args.viewport]
 
     for viewport in viewports:
         filename = f"{base_name}_{viewport}.png"
-        output_path = os.path.join(args.output, filename)
+        output_path = os.path.join(output_dir, filename)
 
         print(f"Capturing {viewport} screenshot...")
         result = capture_screenshot(

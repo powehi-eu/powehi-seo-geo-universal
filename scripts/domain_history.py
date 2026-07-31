@@ -82,6 +82,22 @@ _DATE_LABELS = {
 _REGISTRAR_LABELS = ("registrar", "registrant organization")
 
 
+def _ascii_domain(domain: str) -> Optional[str]:
+    """Return the punycode (IDNA) form of ``domain``, or None if unusable.
+
+    The whois protocol is ASCII-only. Encoding a non-ASCII domain directly
+    raised an uncaught UnicodeEncodeError, which the socket fallback's
+    `except OSError` did not cover.
+    """
+    candidate = domain.strip().rstrip(".").lower()
+    if not candidate:
+        return None
+    try:
+        return candidate.encode("idna").decode("ascii")
+    except (UnicodeError, ValueError):
+        return None
+
+
 def _shell_whois(domain: str) -> Optional[str]:
     """Run the system whois binary if available. Returns raw output or None."""
     binary = shutil.which("whois")
@@ -170,10 +186,23 @@ def _extract(field_labels: tuple[str, ...], text: str) -> Optional[str]:
 
 
 def lookup(domain: str) -> dict:
-    raw = _shell_whois(domain)
+    ascii_domain = _ascii_domain(domain)
+    if ascii_domain is None:
+        return {
+            "domain": domain,
+            "whois_source": None,
+            "created": None,
+            "updated": None,
+            "expires": None,
+            "registrar": None,
+            "years_registered": None,
+            "notes": [f"{domain!r} is not a valid domain name (IDNA encoding failed)"],
+        }
+
+    raw = _shell_whois(ascii_domain)
     source = "whois-binary"
     if raw is None:
-        raw = _socket_whois(domain)
+        raw = _socket_whois(ascii_domain)
         source = "fallback"
     if raw is None:
         return {
@@ -249,7 +278,13 @@ def assess_risk(
         notes.append("topical drift detected at moderate registration age")
     elif years >= 1 and shift is False:
         result["risk"] = "low"
-    elif years is not None and shift is None:
+    elif shift is False:
+        # years < 1 with no topical shift. Previously fell through every
+        # branch and exited as "unknown" with no note, indistinguishable
+        # from "whois returned no creation date" — and exit code 0.
+        result["risk"] = "medium"
+        notes.append("registration under 1 year old")
+    elif shift is None:
         result["risk"] = "unknown"
         notes.append("supply --baseline-topic to enable shift detection")
 
