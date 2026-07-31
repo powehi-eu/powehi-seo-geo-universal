@@ -12,7 +12,7 @@ argument-hint: "[command] [url|property]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.4"
+  version: "2.2.5"
   category: seo
 ---
 

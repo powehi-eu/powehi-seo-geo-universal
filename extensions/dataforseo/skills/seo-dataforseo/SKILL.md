@@ -13,7 +13,7 @@ license: MIT
 compatibility: "Requires DataForSEO MCP server"
 metadata:
   author: Powehi
-  version: "2.2.4"
+  version: "2.2.5"
   category: seo
 ---
 
