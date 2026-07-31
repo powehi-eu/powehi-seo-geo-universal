@@ -22,6 +22,13 @@ from typing import Any
 
 RUNTIME_SCHEMA = 1
 LOCK_STALE_SECONDS = 30 * 60
+# Ceiling for any single setup stage (venv creation, pip install, Chromium
+# download). Generous enough for a cold cache on a slow link, bounded so a
+# stalled mirror cannot hold .setup.lock indefinitely.
+STAGE_TIMEOUT = 30 * 60
+# How much of a failed stage's output to surface, taken from the tail where
+# the actual error lives.
+STAGE_ERROR_CHARS = 2000
 SCRIPT_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*\.py$")
 EXTENSION_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 MANUAL_EXTENSION_SKILLS = {"banana": "seo-image-gen"}
@@ -208,11 +215,31 @@ def _redact(text: str) -> str:
 
 
 def _run_checked(
-    argv: list[str], *, env: dict[str, str], stage: str
+    argv: list[str], *, env: dict[str, str], stage: str, timeout: int = STAGE_TIMEOUT
 ) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(argv, env=env, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    try:
+        result = subprocess.run(
+            argv,
+            env=env,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as exc:
+        # Without a timeout a wedged proxy or a stalled PyPI mirror blocks
+        # setup forever while holding .setup.lock, so every later attempt is
+        # refused as "already running".
+        raise RuntimeError(f"{stage} timed out after {timeout}s") from exc
     if result.returncode:
-        raise RuntimeError(f"{stage} failed with exit code {result.returncode}")
+        # The captured output is the only diagnostic the user will ever see:
+        # the staged venv is torn down on failure, so nothing survives on
+        # disk. _redact strips home paths and API keys before display.
+        detail = _redact((result.stderr or result.stdout or "").strip())
+        tail = detail[-STAGE_ERROR_CHARS:] if detail else ""
+        message = f"{stage} failed with exit code {result.returncode}"
+        raise RuntimeError(f"{message}\n{tail}" if tail else message)
     return result
 
 
