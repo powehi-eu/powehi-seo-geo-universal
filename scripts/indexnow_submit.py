@@ -143,6 +143,15 @@ def verify_key_published(
     Missing or wrong content silently rejects every later submission, so
     this pre-flight catches the common ownership-setup mistake.
     """
+    # Ownership check first, and on the parsed hostname. The previous
+    # `host not in key_location` substring test passed for a key file served
+    # by an unrelated host as long as the host string appeared anywhere in
+    # the URL (e.g. https://attacker.test/keys/example.com.txt), so the
+    # pre-flight reported OK without ownership ever being proven.
+    if not _belongs_to_host(key_location, host):
+        return {"ok": False,
+                "error": f"keyLocation host does not match declared host {host!r}"}
+
     try:
         resp = safe_requests_get(key_location, timeout=15)
     except URLSafetyError as exc:
@@ -160,8 +169,6 @@ def verify_key_published(
             "expected_length": len(key),
             "actual_length": len(resp.text.strip()),
         }
-    if host not in key_location:
-        return {"ok": False, "error": "keyLocation host does not match declared host"}
     return {"ok": True, "status_code": 200}
 
 
