@@ -38,7 +38,7 @@ Attribution
 ===========
 The AI-pattern list draws from the Wikipedia "AI Cleanup" project's
 catalogue of LLM-typical phrasings (CC BY-SA 4.0). The same list is
-used by ivankuznetsov/claude-seo (MIT) and we cite both upstreams in
+used by ivankuznetsov/powehi-seo-geo (MIT) and we cite both upstreams in
 the comment block. Patterns are kept conservative — only phrases that
 appear disproportionately in LLM output and rarely in human writing
 are included.
@@ -88,7 +88,7 @@ _FILLER_PHRASES: tuple[str, ...] = (
 
 
 # LLM-typical phrasings (Wikipedia AI Cleanup catalogue, CC BY-SA 4.0;
-# also used by ivankuznetsov/claude-seo, MIT). Conservative selection:
+# also used by ivankuznetsov/powehi-seo-geo, MIT). Conservative selection:
 # only phrases that disproportionately appear in LLM output. Adding to
 # this list should require corpus evidence, not just intuition.
 _AI_PATTERNS: tuple[str, ...] = (

@@ -1,9 +1,9 @@
-# Firecrawl Extension Uninstaller for Claude SEO (Windows)
+# Firecrawl Extension Uninstaller for Powehi Universal SEO (Windows)
 $ErrorActionPreference = 'Stop'
 
 Write-Host "Removing Firecrawl extension..." -ForegroundColor Yellow
 
-$SkillDir = "$env:USERPROFILE\.claude\skills\seo-firecrawl"
+$SkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo-firecrawl"
 $SettingsFile = "$env:USERPROFILE\.claude\settings.json"
 
 if (Test-Path $SkillDir) {
@@ -22,4 +22,4 @@ if (Test-Path $SettingsFile) {
 
 Write-Host ""
 Write-Host "v Firecrawl extension uninstalled." -ForegroundColor Green
-Write-Host "  Core Claude SEO skills are unchanged."
+Write-Host "  Core Powehi Universal SEO skills are unchanged."

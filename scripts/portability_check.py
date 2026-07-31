@@ -2,7 +2,7 @@
 """
 Cross-platform portability lint for SKILL.md files.
 
-claude-seo skills run under Claude Code, but also Cursor / Cursor Cloud
+powehi-seo-geo skills run under Claude Code, but also Cursor / Cursor Cloud
 Agents / Google Antigravity / Gemini CLI / OpenAI Codex CLI / Cline /
 Aider. Most harnesses share a minimum frontmatter contract:
 
@@ -179,7 +179,7 @@ def check_one(path: Path) -> list[dict]:
                 "severity": "info", "path": relpath,
                 "rule": "metadata-without-version",
                 "message": "metadata block present but no version field; "
-                           "claude-seo's manifest test expects "
+                           "powehi-seo-geo's manifest test expects "
                            "metadata.version on every skill",
             })
 
@@ -188,7 +188,7 @@ def check_one(path: Path) -> list[dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Cross-platform portability lint for claude-seo SKILL.md files."
+        description="Cross-platform portability lint for powehi-seo-geo SKILL.md files."
     )
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--strict", action="store_true",

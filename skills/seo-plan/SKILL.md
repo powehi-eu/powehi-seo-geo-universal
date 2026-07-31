@@ -10,7 +10,7 @@ user-invocable: true
 argument-hint: "[business-type]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---

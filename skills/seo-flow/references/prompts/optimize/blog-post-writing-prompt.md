@@ -1,70 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
-title: "Blog Post Writing Prompt"
-description: "Blog Post Writing Prompt"
-updated: 2026-04-25
-tags:
-  - prompts
-  - optimize
+title: "Evidence-Led Blog Post Draft"
+description: "Powehi specialized prompt for rédiger un article à partir d’un plan et de sources approuvés."
+prompt_id: "flow.optimize.blog-draft-production"
+stage: "optimize"
+objective: "blog-draft-production"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
-# Blog Post Writing Prompt
+# Evidence-Led Blog Post Draft
 
 ## Use This When
 
-Use this prompt when you need a structured optimize deliverable and want the model to separate observations, assumptions, recommended actions, and claims that need verification.
+Use this prompt when you need to rédiger un article à partir d’un plan et de sources approuvés. It is not a generic optimize template: its scope is limited to **blog-draft-production** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Works with long-context reasoning models. For smaller models, provide narrower inputs and ask for one output section at a time.
+- approved outline.
+- source pack.
+- voice guide.
+- internal links.
+- conversion goal.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Business or website name.
-- Target page, profile, query set, or campaign.
-- Audience and geography where relevant.
-- Existing evidence: analytics, search results, calls, reviews, profile facts, or source notes.
-- Constraints, exclusions, and required sources.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to rédiger un article à partir d’un plan et de sources approuvés. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Act as a senior SEO strategist using the FLOW model.
+You are the Powehi specialist responsible for blog-draft-production.
 
-Task: create a optimize deliverable for: [BUSINESS OR ASSET].
+Objective: rédiger un article à partir d’un plan et de sources approuvés.
 
-Use only the supplied inputs and clearly label any assumption. Do not invent statistics. Do not reuse private examples. Build the answer around:
-1. Searcher or buyer intent.
-2. Evidence available now.
-3. Gaps that block trust, extraction, or conversion.
-4. Recommended changes in priority order.
-5. Measurement events and review cadence.
-6. Claims that require source verification before publication.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
 
-Return a concise working document the team can execute.
+Perform the following workflow:
+1. Respecter le plan sans inventer de faits.
+2. Répondre directement avant de développer.
+3. Intégrer citations paraphrases exemples et transitions.
+4. Terminer par une vérification des claims et liens.
+
+Return these deliverables in order: publication draft, claim ledger, link placements, editorial QA. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- Executive summary.
-- Priority table.
-- Recommended copy, structure, or audit findings.
-- Evidence needed.
-- Measurement plan.
-- Verification checklist.
+- **Publication draft** tailored to blog-draft-production.
+- **Claim ledger** tailored to blog-draft-production.
+- **Link placements** tailored to blog-draft-production.
+- **Editorial QA** tailored to blog-draft-production.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: a local service page with weak proof and inconsistent profile details.
-
-Expected output: a prioritized rewrite brief, facts to reconcile, internal links to add, and the conversion event to measure.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- [FLOW Framework](../../flow-framework.md)
-- [Bibliography](../../bibliography.md)
+- The result addresses blog-draft-production, not a generic optimize deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from the Local SEO Knowledge Base structure and rewritten for public use with the repository evidence standard.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **blog-draft-production** while preserving source attribution and evidence-led principles.

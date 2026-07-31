@@ -3,13 +3,17 @@
 import json
 import subprocess
 import sys
+from types import SimpleNamespace
 from pathlib import Path
+
+import pytest
 
 REPO_ROOT = Path(__file__).parents[1]
 SCRIPT = REPO_ROOT / "scripts" / "sync_flow.py"
 REF_DIR = REPO_ROOT / "skills" / "seo-flow" / "references"
 
 
+@pytest.mark.network
 def test_dry_run_exits_zero():
     result = subprocess.run(
         [sys.executable, str(SCRIPT), "--dry-run"],
@@ -18,6 +22,7 @@ def test_dry_run_exits_zero():
     assert result.returncode == 0, f"Dry run failed:\n{result.stderr}"
 
 
+@pytest.mark.network
 def test_dry_run_produces_valid_json():
     result = subprocess.run(
         [sys.executable, str(SCRIPT), "--dry-run"],
@@ -30,6 +35,7 @@ def test_dry_run_produces_valid_json():
     assert "unchanged" in data, "JSON missing 'unchanged' key"
 
 
+@pytest.mark.network
 def test_dry_run_does_not_write_files():
     files_before = set(REF_DIR.rglob("*.md"))
     subprocess.run(
@@ -185,7 +191,6 @@ def test_api_get_retries_unauthenticated_429_with_cli_token(monkeypatch):
 def test_validate_github_url_blocks_non_github_host():
     """_validate_github_url must reject any host other than api.github.com (VULN-A10)."""
     sf = _load_sync_flow_module()
-    import pytest
     with pytest.raises(ValueError, match="Blocked"):
         sf._validate_github_url("https://evil.example.com/repos/AgriciDaniel/flow/contents/file.md")
 
@@ -193,7 +198,6 @@ def test_validate_github_url_blocks_non_github_host():
 def test_validate_github_url_blocks_userinfo_ssrf():
     """_validate_github_url must block @evil.com userinfo bypass (VULN-A10)."""
     sf = _load_sync_flow_module()
-    import pytest
     with pytest.raises(ValueError, match="Blocked"):
         sf._validate_github_url("https://api.github.com@evil.com/repos/AgriciDaniel/flow/contents/file.md")
 
@@ -213,9 +217,28 @@ def test_record_write_blocks_path_traversal(tmp_path):
     # Path outside root
     escape_path = tmp_path / "escaped_file.txt"
     changes = {"added": [], "updated": [], "unchanged": [], "hashes": {}}
-    import pytest
     with pytest.raises(ValueError, match="Path traversal blocked"):
         sf.record_write(root, escape_path, "bad content", dry_run=False, changes=changes)
+
+
+def test_invalid_upstream_prompt_set_is_rejected_before_any_write(tmp_path, monkeypatch):
+    sf = _load_sync_flow_module()
+    monkeypatch.setattr(sf, "script_root", lambda: tmp_path)
+    monkeypatch.setattr(sf, "fetch_file", lambda *_args: "generic upstream body")
+    monkeypatch.setattr(sf, "list_markdown_files", lambda path, *_args: [(f"{path}/one.md", "one.md")])
+    monkeypatch.setattr(
+        sf,
+        "validate_staged_prompts",
+        lambda *_args: {"status": "FAIL", "errors": ["duplicate operational body"]},
+    )
+
+    def unexpected_write(*_args, **_kwargs):
+        raise AssertionError("record_write must not run for a rejected prompt set")
+
+    monkeypatch.setattr(sf, "record_write", unexpected_write)
+    result = sf.sync(SimpleNamespace(ref=None, dry_run=False))
+    assert result["status"] == "rejected"
+    assert result["local_files_preserved"] is True
 
 
 # ── Task 4 tests ──────────────────────────────────────────────────────────────

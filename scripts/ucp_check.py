@@ -11,7 +11,7 @@ Audit posture
 =============
 Per ``skills/seo-ecommerce/references/ucp-universal-commerce-protocol.md``,
 UCP adoption is early. Missing profiles are reported as
-**opportunities**, not failures. The scanner exists so claude-seo
+**opportunities**, not failures. The scanner exists so powehi-seo-geo
 audits can surface forward-looking ecommerce signals without making
 them a hard scoring gate.
 

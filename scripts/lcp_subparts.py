@@ -12,7 +12,7 @@ These let you decompose a slow LCP into network, scheduling, fetch,
 and render phases — turning "your LCP is 4.2s" into "your TTFB is 1.1s
 and your render delay is 2.4s, fix server response and the image
 preload sequence". Per the gap analysis, this is the single most
-actionable upgrade to claude-seo's CWV reporting.
+actionable upgrade to powehi-seo-geo's CWV reporting.
 
 Usage::
 

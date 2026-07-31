@@ -40,7 +40,7 @@ def test_schema_hook_uses_exec_form_args_and_tool_input_placeholder() -> None:
 
 def test_hook_launcher_documents_python_probe_order() -> None:
     text = HOOK_LAUNCHER.read_text(encoding="utf-8")
-    for marker in ("CLAUDE_SEO_PYTHON", "py", "-3", "python3", "python"):
+    for marker in ("POWEHI_SEO_GEO_PYTHON", "py", "-3", "python3", "python"):
         assert marker in text
 
 
@@ -57,7 +57,7 @@ def test_hook_launcher_preserves_blocking_exit_code_two(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     env = os.environ.copy()
-    env["CLAUDE_SEO_PYTHON"] = sys.executable
+    env["POWEHI_SEO_GEO_PYTHON"] = sys.executable
 
     proc = subprocess.run(
         [node, str(HOOK_LAUNCHER), str(script), "payload"],

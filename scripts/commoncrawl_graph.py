@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Common Crawl Web Graph parser for Claude SEO.
+Common Crawl Web Graph parser for Powehi Universal SEO.
 
 Downloads and parses Common Crawl's domain-level web graph ranking data to
 extract PageRank, harmonic centrality, crawl/ranking presence, and host counts.
@@ -372,7 +372,7 @@ def get_graph_info() -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Common Crawl Web Graph parser for Claude SEO"
+        description="Common Crawl Web Graph parser for Powehi Universal SEO"
     )
     parser.add_argument(
         "domain",

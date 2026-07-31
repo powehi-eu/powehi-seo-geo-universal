@@ -9,7 +9,7 @@ user-invocable: true
 argument-hint: "[url]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
@@ -227,7 +227,7 @@ Load `references/cultural-profiles.md` for pre-built profiles (DACH, Francophone
 
 ## Content Parity Audit
 
-**Command:** `/seo hreflang audit <directory-or-url>`
+**Command:** `/powehi-seo hreflang audit <directory-or-url>`
 
 Audit content parity across all language versions of a site or local content directory.
 

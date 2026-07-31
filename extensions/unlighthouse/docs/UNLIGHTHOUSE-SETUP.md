@@ -1,3 +1,5 @@
+> **Languages:** [Français](UNLIGHTHOUSE-SETUP.fr.md) | English
+
 # Unlighthouse extension setup
 
 [Unlighthouse](https://unlighthouse.dev) is an MIT-licensed multi-page
@@ -22,7 +24,7 @@ No API keys, no settings.json mutation.
 ## Verify
 
 ```
-/seo unlighthouse https://example.com --max-routes 5
+/powehi-seo unlighthouse https://example.com --max-routes 5
 ```
 
 ## When to use Unlighthouse vs. PageSpeed Insights

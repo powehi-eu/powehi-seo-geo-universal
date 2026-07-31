@@ -1,6 +1,6 @@
 # The 10-Principle Audit Synthesis Framework
 
-This is the canonical methodology claude-seo uses to assemble raw findings
+This is the canonical methodology powehi-seo-geo uses to assemble raw findings
 into strategically coherent recommendations. Every full-site audit and
 deep-page analysis walks through these ten principles before producing the
 final action plan.
@@ -195,14 +195,14 @@ Stop strategizing. Produce the artifact:
 
 The audit is a snapshot, not a verdict. Build the feedback loop:
 
-- Capture a baseline via `/seo drift baseline <url>` so subsequent
+- Capture a baseline via `/powehi-seo drift baseline <url>` so subsequent
   audits can prove what changed.
 - Define one or two leading indicators the user should monitor (CrUX
   trend, GSC impressions for a target cluster, brand-mention growth on
   Reddit / YouTube).
 - Schedule a re-audit cadence appropriate to the site's velocity
   (weekly for a high-churn ecommerce; quarterly for a B2B SaaS).
-- Surface what claude-seo itself **could not measure** (offline
+- Surface what powehi-seo-geo itself **could not measure** (offline
   conversion, brand lift, customer interviews) so the human closes
   those loops.
 
@@ -213,12 +213,12 @@ audit should look for.
 
 ## How to invoke the framework
 
-Every full-site audit (`/seo audit`) and deep-page audit (`/seo page`)
+Every full-site audit (`/powehi-seo audit`) and deep-page audit (`/powehi-seo page`)
 walks through PERCEIVE → ANALYZE → VALIDATE → ACT before emitting the
 action plan. The Critical / High / Medium / Low priority bucketing
 happens **after** the validation phase, not instead of it.
 
-Single-purpose commands (`/seo schema`, `/seo images`, `/seo technical`,
+Single-purpose commands (`/powehi-seo schema`, `/powehi-seo images`, `/powehi-seo technical`,
 etc.) can skip the full loop when the user is asking a narrow question
 — but their recommendations should still pass at least THINK + ACCEPT
 before being emitted (does this rest on a sound first principle, and is
@@ -226,7 +226,7 @@ the falsifiability surfaced?).
 
 ## When to escalate to the user
 
-These principles are claude-seo's; they are not the user's. Surface them
+These principles are powehi-seo-geo's; they are not the user's. Surface them
 for the user when:
 
 - A recommendation requires accepting an assumption you'd rather not own

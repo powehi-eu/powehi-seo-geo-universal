@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Firecrawl Extension Installer for Claude SEO
+# Firecrawl Extension Installer for Powehi Universal SEO
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
     SKILL_DIR="${HOME}/.claude/skills/seo-firecrawl"
     AGENT_DIR="${HOME}/.claude/agents"
-    SEO_SKILL_DIR="${HOME}/.claude/skills/seo"
+    SEO_SKILL_DIR="${HOME}/.claude/skills/powehi-seo"
     SETTINGS_FILE="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
     echo "║   Firecrawl Extension - Installer    ║"
-    echo "║   For Claude SEO                     ║"
+    echo "║   For Powehi Universal SEO                     ║"
     echo "════════════════════════════════════════"
     echo ""
 
     # Check prerequisites
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        echo "x Claude SEO is not installed."
-        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash"
+        echo "x Powehi Universal SEO is not installed."
+        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash"
         exit 1
     fi
-    echo "v Claude SEO detected"
+    echo "v Powehi Universal SEO detected"
 
     if ! command -v node >/dev/null 2>&1; then
         echo "x Node.js is required but not installed."
@@ -68,7 +68,7 @@ main() {
         SOURCE_DIR="${SCRIPT_DIR}/extensions/firecrawl"
     else
         echo "x Cannot find extension source files."
-        echo "  Run this script from the claude-seo repo: ./extensions/firecrawl/install.sh"
+        echo "  Run this script from the powehi-seo-geo repo: ./extensions/firecrawl/install.sh"
         exit 1
     fi
 
@@ -135,10 +135,10 @@ PY
     echo "Usage:"
     echo "  1. Start Claude Code:  claude"
     echo "  2. Run commands:"
-    echo "     /seo firecrawl crawl https://example.com"
-    echo "     /seo firecrawl map https://example.com"
-    echo "     /seo firecrawl scrape https://example.com/page"
-    echo "     /seo firecrawl search \"query\" https://example.com"
+    echo "     /powehi-seo firecrawl crawl https://example.com"
+    echo "     /powehi-seo firecrawl map https://example.com"
+    echo "     /powehi-seo firecrawl scrape https://example.com/page"
+    echo "     /powehi-seo firecrawl search \"query\" https://example.com"
     echo ""
     echo "Documentation: extensions/firecrawl/README.md"
     echo "To uninstall: ./extensions/firecrawl/uninstall.sh"

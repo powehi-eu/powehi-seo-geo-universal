@@ -1,23 +1,23 @@
-# Firecrawl Extension Installer for Claude SEO (Windows)
+# Firecrawl Extension Installer for Powehi Universal SEO (Windows)
 $ErrorActionPreference = 'Stop'
 
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host "  Firecrawl Extension - Installer" -ForegroundColor Cyan
-Write-Host "  For Claude SEO" -ForegroundColor Cyan
+Write-Host "  For Powehi Universal SEO" -ForegroundColor Cyan
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host ""
 
-$SkillDir = "$env:USERPROFILE\.claude\skills\seo-firecrawl"
-$SeoSkillDir = "$env:USERPROFILE\.claude\skills\seo"
+$SkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo-firecrawl"
+$SeoSkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo"
 $SettingsFile = "$env:USERPROFILE\.claude\settings.json"
 
 # Check prerequisites
 if (-not (Test-Path $SeoSkillDir)) {
-    Write-Host "x Claude SEO is not installed." -ForegroundColor Red
-    Write-Host "  Install it first: irm https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.ps1 | iex"
+    Write-Host "x Powehi Universal SEO is not installed." -ForegroundColor Red
+    Write-Host "  Install it first: irm https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.ps1 | iex"
     exit 1
 }
-Write-Host "v Claude SEO detected" -ForegroundColor Green
+Write-Host "v Powehi Universal SEO detected" -ForegroundColor Green
 
 $nodeVersion = (node -v 2>$null) -replace 'v',''
 if (-not $nodeVersion) {
@@ -90,6 +90,6 @@ Write-Host ""
 Write-Host "v Firecrawl extension installed!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Usage:"
-Write-Host "  /seo firecrawl crawl https://example.com"
-Write-Host "  /seo firecrawl map https://example.com"
-Write-Host "  /seo firecrawl scrape https://example.com/page"
+Write-Host "  /powehi-seo firecrawl crawl https://example.com"
+Write-Host "  /powehi-seo firecrawl map https://example.com"
+Write-Host "  /powehi-seo firecrawl scrape https://example.com/page"

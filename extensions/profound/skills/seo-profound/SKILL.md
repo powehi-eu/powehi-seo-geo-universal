@@ -23,10 +23,10 @@ are first-class.
 
 | Command | Purpose |
 |---|---|
-| `/seo profound citations <brand>` | Current citation rate per LLM + 30-day trend |
-| `/seo profound prompts <brand>` | Top prompts that surface (or fail to surface) the brand |
-| `/seo profound competitors <brand>` | Brands cited alongside `brand` for the same prompts |
-| `/seo profound alerts <brand>` | Spike/drop alerts vs. 7-day baseline |
+| `/powehi-seo profound citations <brand>` | Current citation rate per LLM + 30-day trend |
+| `/powehi-seo profound prompts <brand>` | Top prompts that surface (or fail to surface) the brand |
+| `/powehi-seo profound competitors <brand>` | Brands cited alongside `brand` for the same prompts |
+| `/powehi-seo profound alerts <brand>` | Spike/drop alerts vs. 7-day baseline |
 
 ## Output conventions
 

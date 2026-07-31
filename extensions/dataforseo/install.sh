@@ -1,41 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# DataForSEO Extension Installer for Claude SEO
+# DataForSEO Extension Installer for Powehi Universal SEO
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
     SKILL_DIR="${HOME}/.claude/skills/seo-dataforseo"
     AGENT_DIR="${HOME}/.claude/agents"
-    SEO_SKILL_DIR="${HOME}/.claude/skills/seo"
+    SEO_SKILL_DIR="${HOME}/.claude/skills/powehi-seo"
     SETTINGS_FILE="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
     echo "║   DataForSEO Extension - Installer   ║"
-    echo "║   For Claude SEO                     ║"
+    echo "║   For Powehi Universal SEO                     ║"
     echo "════════════════════════════════════════"
     echo ""
 
-    # Support both traditional (curl|bash → ~/.claude/skills/seo) and marketplace
+    # Support both traditional (curl|bash → ~/.claude/skills/powehi-seo) and marketplace
     # (plugin install → ~/.claude/plugins/cache/.../skills/seo) installations.
     # Resolve early using BASH_SOURCE so it works even when run from the plugin cache.
     _EARLY_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    _PLUGIN_SEO_DIR="$(cd "${_EARLY_SCRIPT_DIR}/../.." 2>/dev/null && pwd)/skills/seo"
+    _PLUGIN_SEO_DIR="$(cd "${_EARLY_SCRIPT_DIR}/../.." 2>/dev/null && pwd)/skills/powehi-seo"
     if [ ! -d "${SEO_SKILL_DIR}" ] && [ -d "${_PLUGIN_SEO_DIR}" ]; then
         SEO_SKILL_DIR="${_PLUGIN_SEO_DIR}"
     fi
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        _GLOB_MATCH=$(ls -d "${HOME}/.claude/plugins/cache/*/claude-seo/"*/skills/seo 2>/dev/null | tail -n1 || true)
+        _GLOB_MATCH=$(ls -d "${HOME}/.claude/plugins/cache/*/powehi-seo-geo/"*/skills/powehi-seo 2>/dev/null | tail -n1 || true)
         [ -n "${_GLOB_MATCH}" ] && [ -d "${_GLOB_MATCH}" ] && SEO_SKILL_DIR="${_GLOB_MATCH}"
     fi
 
     # Check prerequisites
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        echo "✗ Claude SEO is not installed."
-        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash"
+        echo "✗ Powehi Universal SEO is not installed."
+        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash"
         exit 1
     fi
-    echo "✓ Claude SEO detected"
+    echo "✓ Powehi Universal SEO detected"
 
     if ! command -v node >/dev/null 2>&1; then
         echo "✗ Node.js is required but not installed."
@@ -86,7 +86,7 @@ main() {
         SOURCE_DIR="${SCRIPT_DIR}/extensions/dataforseo"
     else
         echo "✗ Cannot find extension source files."
-        echo "  Run this script from the claude-seo repo: ./extensions/dataforseo/install.sh"
+        echo "  Run this script from the powehi-seo-geo repo: ./extensions/dataforseo/install.sh"
         exit 1
     fi
 
@@ -166,10 +166,10 @@ PY
     echo "Usage:"
     echo "  1. Start Claude Code:  claude"
     echo "  2. Run commands:"
-    echo "     /seo dataforseo serp best coffee shops"
-    echo "     /seo dataforseo keywords seo tools"
-    echo "     /seo dataforseo backlinks example.com"
-    echo "     /seo dataforseo ai-mentions your brand"
+    echo "     /powehi-seo dataforseo serp best coffee shops"
+    echo "     /powehi-seo dataforseo keywords seo tools"
+    echo "     /powehi-seo dataforseo backlinks example.com"
+    echo "     /powehi-seo dataforseo ai-mentions your brand"
     echo ""
     echo "All 23 commands: see extensions/dataforseo/README.md"
     echo "To uninstall: ./extensions/dataforseo/uninstall.sh"

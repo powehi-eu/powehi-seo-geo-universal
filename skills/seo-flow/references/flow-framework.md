@@ -7,7 +7,7 @@ tags:
   - framework
 ---
 
-![Claude SEO 10-principle methodology: PERCEIVE, ANALYZE, VALIDATE, ACT](../../../assets/framework.svg)
+![Powehi FLOW operating model: Find, Leverage, Optimize, Win, with Local context](../../../assets/framework.svg)
 
 # FLOW Framework
 

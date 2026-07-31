@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude SEO — Bing Webmaster + IndexNow extension installer.
+# Powehi Universal SEO — Bing Webmaster + IndexNow extension installer.
 #
 # Wires the existing scripts/bing_webmaster.py and indexnow_submit.py into
 # a discoverable seo-bing skill and stores the Bing Webmaster Tools API
@@ -14,11 +14,11 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║ Claude SEO — Bing Webmaster + IndexNow║"
+    echo "║ Powehi Universal SEO — Bing Webmaster + IndexNow║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || { echo "✗ Python 3 required."; exit 1; }
-    [ ! -d "${SKILL_DIR}/seo" ] && { echo "✗ claude-seo base not installed."; exit 1; }
+    [ ! -d "${SKILL_DIR}/powehi-seo" ] && { echo "✗ powehi-seo-geo base not installed."; exit 1; }
 
     SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd)"
 
@@ -53,7 +53,7 @@ PY
 
     echo
     echo "Done. Verify your IndexNow key is published:"
-    echo "  claude-seo run indexnow_submit.py --host example.com \\"
+    echo "  powehi-seo-geo run indexnow_submit.py --host example.com \\"
     echo "    --key \$INDEXNOW_KEY --key-location \$INDEXNOW_KEY_LOCATION --verify-only"
 }
 main "$@"

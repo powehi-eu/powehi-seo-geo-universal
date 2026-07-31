@@ -1,6 +1,8 @@
+> **Languages:** [Français](DATAFORSEO-SETUP.fr.md) | English
+
 # DataForSEO Account Setup
 
-Step-by-step guide to getting DataForSEO API credentials for the Claude SEO extension.
+Step-by-step guide to getting DataForSEO API credentials for the Powehi Universal SEO extension.
 
 ## 1. Create Account
 
@@ -68,7 +70,7 @@ Replace the username, password, and FIELD_CONFIG_PATH with your actual values.
 After installing, start Claude Code and run:
 
 ```
-/seo dataforseo serp test query
+/powehi-seo dataforseo serp test query
 ```
 
 If you see search results, the extension is working correctly.

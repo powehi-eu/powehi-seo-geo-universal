@@ -59,7 +59,7 @@ Load on demand when you need detailed methodology:
 
 ## Cross-Skill Awareness
 
-- If the user already has an `/seo plan` output, parse it for existing keyword research
+- If the user already has an `/powehi-seo plan` output, parse it for existing keyword research
   and competitive analysis. Do not duplicate that work.
 - Content quality standards come from `seo-content` (E-E-A-T requirements).
 - Schema markup templates for cluster pages are defined in `seo-schema`.

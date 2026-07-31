@@ -1,30 +1,32 @@
+> **Languages:** [Français](TROUBLESHOOTING.fr.md) | English
+
 # Troubleshooting
 
 ## Common Issues
 
 ### Skill Not Loading
 
-**Symptom:** `/seo` command not recognized
+**Symptom:** `/powehi-seo` command not recognized
 
 **Solutions:**
 
 For plugin installs, verify and reinstall through Claude Code:
 ```bash
 /plugin list
-/plugin marketplace add AgriciDaniel/claude-seo
-/plugin install claude-seo@agricidaniel-claude-seo
+/plugin marketplace add powehi-eu/powehi-seo-geo-universal
+/plugin install powehi-seo-geo@powehi-universal-seo-geo
 ```
 
 For manual installs:
 
 1. Verify installation:
 ```bash
-ls ~/.claude/skills/seo/SKILL.md
+ls ~/.claude/skills/powehi-seo/SKILL.md
 ```
 
 2. Check SKILL.md has proper frontmatter:
 ```bash
-head -5 ~/.claude/skills/seo/SKILL.md
+head -5 ~/.claude/skills/powehi-seo/SKILL.md
 ```
 Should start with `---` followed by YAML.
 
@@ -38,7 +40,7 @@ claude
 Caution: Prefer downloading, inspecting, then running remote scripts; the pipe-to-shell form below is the less-safe convenience option.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash
 ```
 
 ---
@@ -52,14 +54,14 @@ curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/instal
 Dependencies belong in the managed runtime. For a plugin install, run:
 
 ```bash
-/seo doctor
-/seo setup
+/powehi-seo doctor
+/powehi-seo setup
 ```
 
 For a manual install, run:
 ```bash
-~/.claude/skills/seo/bin/claude-seo doctor
-~/.claude/skills/seo/bin/claude-seo setup
+~/.claude/skills/powehi-seo/bin/powehi-seo-geo doctor
+~/.claude/skills/powehi-seo/bin/powehi-seo-geo setup
 ```
 
 Do not install individual packages, use `pip --user`, or create a PATH shim.
@@ -71,19 +73,19 @@ Do not install individual packages, use `pip --user`, or create a PATH shim.
 **Solution:** For plugin installs, reinstall the plugin first:
 
 ```bash
-/plugin install claude-seo@agricidaniel-claude-seo
+/plugin install powehi-seo-geo@powehi-universal-seo-geo
 ```
 
 For manual installs, requirements.txt is copied to the skill directory:
 
 ```bash
-ls ~/.claude/skills/seo/requirements.txt
+ls ~/.claude/skills/powehi-seo/requirements.txt
 ```
 
 If missing, download it directly:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/requirements.txt \
-  -o ~/.claude/skills/seo/requirements.txt
+curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/requirements.txt \
+  -o ~/.claude/skills/powehi-seo/requirements.txt
 ```
 
 ### Windows Python Detection Issues
@@ -94,7 +96,7 @@ curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/requir
 
 1. Install Python from [python.org](https://python.org) and check "Add to PATH"
 2. Rerun `install.ps1`; it resolves `py -3`, `python3`, then `python`
-3. Run `/seo doctor` after installation
+3. Run `/powehi-seo doctor` after installation
 
 ---
 
@@ -105,8 +107,8 @@ curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/requir
 **Solution:** rerun managed setup so the browser is installed through the same
 interpreter and persistent browser directory:
 ```bash
-/seo setup
-/seo doctor
+/powehi-seo setup
+/powehi-seo doctor
 ```
 
 ---
@@ -117,7 +119,7 @@ interpreter and persistent browser directory:
 
 **Solution:**
 ```bash
-chmod +x ~/.claude/skills/seo/scripts/*.py
+chmod +x ~/.claude/skills/powehi-seo/scripts/*.py
 ```
 
 ---
@@ -130,7 +132,7 @@ chmod +x ~/.claude/skills/seo/scripts/*.py
 
 **Solution:**
 
-For plugin installs, check `/plugin list` and reinstall `claude-seo@agricidaniel-claude-seo`; subagents load from the plugin, not `~/.claude/agents/`.
+For plugin installs, check `/plugin list` and reinstall `powehi-seo-geo@powehi-universal-seo-geo`; subagents load from the plugin, not `~/.claude/agents/`.
 
 For manual installs:
 
@@ -146,7 +148,7 @@ head -5 ~/.claude/agents/seo-technical.md
 
 3. Re-install agents:
 ```bash
-cp /path/to/claude-seo/agents/*.md ~/.claude/agents/
+cp /path/to/powehi-seo-geo/agents/*.md ~/.claude/agents/
 ```
 
 ---
@@ -186,7 +188,7 @@ cp /path/to/claude-seo/agents/*.md ~/.claude/agents/
 
 1. Audit crawls up to 500 pages: large sites take time
 2. Subagents run in parallel to speed up analysis
-3. For faster checks, use `/seo page` on specific URLs
+3. For faster checks, use `/powehi-seo page` on specific URLs
 4. Check if site has slow response times
 
 ---
@@ -205,11 +207,11 @@ To see detailed output, check Claude Code's internal logs or run scripts directl
 
 ```bash
 # Test fetch
-python3 ~/.claude/skills/seo/scripts/fetch_page.py https://example.com
+python3 ~/.claude/skills/powehi-seo/scripts/fetch_page.py https://example.com
 
 # Test parse
-python3 ~/.claude/skills/seo/scripts/parse_html.py page.html --json
+python3 ~/.claude/skills/powehi-seo/scripts/parse_html.py page.html --json
 
 # Test screenshot
-python3 ~/.claude/skills/seo/scripts/capture_screenshot.py https://example.com
+python3 ~/.claude/skills/powehi-seo/scripts/capture_screenshot.py https://example.com
 ```

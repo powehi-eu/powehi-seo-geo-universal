@@ -1,70 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
-title: "Basic Prompt"
-description: "Basic Prompt"
-updated: 2026-04-25
-tags:
-  - prompts
-  - optimize
+title: "Baseline SEO Optimization"
+description: "Powehi specialized prompt for produire une optimisation de base complète pour une page avant les traitements spécialisés."
+prompt_id: "flow.optimize.baseline-page-optimization"
+stage: "optimize"
+objective: "baseline-page-optimization"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
-# Basic Prompt
+# Baseline SEO Optimization
 
 ## Use This When
 
-Use this prompt when you need a structured optimize deliverable and want the model to separate observations, assumptions, recommended actions, and claims that need verification.
+Use this prompt when you need to produire une optimisation de base complète pour une page avant les traitements spécialisés. It is not a generic optimize template: its scope is limited to **baseline-page-optimization** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Works with long-context reasoning models. For smaller models, provide narrower inputs and ask for one output section at a time.
+- page content.
+- target query.
+- page type.
+- technical findings.
+- analytics evidence.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Business or website name.
-- Target page, profile, query set, or campaign.
-- Audience and geography where relevant.
-- Existing evidence: analytics, search results, calls, reviews, profile facts, or source notes.
-- Constraints, exclusions, and required sources.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to produire une optimisation de base complète pour une page avant les traitements spécialisés. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Act as a senior SEO strategist using the FLOW model.
+You are the Powehi specialist responsible for baseline-page-optimization.
 
-Task: create a optimize deliverable for: [BUSINESS OR ASSET].
+Objective: produire une optimisation de base complète pour une page avant les traitements spécialisés.
 
-Use only the supplied inputs and clearly label any assumption. Do not invent statistics. Do not reuse private examples. Build the answer around:
-1. Searcher or buyer intent.
-2. Evidence available now.
-3. Gaps that block trust, extraction, or conversion.
-4. Recommended changes in priority order.
-5. Measurement events and review cadence.
-6. Claims that require source verification before publication.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
 
-Return a concise working document the team can execute.
+Perform the following workflow:
+1. Vérifier intention titre H1 et réponse principale.
+2. Contrôler structure liens et éléments de confiance.
+3. Prioriser les changements par impact et effort.
+4. Définir les contrôles après publication.
+
+Return these deliverables in order: baseline findings, priority fixes, proposed structure, measurement checklist. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- Executive summary.
-- Priority table.
-- Recommended copy, structure, or audit findings.
-- Evidence needed.
-- Measurement plan.
-- Verification checklist.
+- **Baseline findings** tailored to baseline-page-optimization.
+- **Priority fixes** tailored to baseline-page-optimization.
+- **Proposed structure** tailored to baseline-page-optimization.
+- **Measurement checklist** tailored to baseline-page-optimization.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: a local service page with weak proof and inconsistent profile details.
-
-Expected output: a prioritized rewrite brief, facts to reconcile, internal links to add, and the conversion event to measure.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- [FLOW Framework](../../flow-framework.md)
-- [Bibliography](../../bibliography.md)
+- The result addresses baseline-page-optimization, not a generic optimize deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from the Local SEO Knowledge Base structure and rewritten for public use with the repository evidence standard.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **baseline-page-optimization** while preserving source attribution and evidence-led principles.

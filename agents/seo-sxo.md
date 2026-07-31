@@ -19,8 +19,8 @@ then comparing that against the target page.
 
 ### 1. Fetch and Parse Target Page
 
-- Fetch the target URL using `claude-seo run render_page.py "<url>" --mode auto --json` (SPA-aware SSRF-protected renderer)
-- Parse with `claude-seo run parse_html.py --url "<url>"` to extract SEO elements
+- Fetch the target URL using `powehi-seo-geo run render_page.py "<url>" --mode auto --json` (SPA-aware SSRF-protected renderer)
+- Parse with `powehi-seo-geo run parse_html.py --url "<url>"` to extract SEO elements
 - Identify: page type, title, H1, meta description, headings, word count, schema, CTAs, media
 - If no keyword was provided, derive primary keyword from title + H1 overlap
 
@@ -70,17 +70,17 @@ Score the target page across 7 dimensions (100 points total):
 
 ## Cross-Skill References
 
-- E-E-A-T gaps detected? Recommend `/seo content` for deep analysis
-- Missing schema types? Recommend `/seo schema` for generation
-- Local intent in SERP? Recommend `/seo local` for GBP analysis
-- Thin content? Recommend `/seo page` for page-level audit
+- E-E-A-T gaps detected? Recommend `/powehi-seo content` for deep analysis
+- Missing schema types? Recommend `/powehi-seo schema` for generation
+- Local intent in SERP? Recommend `/powehi-seo local` for GBP analysis
+- Thin content? Recommend `/powehi-seo page` for page-level audit
 
 ## Output Rules
 
 - SXO score is SEPARATE from SEO Health Score -- always label it "SXO Gap Score"
 - Lead with mismatch finding if one exists (this is the key insight)
 - Include limitations section (what could not be assessed)
-- Offer: "Generate a PDF report? Use `/seo google report`"
+- Offer: "Generate a PDF report? Use `/powehi-seo google report`"
 
 ## Pre-Delivery Checklist
 
@@ -95,7 +95,7 @@ Before presenting results, verify:
 
 ## Fetching pages (v2.0.0)
 
-Use `claude-seo run render_page.py <URL> --mode auto --json` for page HTML. `auto` does a raw fetch and only spins up Playwright when an SPA shell is detected; use `--mode always` to force a render or `--mode never` to skip Playwright entirely. The JSON exposes `raw_content` (pre-JS), `content` (post-JS), `is_spa`, `extracted_text` (boilerplate-stripped via trafilatura), and `publication_date` (htmldate). SSRF and DNS-rebinding protection live in `scripts/url_safety.py`, never call `requests.get` directly on user-supplied URLs.
+Use `powehi-seo-geo run render_page.py <URL> --mode auto --json` for page HTML. `auto` does a raw fetch and only spins up Playwright when an SPA shell is detected; use `--mode always` to force a render or `--mode never` to skip Playwright entirely. The JSON exposes `raw_content` (pre-JS), `content` (post-JS), `is_spa`, `extracted_text` (boilerplate-stripped via trafilatura), and `publication_date` (htmldate). SSRF and DNS-rebinding protection live in `scripts/url_safety.py`, never call `requests.get` directly on user-supplied URLs.
 
 Search experience scoring needs the *rendered* DOM because users see what JS produces. Prefer `--mode always` so above-the-fold analysis matches what the persona actually encounters.
 

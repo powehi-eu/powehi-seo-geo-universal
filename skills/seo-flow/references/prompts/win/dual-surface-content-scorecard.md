@@ -1,67 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
 title: "Dual-Surface Content Scorecard"
-description: "Dual-Surface Content Scorecard"
-updated: 2026-04-25
-tags:
-  - prompts
-  - win
+description: "Powehi specialized prompt for évaluer simultanément utilité humaine et extractibilité par les moteurs génératifs."
+prompt_id: "flow.win.human-ai-surface-scorecard"
+stage: "win"
+objective: "human-ai-surface-scorecard"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
 # Dual-Surface Content Scorecard
 
 ## Use This When
 
-Use this when you need to judge whether a page can perform in traditional search and AI-assisted discovery while still supporting conversion.
+Use this prompt when you need to évaluer simultanément utilité humaine et extractibilité par les moteurs génératifs. It is not a generic win template: its scope is limited to **human-ai-surface-scorecard** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Claude, GPT, Gemini, and other long-context models. Works best with current customer language and conversion evidence.
+- page content.
+- rendered HTML.
+- citations.
+- user tasks.
+- AI retrieval observations.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Page copy.
-- Target queries or topics.
-- Intended conversion goal.
-- Audience segment.
-- Known first-party insights.
-- Performance data, if available.
-- Competing page examples, optional.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to évaluer simultanément utilité humaine et extractibilité par les moteurs génératifs. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Score this content for two discovery surfaces: traditional search and AI-assisted answer environments.
+You are the Powehi specialist responsible for human-ai-surface-scorecard.
 
-Evaluate:
-1. Original usefulness and specificity.
-2. Alignment with audience needs and decision stage.
-3. Evidence, examples, data, or firsthand insight.
-4. Clear answers to buyer questions.
-5. Conversion support: CTA, proof, objection handling, and next step.
-6. Refresh or update need.
-7. Measurement readiness: traffic, engagement, qualified leads, sales conversions, and ROI indicators.
+Objective: évaluer simultanément utilité humaine et extractibilité par les moteurs génératifs.
 
-Return traditional search score, AI-assisted discovery score, conversion-readiness score, evidence strengths, gaps, risks, recommended updates, and the highest-impact next three actions. Use business-impact language, not traffic-only language.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
+
+Perform the following workflow:
+1. Scorer réponse directe structure preuve et expérience.
+2. Identifier tensions entre conversion et extraction.
+3. Proposer changements compatibles avec les deux surfaces.
+4. Définir mesures séparées.
+
+Return these deliverables in order: dual scorecard, trade-off register, shared improvements, measurement split. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- A structured Win-stage working document.
-- Prioritized recommendations.
-- Evidence and measurement gaps.
-- Claims or assumptions that require verification.
+- **Dual scorecard** tailored to human-ai-surface-scorecard.
+- **Trade-off register** tailored to human-ai-surface-scorecard.
+- **Shared improvements** tailored to human-ai-surface-scorecard.
+- **Measurement split** tailored to human-ai-surface-scorecard.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: existing service page with traffic but low form submissions. Output: scores showing whether the page lacks buyer proof, direct answers, customer language, CTA clarity, or measurable conversion paths.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- BOFU and Conversion Content
-- Dual-Surface Scorecard
+- The result addresses human-ai-surface-scorecard, not a generic win deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from SEJ State of SEO 2026, verified AI-search evidence, and SEJ B2B Lead Generation.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **human-ai-surface-scorecard** while preserving source attribution and evidence-led principles.

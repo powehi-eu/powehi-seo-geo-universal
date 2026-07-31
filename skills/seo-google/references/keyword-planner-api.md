@@ -33,7 +33,7 @@ Predict clicks, impressions, and cost for keywords.
 
 ## Configuration
 
-Add to `~/.config/claude-seo/google-api.json`:
+Add to `~/.config/powehi-seo-geo/google-api.json`:
 
 ```json
 {

@@ -1,4 +1,4 @@
-# Claude SEO — SE Ranking extension installer (Windows / PowerShell).
+# Powehi Universal SEO — SE Ranking extension installer (Windows / PowerShell).
 $ErrorActionPreference = "Stop"
 
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
@@ -9,7 +9,7 @@ $SkillDir = Join-Path $HOME ".claude/skills"
 $SettingsJson = Join-Path $HOME ".claude/settings.json"
 
 if (-not (Test-Path (Join-Path $SkillDir "seo"))) {
-    throw "claude-seo base plugin not installed."
+    throw "powehi-seo-geo base plugin not installed."
 }
 
 $Key = Read-Host "SE Ranking API key" -AsSecureString
@@ -36,4 +36,4 @@ with os.fdopen(fd, 'w') as fh:
 os.replace(tmp, path)
 "@
 $pyScript | python - $SettingsJson $Plain
-Write-Host "Done. Try: /seo seranking ai-visibility brandname"
+Write-Host "Done. Try: /powehi-seo seranking ai-visibility brandname"

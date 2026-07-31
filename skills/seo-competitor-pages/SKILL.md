@@ -10,7 +10,7 @@ user-invocable: true
 argument-hint: "[url or generate] [competitor]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---

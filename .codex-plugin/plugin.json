@@ -1,0 +1,54 @@
+{
+  "name": "powehi-universal-seo-geo",
+  "version": "2.2.4",
+  "description": "Powehi Universal SEO provides 25 portable sub-skills, 18 specialist agents, and verified Google, crawl, performance, backlink, and AI visibility evidence workflows.",
+  "author": {
+    "name": "Powehi",
+    "url": "https://powehi.eu"
+  },
+  "homepage": "https://powehi.eu",
+  "repository": "https://github.com/powehi-eu/powehi-seo-geo-universal",
+  "license": "MIT",
+  "keywords": [
+    "seo",
+    "technical-seo",
+    "schema-markup",
+    "content-quality",
+    "local-seo",
+    "geo",
+    "ai-search",
+    "sitemap",
+    "hreflang",
+    "backlinks",
+    "pagespeed",
+    "google-search-console",
+    "semantic-clustering",
+    "sxo",
+    "ecommerce-seo"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Powehi Universal SEO",
+    "shortDescription": "Run SEO, AI Search and GEO audits with verified evidence.",
+    "longDescription": "Powehi Universal SEO is a cross-platform intelligence system for technical, content, schema, local, ecommerce, Google, backlink, and AI visibility audits powered by portable specialist agents.",
+    "developerName": "Powehi",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/powehi-eu/powehi-seo-geo-universal",
+    "privacyPolicyURL": "https://github.com/powehi-eu/powehi-seo-geo-universal/blob/main/PRIVACY.md",
+    "brandColor": "#E8922D",
+    "defaultPrompt": [
+      "Run /powehi-seo audit for https://example.com.",
+      "Use Google MCP evidence to review indexation and organic performance.",
+      "Build an evidence-backed SEO and GEO action plan for a SaaS or local business."
+    ],
+    "logo": "./assets/cover.svg",
+    "screenshots": [
+      "./assets/product-architecture.png"
+    ]
+  }
+}

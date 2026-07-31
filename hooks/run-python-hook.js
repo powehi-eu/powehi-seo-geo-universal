@@ -9,10 +9,10 @@ function stripWrappingQuotes(value) {
 
 function pythonCandidates() {
   const candidates = [];
-  if (process.env.CLAUDE_SEO_PYTHON) {
+  if (process.env.POWEHI_SEO_GEO_PYTHON) {
     candidates.push({
-      label: "CLAUDE_SEO_PYTHON",
-      exe: stripWrappingQuotes(process.env.CLAUDE_SEO_PYTHON),
+      label: "POWEHI_SEO_GEO_PYTHON",
+      exe: stripWrappingQuotes(process.env.POWEHI_SEO_GEO_PYTHON),
       args: [],
     });
   }
@@ -57,7 +57,7 @@ function main() {
   }
 
   console.error(
-    "Claude SEO hook could not find Python. Tried CLAUDE_SEO_PYTHON, py -3, python3, python.",
+    "Powehi SEO & GEO hook could not find Python. Tried POWEHI_SEO_GEO_PYTHON, py -3, python3, python.",
   );
   process.exit(1);
 }

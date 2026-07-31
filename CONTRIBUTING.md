@@ -1,10 +1,12 @@
-# Contributing to claude-seo
+> **Languages:** [Français](CONTRIBUTING.fr.md) | English
+
+# Contributing to powehi-seo-geo
 
 Thanks for your interest in contributing! Here's how to get involved.
 
 ## Reporting Bugs
 
-Open a [GitHub Issue](https://github.com/AgriciDaniel/claude-seo/issues) with:
+Open a [GitHub Issue](https://github.com/powehi-eu/powehi-seo-geo-universal/issues) with:
 
 - Your OS and Python version
 - The full error output (copy from terminal)
@@ -13,7 +15,7 @@ Open a [GitHub Issue](https://github.com/AgriciDaniel/claude-seo/issues) with:
 
 ## Suggesting Features
 
-Use [GitHub Discussions](https://github.com/AgriciDaniel/claude-seo/discussions) for feature ideas and questions.
+Use [GitHub Discussions](https://github.com/powehi-eu/powehi-seo-geo-universal/discussions) for feature ideas and questions.
 
 ## Pull Requests
 
@@ -28,8 +30,8 @@ Use [GitHub Discussions](https://github.com/AgriciDaniel/claude-seo/discussions)
 #### Option A: Local install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/claude-seo.git
-cd claude-seo
+git clone https://github.com/YOUR_USERNAME/powehi-seo-geo.git
+cd powehi-seo-geo
 bash install.sh
 ```
 
@@ -67,7 +69,7 @@ install chromium`). No additional setup needed for either.
 
 ## Community Extensions (Pro Hub Challenge)
 
-Claude SEO accepts community-built extensions through challenges and PRs.
+Powehi Universal SEO accepts community-built extensions through challenges and PRs.
 v1.9.0 integrated 5 challenge submissions and v1.9.7 added 9 community pull
 requests from 7 contributors. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the
 full credits.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Backlink verification crawler for Claude SEO.
+Backlink verification crawler for Powehi Universal SEO.
 
 Verifies whether known backlinks still exist by fetching source pages and
 checking if the target URL appears in their outbound links. Uses HTTP HEAD
@@ -287,7 +287,7 @@ def verify_backlinks(target_url: str, links: list, head_only: bool = False,
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Backlink verification crawler for Claude SEO"
+        description="Backlink verification crawler for Powehi Universal SEO"
     )
     parser.add_argument(
         "--target",

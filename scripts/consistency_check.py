@@ -5,19 +5,20 @@ Complements tests/test_manifest_consistency.py (counts and version triangulation
 reference-graph checks that no other tool covers:
 
 1. ``references/X`` mentions in SKILL.md and agent files resolve via the fallback chain
-   own dir -> shared ``skills/seo/references/`` -> any skill's references dir (cross-skill
+   own dir -> shared ``skills/powehi-seo/references/`` -> any skill's references dir (cross-skill
    resolutions are reported as info, dead ones as errors).
 2. ``research/X.md`` path mentions exist.
 3. ``scripts/X.py`` mentions resolve PATH-AWARE: repo-root ``scripts/`` first, then the
    enclosing extension's ``scripts/`` dir for files under ``extensions/<name>/``. A bare
    basename existing somewhere else in the tree does NOT count (this exact bug hid dead
    ``scripts/presets.py`` invocations before the 2026-07 full review).
-4. Routing tables in ``skills/seo/SKILL.md`` and ``docs/COMMANDS.md`` agree with each
+4. Routing tables in ``skills/powehi-seo/SKILL.md`` and ``docs/COMMANDS.md`` agree with each
    other and with the skill directories on disk.
 5. ``agents/<name>.md`` path mentions exist (``seo-newagent`` doc example whitelisted).
 6. ``skills/seo-flow/references/flow-prompts.lock`` SHA-256 integrity.
 7. Orphan-file candidates (tracked files whose basename is mentioned nowhere else);
    reported as warnings, never errors.
+8. Repository duplicate, mirror and FLOW prompt integrity contract.
 
 Usage:
     python3 scripts/consistency_check.py [--json] [--strict]
@@ -33,6 +34,8 @@ import re
 import subprocess
 import sys
 
+from repository_integrity import run_checks as run_repository_integrity
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ORPHAN_SCRIPT_WHITELIST = {
@@ -47,9 +50,12 @@ RUNTIME_UTILITY_COMMANDS = {"setup", "doctor"}
 
 
 def tracked_files():
-    out = subprocess.run(["git", "-C", REPO, "ls-files"],
+    out = subprocess.run(["git", "-C", REPO, "ls-files", "--cached", "--others", "--exclude-standard"],
                          capture_output=True, text=True, check=True).stdout
-    return [l for l in out.splitlines() if l.strip()]
+    return [
+        line for line in out.splitlines()
+        if line.strip() and os.path.isfile(os.path.join(REPO, line))
+    ]
 
 
 def read(rel, _cache={}):
@@ -76,7 +82,7 @@ def check_references(files, md):
         base = os.path.dirname(f)
         for m in sorted(set(ref_pat.findall(read(f)))):
             candidates = [os.path.join(base, "references", m),
-                          os.path.join("skills/seo/references", m)]
+                          os.path.join("skills/powehi-seo/references", m)]
             if any(os.path.exists(os.path.join(REPO, c)) for c in candidates):
                 continue
             hits = (glob.glob(os.path.join(REPO, "skills", "*", "references", m))
@@ -176,7 +182,7 @@ def check_runtime_invocations(texts):
     bare = re.compile(
         r"\b(?:python3|python|py\s+-3)\s+[^\n`]*?scripts/[A-Za-z0-9_./-]+\.py"
     )
-    runtime = re.compile(r"\bclaude-seo\s+run(?:\s+--extension\s+[a-z0-9-]+)?\s+([A-Za-z0-9_-]+\.py)")
+    runtime = re.compile(r"\bpowehi-seo-geo\s+run(?:\s+--extension\s+[a-z0-9-]+)?\s+([A-Za-z0-9_-]+\.py)")
     for f in carriers:
         content = read(f)
         for match in bare.finditer(content):
@@ -191,22 +197,22 @@ def check_runtime_invocations(texts):
 
 
 def check_routing(files):
-    cmd_pat = re.compile(r'`/seo(?:\s+([a-z][a-z0-9-]*))?')
+    cmd_pat = re.compile(r'`/powehi-seo(?:\s+([a-z][a-z0-9-]*))?')
     tables = {src: {m for m in cmd_pat.findall(read(src)) if m}
-              for src in ("skills/seo/SKILL.md", "docs/COMMANDS.md")}
+              for src in ("skills/powehi-seo/SKILL.md", "docs/COMMANDS.md")}
     skill_tokens = {d.split("/")[1][4:] for d in files
                     if d.startswith("skills/seo-") and d.endswith("SKILL.md")}
     ext_tokens = {p.split("/")[3][4:] for p in files
                   if re.match(r'extensions/[^/]+/skills/seo-[^/]+/SKILL\.md$', p)}
     known = skill_tokens | ext_tokens
-    a, b = tables["skills/seo/SKILL.md"], tables["docs/COMMANDS.md"]
+    a, b = tables["skills/powehi-seo/SKILL.md"], tables["docs/COMMANDS.md"]
     errors = []
     for c in sorted(a - b):
-        errors.append(f"routing: `/seo {c}` in orchestrator but not docs/COMMANDS.md")
+        errors.append(f"routing: `/powehi-seo {c}` in orchestrator but not docs/COMMANDS.md")
     for c in sorted(b - a):
-        errors.append(f"routing: `/seo {c}` in docs/COMMANDS.md but not orchestrator")
+        errors.append(f"routing: `/powehi-seo {c}` in docs/COMMANDS.md but not orchestrator")
     for c in sorted((a | b) - known - RUNTIME_UTILITY_COMMANDS):
-        errors.append(f"routing: `/seo {c}` has no matching skill directory")
+        errors.append(f"routing: `/powehi-seo {c}` has no matching skill directory")
     return errors
 
 
@@ -240,7 +246,11 @@ def check_flow_lock(files):
             errors.append(f"flow lock: missing {rel}")
             continue
         with open(full, "rb") as fh:
-            got = hashlib.sha256(fh.read()).hexdigest()
+            # Git may materialize tracked text as CRLF on Windows. The FLOW
+            # lock is generated from canonical LF content, so normalize only
+            # line endings before hashing while preserving all other bytes.
+            content = fh.read().replace(b"\r\n", b"\n")
+            got = hashlib.sha256(content).hexdigest()
         if got != want:
             errors.append(f"flow lock: hash mismatch {rel}")
     extra = {f for f in files
@@ -265,6 +275,11 @@ def check_orphan_files(files, texts):
     return warnings
 
 
+def check_repository_integrity():
+    result = run_repository_integrity()
+    return [f"repository integrity: {error}" for error in result["errors"]]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--json", action="store_true", help="JSON output")
@@ -281,9 +296,9 @@ def main():
     script_errors, script_orphans = check_script_refs(fileset, texts)
     errors = (ref_errors + check_research_refs(fileset, texts) + script_errors
               + check_skill_dir_script_refs(fileset, texts)
-              + check_runtime_invocations(texts)
-              + check_routing(fileset) + check_agent_refs(fileset, texts)
-              + check_flow_lock(fileset))
+               + check_runtime_invocations(texts)
+               + check_routing(fileset) + check_agent_refs(fileset, texts)
+               + check_flow_lock(fileset) + check_repository_integrity())
     warnings = script_orphans + check_orphan_files(fileset, texts)
     result = {"errors": errors, "warnings": warnings, "info": ref_infos,
               "files_checked": len(files),

@@ -1,29 +1,31 @@
+> **Languages:** [Français](COMMANDS.fr.md) | English
+
 # Commands Reference
 
 ## Overview
 
-All Claude SEO commands start with `/seo` followed by a subcommand.
+All Powehi Universal SEO commands start with `/powehi-seo` followed by a subcommand.
 
 ## Command List
 
-### `/seo setup`
+### `/powehi-seo setup`
 
 Explicitly create or refresh the isolated Python runtime and Playwright Chromium.
 This is required once after a marketplace plugin install. Manual installers run
 the same setup automatically. It never installs packages globally.
 
-### `/seo doctor`
+### `/powehi-seo doctor`
 
 Check runtime, dependency, and Chromium readiness without changing the system.
 Diagnostic output omits absolute paths and environment values.
 
-### `/seo audit <url>`
+### `/powehi-seo audit <url>`
 
 Full website SEO audit with parallel analysis.
 
 **Example:**
 ```
-/seo audit https://example.com
+/powehi-seo audit https://example.com
 ```
 
 **What it does:**
@@ -40,13 +42,13 @@ Full website SEO audit with parallel analysis.
 
 ---
 
-### `/seo page <url>`
+### `/powehi-seo page <url>`
 
 Deep single-page analysis.
 
 **Example:**
 ```
-/seo page https://example.com/about
+/powehi-seo page https://example.com/about
 ```
 
 **What it analyzes:**
@@ -59,13 +61,13 @@ Deep single-page analysis.
 
 ---
 
-### `/seo technical <url>`
+### `/powehi-seo technical <url>`
 
 Technical SEO audit across 9 categories.
 
 **Example:**
 ```
-/seo technical https://example.com
+/powehi-seo technical https://example.com
 ```
 
 **Categories:**
@@ -81,13 +83,13 @@ Technical SEO audit across 9 categories.
 
 ---
 
-### `/seo content <url>`
+### `/powehi-seo content <url>`
 
 E-E-A-T and content quality analysis.
 
 **Example:**
 ```
-/seo content https://example.com/blog/post
+/powehi-seo content https://example.com/blog/post
 ```
 
 **What it evaluates:**
@@ -100,13 +102,13 @@ E-E-A-T and content quality analysis.
 
 ---
 
-### `/seo content-brief <topic or url>`
+### `/powehi-seo content-brief <topic or url>`
 
 Generate a detailed SEO content brief: target keywords, search intent, heading outline, internal link targets, and competitor angle.
 
 **Example:**
 ```
-/seo content-brief "best running shoes for flat feet"
+/powehi-seo content-brief "best running shoes for flat feet"
 ```
 
 **What it produces:**
@@ -118,13 +120,13 @@ Generate a detailed SEO content brief: target keywords, search intent, heading o
 
 ---
 
-### `/seo schema <url>`
+### `/powehi-seo schema <url>`
 
 Schema markup detection, validation, and generation.
 
 **Example:**
 ```
-/seo schema https://example.com
+/powehi-seo schema https://example.com
 ```
 
 **What it does:**
@@ -135,13 +137,13 @@ Schema markup detection, validation, and generation.
 
 ---
 
-### `/seo geo <url>`
+### `/powehi-seo geo <url>`
 
 AI Overviews / Generative Engine Optimization.
 
 **Example:**
 ```
-/seo geo https://example.com/blog/guide
+/powehi-seo geo https://example.com/blog/guide
 ```
 
 **What it analyzes:**
@@ -153,15 +155,15 @@ AI Overviews / Generative Engine Optimization.
 
 ---
 
-### `/seo images <url>`
+### `/powehi-seo images <url>`
 
 Image optimization analysis. Subcommands: `serp <keyword>` (image SERP / visual-search analysis), `optimize <path>` (local file optimization + IPTC AI labeling).
 
 **Examples:**
 ```
-/seo images https://example.com
-/seo images serp "running shoes"
-/seo images optimize ./hero.webp
+/powehi-seo images https://example.com
+/powehi-seo images serp "running shoes"
+/powehi-seo images optimize ./hero.webp
 ```
 
 **What it checks:**
@@ -174,13 +176,13 @@ Image optimization analysis. Subcommands: `serp <keyword>` (image SERP / visual-
 
 ---
 
-### `/seo sitemap <url>`
+### `/powehi-seo sitemap <url>`
 
 Analyze existing XML sitemap.
 
 **Example:**
 ```
-/seo sitemap https://example.com/sitemap.xml
+/powehi-seo sitemap https://example.com/sitemap.xml
 ```
 
 **What it validates:**
@@ -193,13 +195,13 @@ Analyze existing XML sitemap.
 
 ---
 
-### `/seo sitemap generate`
+### `/powehi-seo sitemap generate`
 
 Generate new sitemap with industry templates.
 
 **Example:**
 ```
-/seo sitemap generate
+/powehi-seo sitemap generate
 ```
 
 **Process:**
@@ -211,7 +213,7 @@ Generate new sitemap with industry templates.
 
 ---
 
-### `/seo plan <type>`
+### `/powehi-seo plan <type>`
 
 Strategic SEO planning.
 
@@ -219,7 +221,7 @@ Strategic SEO planning.
 
 **Example:**
 ```
-/seo plan saas
+/powehi-seo plan saas
 ```
 
 **What it creates:**
@@ -231,14 +233,14 @@ Strategic SEO planning.
 
 ---
 
-### `/seo competitor-pages [url|generate]`
+### `/powehi-seo competitor-pages [url|generate]`
 
 Competitor comparison page generation.
 
 **Examples:**
 ```
-/seo competitor-pages https://example.com/vs/competitor
-/seo competitor-pages generate
+/powehi-seo competitor-pages https://example.com/vs/competitor
+/powehi-seo competitor-pages generate
 ```
 
 **Capabilities:**
@@ -251,14 +253,14 @@ Competitor comparison page generation.
 
 ---
 
-### `/seo hreflang [url]`
+### `/powehi-seo hreflang [url]`
 
 Hreflang and international SEO audit and generation. Subcommand: `audit <directory-or-url>` (audit hreflang across a local build directory or a live URL set).
 
 **Examples:**
 ```
-/seo hreflang https://example.com
-/seo hreflang audit ./dist
+/powehi-seo hreflang https://example.com
+/powehi-seo hreflang audit ./dist
 ```
 
 **Capabilities:**
@@ -272,14 +274,14 @@ Hreflang and international SEO audit and generation. Subcommand: `audit <directo
 
 ---
 
-### `/seo programmatic [url|plan]`
+### `/powehi-seo programmatic [url|plan]`
 
 Programmatic SEO analysis and planning for pages generated at scale.
 
 **Examples:**
 ```
-/seo programmatic https://example.com/tools/
-/seo programmatic plan
+/powehi-seo programmatic https://example.com/tools/
+/powehi-seo programmatic plan
 ```
 
 **Capabilities:**
@@ -292,13 +294,13 @@ Programmatic SEO analysis and planning for pages generated at scale.
 
 ---
 
-### `/seo local <url>`
+### `/powehi-seo local <url>`
 
 Local SEO analysis covering Google Business Profile, citations, reviews, and the map pack.
 
 **Example:**
 ```
-/seo local https://example.com
+/powehi-seo local https://example.com
 ```
 
 **What it analyzes:**
@@ -311,19 +313,19 @@ Local SEO analysis covering Google Business Profile, citations, reviews, and the
 
 ---
 
-### `/seo maps [command] [args]`
+### `/powehi-seo maps [command] [args]`
 
 Maps intelligence: geo-grid rank tracking, GBP profile audits, review intelligence, cross-platform NAP verification, competitor radius mapping.
 
 **Examples:**
 ```
-/seo maps "Joe's Coffee" "austin tx"
-/seo maps grid "coffee shop" "austin tx"
-/seo maps gbp "Joe's Coffee" "austin tx"
-/seo maps reviews "Joe's Coffee" "austin tx"
-/seo maps competitors "auto repair" "denver"
-/seo maps nap "Joe's Coffee" "austin tx"
-/seo maps schema "Joe's Coffee" "austin tx"
+/powehi-seo maps "Joe's Coffee" "austin tx"
+/powehi-seo maps grid "coffee shop" "austin tx"
+/powehi-seo maps gbp "Joe's Coffee" "austin tx"
+/powehi-seo maps reviews "Joe's Coffee" "austin tx"
+/powehi-seo maps competitors "auto repair" "denver"
+/powehi-seo maps nap "Joe's Coffee" "austin tx"
+/powehi-seo maps schema "Joe's Coffee" "austin tx"
 ```
 
 **Capabilities:**
@@ -334,18 +336,18 @@ Maps intelligence: geo-grid rank tracking, GBP profile audits, review intelligen
 
 ---
 
-### `/seo backlinks <url>`
+### `/powehi-seo backlinks <url>`
 
 Backlink profile analysis with a 3-tier data cascade: free (Common Crawl + verification), free with signup (Moz, Bing Webmaster Tools), paid (DataForSEO).
 
 **Examples:**
 ```
-/seo backlinks https://example.com
-/seo backlinks gap https://example.com https://competitor.com
-/seo backlinks toxic https://example.com
-/seo backlinks new https://example.com
-/seo backlinks verify https://example.com --links known-links.txt
-/seo backlinks setup
+/powehi-seo backlinks https://example.com
+/powehi-seo backlinks gap https://example.com https://competitor.com
+/powehi-seo backlinks toxic https://example.com
+/powehi-seo backlinks new https://example.com
+/powehi-seo backlinks verify https://example.com --links known-links.txt
+/powehi-seo backlinks setup
 ```
 
 **What it analyzes:**
@@ -358,16 +360,16 @@ Backlink profile analysis with a 3-tier data cascade: free (Common Crawl + verif
 
 ---
 
-### `/seo cluster [command] <seed-keyword>`
+### `/powehi-seo cluster [command] <seed-keyword>`
 
-SERP-based semantic topic clustering for content architecture planning. Built on the Pro Hub Challenge Semantic Cluster Engine. Subcommands: `plan <seed>` (full planning workflow; also `plan --from strategy` to import a `/seo plan` output), `execute` (create content via claude-blog or output briefs), `map` (regenerate the interactive visualization). Bare `/seo cluster <seed>` is shorthand for `plan`.
+SERP-based semantic topic clustering for content architecture planning. Built on the Pro Hub Challenge Semantic Cluster Engine. Subcommands: `plan <seed>` (full planning workflow; also `plan --from strategy` to import a `/powehi-seo plan` output), `execute` (create content via claude-blog or output briefs), `map` (regenerate the interactive visualization). Bare `/powehi-seo cluster <seed>` is shorthand for `plan`.
 
 **Examples:**
 ```
-/seo cluster plan "claude code skills"
-/seo cluster plan --from strategy
-/seo cluster execute
-/seo cluster map
+/powehi-seo cluster plan "claude code skills"
+/powehi-seo cluster plan --from strategy
+/powehi-seo cluster execute
+/powehi-seo cluster map
 ```
 
 **What it produces:**
@@ -380,16 +382,16 @@ SERP-based semantic topic clustering for content architecture planning. Built on
 
 ---
 
-### `/seo sxo <url>`
+### `/powehi-seo sxo <url>`
 
 Search Experience Optimization: SERP backwards analysis, page-type mismatch detection, persona scoring. Subcommands: `<url> <keyword>` (analyze for a specific keyword), `wireframe <url>` (IST/SOLL wireframe), `personas <url>` (persona-only scoring, skips SERP).
 
 **Examples:**
 ```
-/seo sxo https://example.com/blog/how-to-x
-/seo sxo https://example.com/page "target keyword"
-/seo sxo wireframe https://example.com/page
-/seo sxo personas https://example.com/page
+/powehi-seo sxo https://example.com/blog/how-to-x
+/powehi-seo sxo https://example.com/page "target keyword"
+/powehi-seo sxo wireframe https://example.com/page
+/powehi-seo sxo personas https://example.com/page
 ```
 
 **What it produces:**
@@ -401,15 +403,15 @@ Search Experience Optimization: SERP backwards analysis, page-type mismatch dete
 
 ---
 
-### `/seo drift baseline|compare|history <url>`
+### `/powehi-seo drift baseline|compare|history <url>`
 
 SEO drift monitoring. Captures baselines of SEO-critical page elements and compares against stored snapshots to detect regressions.
 
 **Examples:**
 ```
-/seo drift baseline https://example.com
-/seo drift compare https://example.com
-/seo drift history https://example.com
+/powehi-seo drift baseline https://example.com
+/powehi-seo drift compare https://example.com
+/powehi-seo drift history https://example.com
 ```
 
 **What it tracks:** title, meta description, canonical, hreflang, Open Graph, schema, headings, internal links, robots, sitemap entry, indexability, Core Web Vitals, response status, redirect chain.
@@ -418,16 +420,16 @@ SEO drift monitoring. Captures baselines of SEO-critical page elements and compa
 
 ---
 
-### `/seo ecommerce <url>`
+### `/powehi-seo ecommerce <url>`
 
 E-commerce SEO covering product schema, marketplace intelligence, and pricing gap analysis. Subcommands: `products <keyword>` (Google Shopping competitive analysis), `gaps <domain>` (organic-vs-Shopping visibility gap), `schema <url>` (product schema validation + enhancement).
 
 **Examples:**
 ```
-/seo ecommerce https://shop.example.com/product/x
-/seo ecommerce products "running shoes"
-/seo ecommerce gaps shop.example.com
-/seo ecommerce schema https://shop.example.com/product/x
+/powehi-seo ecommerce https://shop.example.com/product/x
+/powehi-seo ecommerce products "running shoes"
+/powehi-seo ecommerce gaps shop.example.com
+/powehi-seo ecommerce schema https://shop.example.com/product/x
 ```
 
 **What it analyzes:**
@@ -440,73 +442,73 @@ E-commerce SEO covering product schema, marketplace intelligence, and pricing ga
 
 ---
 
-### `/seo flow [stage] [url|topic]`
+### `/powehi-seo flow [stage] [url|topic]`
 
 FLOW framework integration: evidence-led prompts for the Find, Leverage, Optimize, Win, and Local stages of a content campaign.
 
 **Examples:**
 ```
-/seo flow find "topic"
-/seo flow leverage https://example.com
-/seo flow optimize https://example.com/page
-/seo flow win https://example.com/page
-/seo flow local https://example.com
-/seo flow prompts
-/seo flow sync
+/powehi-seo flow find "topic"
+/powehi-seo flow leverage https://example.com
+/powehi-seo flow optimize https://example.com/page
+/powehi-seo flow win https://example.com/page
+/powehi-seo flow local https://example.com
+/powehi-seo flow prompts
+/powehi-seo flow sync
 ```
 
 **41 prompts** sourced from FLOW (CC BY 4.0). Each prompt is grounded in a specific evidence source (SERP data, GSC, GA4, customer interviews) with attribution preserved.
 
 ---
 
-### `/seo google [command] [url]`
+### `/powehi-seo google [command] [url]`
 
 Google SEO APIs. 4-tier credential system covering PageSpeed Insights, CrUX, CrUX History, Search Console, URL Inspection, Indexing API, GA4, and Keyword Planner.
 
 **Setup & reporting:**
 ```
-/seo google setup                      # Configure/check credentials
-/seo google quotas                     # Show per-API quota usage
-/seo google report full                # Generate full PDF/HTML report
-/seo google report cwv-audit           # CWV-focused report
-/seo google report gsc-performance     # Search performance report
-/seo google report indexation          # Indexation status report
+/powehi-seo google setup                      # Configure/check credentials
+/powehi-seo google quotas                     # Show per-API quota usage
+/powehi-seo google report full                # Generate full PDF/HTML report
+/powehi-seo google report cwv-audit           # CWV-focused report
+/powehi-seo google report gsc-performance     # Search performance report
+/powehi-seo google report indexation          # Indexation status report
 ```
 
 **PageSpeed / CrUX (Tier 0):**
 ```
-/seo google pagespeed <url>            # PageSpeed Insights (lab) + CWV
-/seo google crux <url>                 # CrUX field data
-/seo google crux-history <url>         # 25-week CrUX history
+/powehi-seo google pagespeed <url>            # PageSpeed Insights (lab) + CWV
+/powehi-seo google crux <url>                 # CrUX field data
+/powehi-seo google crux-history <url>         # 25-week CrUX history
 ```
 
 **Search Console / Indexing (Tier 1):**
 ```
-/seo google gsc <property>             # Search Analytics (clicks/impressions/CTR/position)
-/seo google inspect <url>              # URL Inspection (indexation status)
-/seo google inspect-batch <file>       # Batch URL inspection
-/seo google sitemaps <property>        # List submitted sitemaps + status
-/seo google index <url>                # Indexing API notify
-/seo google index-batch <file>         # Batch indexing notify
+/powehi-seo google gsc <property>             # Search Analytics (clicks/impressions/CTR/position)
+/powehi-seo google inspect <url>              # URL Inspection (indexation status)
+/powehi-seo google inspect-batch <file>       # Batch URL inspection
+/powehi-seo google sitemaps <property>        # List submitted sitemaps + status
+/powehi-seo google index <url>                # Indexing API notify
+/powehi-seo google index-batch <file>         # Batch indexing notify
 ```
 Use Indexing API commands only for pages with JobPosting or BroadcastEvent embedded in VideoObject. Route ordinary URLs to URL Inspection or sitemaps; `URL_UPDATED` does not guarantee indexing.
 
 **GA4 (Tier 2):**
 ```
-/seo google ga4 [property-id]          # Organic traffic report
-/seo google ga4-pages [property-id]    # Top organic landing pages
+/powehi-seo google ga4 [property-id]          # Organic traffic report
+/powehi-seo google ga4-pages [property-id]    # Top organic landing pages
 ```
 
 **NLP / Keywords / YouTube:**
 ```
-/seo google nlp <url-or-text>          # NLP content analysis
-/seo google entities <url-or-text>     # Entity extraction
-/seo google entity <query>             # Entity lookup
-/seo google keywords <seed>            # Keyword Planner ideas (Tier 3)
-/seo google volume <keywords>          # Keyword search volume (Tier 3)
-/seo google youtube <query>            # YouTube search
-/seo google youtube-video <video_id>   # YouTube video analysis
-/seo google safety <url>               # Safe Browsing check
+/powehi-seo google nlp <url-or-text>          # NLP content analysis
+/powehi-seo google entities <url-or-text>     # Entity extraction
+/powehi-seo google entity <query>             # Entity lookup
+/powehi-seo google keywords <seed>            # Keyword Planner ideas (Tier 3)
+/powehi-seo google volume <keywords>          # Keyword search volume (Tier 3)
+/powehi-seo google youtube <query>            # YouTube search
+/powehi-seo google youtube-video <video_id>   # YouTube video analysis
+/powehi-seo google safety <url>               # Safe Browsing check
 ```
 
 **Tiers:**
@@ -519,7 +521,7 @@ PDF and HTML reports generated via WeasyPrint and matplotlib.
 
 ---
 
-### `/seo image-gen [use-case] <description>`
+### `/powehi-seo image-gen [use-case] <description>`
 
 AI image generation for SEO assets (extension). Powered by Gemini via nanobanana-mcp.
 
@@ -527,12 +529,12 @@ AI image generation for SEO assets (extension). Powered by Gemini via nanobanana
 
 **Use Cases:**
 ```
-/seo image-gen og <description>          # OG/social preview image (16:9, 1K)
-/seo image-gen hero <description>        # Blog hero image (16:9, 2K)
-/seo image-gen product <description>     # Product photography (4:3, 2K)
-/seo image-gen infographic <description> # Infographic visual (2:3, 4K)
-/seo image-gen custom <description>      # Custom with full Creative Director pipeline
-/seo image-gen batch <description> [N]   # Generate N variations (default: 3)
+/powehi-seo image-gen og <description>          # OG/social preview image (16:9, 1K)
+/powehi-seo image-gen hero <description>        # Blog hero image (16:9, 2K)
+/powehi-seo image-gen product <description>     # Product photography (4:3, 2K)
+/powehi-seo image-gen infographic <description> # Infographic visual (2:3, 4K)
+/powehi-seo image-gen custom <description>      # Custom with full Creative Director pipeline
+/powehi-seo image-gen batch <description> [N]   # Generate N variations (default: 3)
 ```
 
 **What it does:**
@@ -543,7 +545,7 @@ AI image generation for SEO assets (extension). Powered by Gemini via nanobanana
 
 ---
 
-### `/seo firecrawl [command] <url>`
+### `/powehi-seo firecrawl [command] <url>`
 
 Full-site crawling and URL discovery via Firecrawl MCP (extension).
 
@@ -551,10 +553,10 @@ Full-site crawling and URL discovery via Firecrawl MCP (extension).
 
 **Examples:**
 ```
-/seo firecrawl crawl https://example.com
-/seo firecrawl map https://example.com
-/seo firecrawl scrape https://example.com/page
-/seo firecrawl search "query" https://example.com
+/powehi-seo firecrawl crawl https://example.com
+/powehi-seo firecrawl map https://example.com
+/powehi-seo firecrawl scrape https://example.com/page
+/powehi-seo firecrawl search "query" https://example.com
 ```
 
 **What it does:**
@@ -565,7 +567,7 @@ Full-site crawling and URL discovery via Firecrawl MCP (extension).
 
 ---
 
-### `/seo dataforseo [command]`
+### `/powehi-seo dataforseo [command]`
 
 Live SEO data via DataForSEO MCP server (extension). 23 data commands across 9 API modules, plus cost-tracking commands.
 
@@ -573,116 +575,116 @@ Live SEO data via DataForSEO MCP server (extension). 23 data commands across 9 A
 
 **SERP Analysis:**
 ```
-/seo dataforseo serp <keyword>              # Google organic results (also Bing/Yahoo)
-/seo dataforseo serp-images <keyword>       # Google Images SERP results
-/seo dataforseo serp-youtube <keyword>      # YouTube search results
-/seo dataforseo youtube <video_id>          # YouTube video deep analysis
+/powehi-seo dataforseo serp <keyword>              # Google organic results (also Bing/Yahoo)
+/powehi-seo dataforseo serp-images <keyword>       # Google Images SERP results
+/powehi-seo dataforseo serp-youtube <keyword>      # YouTube search results
+/powehi-seo dataforseo youtube <video_id>          # YouTube video deep analysis
 ```
 
 **Keyword Research:**
 ```
-/seo dataforseo keywords <seed>             # Keyword ideas and suggestions
-/seo dataforseo volume <keywords>           # Search volume metrics
-/seo dataforseo difficulty <keywords>       # Keyword difficulty scores
-/seo dataforseo intent <keywords>           # Search intent classification
-/seo dataforseo trends <keyword>            # Google Trends data
+/powehi-seo dataforseo keywords <seed>             # Keyword ideas and suggestions
+/powehi-seo dataforseo volume <keywords>           # Search volume metrics
+/powehi-seo dataforseo difficulty <keywords>       # Keyword difficulty scores
+/powehi-seo dataforseo intent <keywords>           # Search intent classification
+/powehi-seo dataforseo trends <keyword>            # Google Trends data
 ```
 
 **Domain & Competitors:**
 ```
-/seo dataforseo backlinks <domain>          # Full backlink profile
-/seo dataforseo competitors <domain>        # Competitor analysis
-/seo dataforseo ranked <domain>             # Ranked keywords
-/seo dataforseo intersection <domains>      # Keyword/backlink overlap
-/seo dataforseo traffic <domains>           # Traffic estimation
-/seo dataforseo subdomains <domain>         # Subdomains with ranking data
-/seo dataforseo top-searches <domain>       # Top queries mentioning domain
+/powehi-seo dataforseo backlinks <domain>          # Full backlink profile
+/powehi-seo dataforseo competitors <domain>        # Competitor analysis
+/powehi-seo dataforseo ranked <domain>             # Ranked keywords
+/powehi-seo dataforseo intersection <domains>      # Keyword/backlink overlap
+/powehi-seo dataforseo traffic <domains>           # Traffic estimation
+/powehi-seo dataforseo subdomains <domain>         # Subdomains with ranking data
+/powehi-seo dataforseo top-searches <domain>       # Top queries mentioning domain
 ```
 
 **Technical / On-Page:**
 ```
-/seo dataforseo onpage <url>                # On-page analysis (Lighthouse)
-/seo dataforseo tech <domain>               # Technology detection
-/seo dataforseo whois <domain>              # WHOIS data
+/powehi-seo dataforseo onpage <url>                # On-page analysis (Lighthouse)
+/powehi-seo dataforseo tech <domain>               # Technology detection
+/powehi-seo dataforseo whois <domain>              # WHOIS data
 ```
 
 **Content & Business Data:**
 ```
-/seo dataforseo content <keyword/url>       # Content analysis and trends
-/seo dataforseo listings <keyword>          # Business listings search
+/powehi-seo dataforseo content <keyword/url>       # Content analysis and trends
+/powehi-seo dataforseo listings <keyword>          # Business listings search
 ```
 
 **AI Visibility / GEO:**
 ```
-/seo dataforseo ai-scrape <query>           # ChatGPT web scraper for GEO
-/seo dataforseo ai-mentions <keyword>       # LLM mention tracking
+/powehi-seo dataforseo ai-scrape <query>           # ChatGPT web scraper for GEO
+/powehi-seo dataforseo ai-mentions <keyword>       # LLM mention tracking
 ```
 
 **Cost Tracking:**
 ```
-/seo dataforseo costs today                            # Today's DataForSEO spend
-/seo dataforseo costs summary                          # Spend summary across periods
-/seo dataforseo costs config --mode threshold --threshold 0.50   # Set cost-control mode/threshold
+/powehi-seo dataforseo costs today                            # Today's DataForSEO spend
+/powehi-seo dataforseo costs summary                          # Spend summary across periods
+/powehi-seo dataforseo costs config --mode threshold --threshold 0.50   # Set cost-control mode/threshold
 ```
 
 ---
 
-### `/seo ahrefs [command] <url|topic>`
+### `/powehi-seo ahrefs [command] <url|topic>`
 
 Ahrefs API metrics (extension). **Prerequisites:** Ahrefs extension installed (`./extensions/ahrefs/install.sh`).
 ```
-/seo ahrefs metrics <url>       # DR/UR, referring-domain count, organic traffic estimate
-/seo ahrefs backlinks <url>     # Top referring domains, anchor distribution, follow/nofollow ratio
-/seo ahrefs organic <url>       # Organic keywords, ranking distribution, traffic by country
-/seo ahrefs content <topic>     # Content Explorer top results, social shares, referring domains
+/powehi-seo ahrefs metrics <url>       # DR/UR, referring-domain count, organic traffic estimate
+/powehi-seo ahrefs backlinks <url>     # Top referring domains, anchor distribution, follow/nofollow ratio
+/powehi-seo ahrefs organic <url>       # Organic keywords, ranking distribution, traffic by country
+/powehi-seo ahrefs content <topic>     # Content Explorer top results, social shares, referring domains
 ```
 
 ---
 
-### `/seo bing [command]`
+### `/powehi-seo bing [command]`
 
 Bing Webmaster Tools + IndexNow (extension). **Prerequisites:** Bing extension installed (`./extensions/bing-webmaster/install.sh`).
 ```
-/seo bing links <url>                 # Inbound links from Bing Webmaster
-/seo bing compare <urlA> <urlB>       # Compare two URLs' Bing link profiles
-/seo bing submit <url> --host <host>                # IndexNow single-URL submit (requires key)
-/seo bing submit-batch <file> --host <host>         # IndexNow batch submit (requires key)
-/seo bing verify-indexnow --host <host>             # Verify the IndexNow key is published
+/powehi-seo bing links <url>                 # Inbound links from Bing Webmaster
+/powehi-seo bing compare <urlA> <urlB>       # Compare two URLs' Bing link profiles
+/powehi-seo bing submit <url> --host <host>                # IndexNow single-URL submit (requires key)
+/powehi-seo bing submit-batch <file> --host <host>         # IndexNow batch submit (requires key)
+/powehi-seo bing verify-indexnow --host <host>             # Verify the IndexNow key is published
 ```
 
 ---
 
-### `/seo profound [command] <brand>`
+### `/powehi-seo profound [command] <brand>`
 
 LLM brand-citation tracking via Profound (extension). **Prerequisites:** Profound extension installed.
 ```
-/seo profound citations <brand>     # Citation rate per LLM + 30-day trend
-/seo profound prompts <brand>       # Top prompts that surface (or miss) the brand
-/seo profound competitors <brand>   # Brands cited alongside yours for the same prompts
-/seo profound alerts <brand>        # Spike/drop alerts vs 7-day baseline
+/powehi-seo profound citations <brand>     # Citation rate per LLM + 30-day trend
+/powehi-seo profound prompts <brand>       # Top prompts that surface (or miss) the brand
+/powehi-seo profound competitors <brand>   # Brands cited alongside yours for the same prompts
+/powehi-seo profound alerts <brand>        # Spike/drop alerts vs 7-day baseline
 ```
 
 ---
 
-### `/seo seranking [command] <brand|keyword|url>`
+### `/powehi-seo seranking [command] <brand|keyword|url>`
 
 AI-visibility + SERP via SE Ranking (extension). **Prerequisites:** SE Ranking extension installed.
 ```
-/seo seranking ai-visibility <brand>   # Share-of-voice across ChatGPT/Gemini/Perplexity/AI Overviews/AI Mode
-/seo seranking serp <keyword>          # Top 100 organic positions + SERP features
-/seo seranking backlinks <url>         # Backlink profile (free-tier alternative to Ahrefs/DataForSEO)
-/seo seranking competitors <url>       # Top 10 organic competitors + shared-keyword gaps
+/powehi-seo seranking ai-visibility <brand>   # Share-of-voice across ChatGPT/Gemini/Perplexity/AI Overviews/AI Mode
+/powehi-seo seranking serp <keyword>          # Top 100 organic positions + SERP features
+/powehi-seo seranking backlinks <url>         # Backlink profile (free-tier alternative to Ahrefs/DataForSEO)
+/powehi-seo seranking competitors <url>       # Top 10 organic competitors + shared-keyword gaps
 ```
 
 ---
 
-### `/seo unlighthouse <url>`
+### `/powehi-seo unlighthouse <url>`
 
 Multi-page Lighthouse audit via Unlighthouse (extension, MIT, no API quota). **Prerequisites:** Node 18+ and the unlighthouse npm package (`./extensions/unlighthouse/install.sh`).
 ```
-/seo unlighthouse https://example.com
-/seo unlighthouse https://example.com --device desktop
-/seo unlighthouse https://example.com --max-routes 50 --output-dir ./reports
+/powehi-seo unlighthouse https://example.com
+/powehi-seo unlighthouse https://example.com --device desktop
+/powehi-seo unlighthouse https://example.com --max-routes 50 --output-dir ./reports
 ```
 
 ---
@@ -691,34 +693,34 @@ Multi-page Lighthouse audit via Unlighthouse (extension, MIT, no API quota). **P
 
 | Command | Use Case |
 |---------|----------|
-| `/seo audit <url>` | Full website audit with parallel subagents |
-| `/seo page <url>` | Single page analysis |
-| `/seo technical <url>` | Technical SEO across 9 categories |
-| `/seo content <url>` | E-E-A-T and content quality |
-| `/seo content-brief <topic>` | Detailed content brief: keywords, outline, internal links |
-| `/seo schema <url>` | Schema markup detection, validation, generation |
-| `/seo sitemap <url>` | Sitemap validation |
-| `/seo sitemap generate` | Create new sitemap with industry templates |
-| `/seo images <url>` | Image optimization |
-| `/seo geo <url>` | AI search optimization (GEO) |
-| `/seo local <url>` | Local SEO (GBP, citations, reviews) |
-| `/seo maps [command]` | Maps intelligence (geo-grid, GBP audit, competitors) |
-| `/seo backlinks <url>` | Backlink profile analysis |
-| `/seo cluster <seed>` | SERP-based semantic clustering |
-| `/seo sxo <url>` | Search Experience Optimization |
-| `/seo drift baseline\|compare\|history <url>` | SEO drift monitoring |
-| `/seo ecommerce <url>` | E-commerce SEO |
-| `/seo hreflang [url]` | Hreflang and international SEO |
-| `/seo plan <type>` | Strategic planning by industry |
-| `/seo programmatic [url\|plan]` | Programmatic SEO analysis |
-| `/seo competitor-pages [url\|generate]` | Competitor comparison pages |
-| `/seo flow [stage] [url\|topic]` | FLOW framework prompts |
-| `/seo google [command] [url]` | Google SEO APIs (GSC, PSI, CrUX, GA4) |
-| `/seo dataforseo [command]` | Live SEO data (extension) |
-| `/seo image-gen [use-case] <desc>` | AI image generation (extension) |
-| `/seo firecrawl [command] <url>` | Full-site crawling (extension) |
-| `/seo ahrefs [command] <url>` | Backlinks, organic keywords, and content data via the official Ahrefs MCP (extension) |
-| `/seo seranking [command]` | AI Share-of-Voice across ChatGPT, Gemini, Perplexity, AI Overviews, AI Mode (extension) |
-| `/seo profound [command]` | LLM citation tracking with time-series data (extension) |
-| `/seo bing [command] <url>` | Bing Webmaster Tools + IndexNow URL submission (extension) |
-| `/seo unlighthouse <url>` | Multi-page Lighthouse runner, runs locally (extension) |
+| `/powehi-seo audit <url>` | Full website audit with parallel subagents |
+| `/powehi-seo page <url>` | Single page analysis |
+| `/powehi-seo technical <url>` | Technical SEO across 9 categories |
+| `/powehi-seo content <url>` | E-E-A-T and content quality |
+| `/powehi-seo content-brief <topic>` | Detailed content brief: keywords, outline, internal links |
+| `/powehi-seo schema <url>` | Schema markup detection, validation, generation |
+| `/powehi-seo sitemap <url>` | Sitemap validation |
+| `/powehi-seo sitemap generate` | Create new sitemap with industry templates |
+| `/powehi-seo images <url>` | Image optimization |
+| `/powehi-seo geo <url>` | AI search optimization (GEO) |
+| `/powehi-seo local <url>` | Local SEO (GBP, citations, reviews) |
+| `/powehi-seo maps [command]` | Maps intelligence (geo-grid, GBP audit, competitors) |
+| `/powehi-seo backlinks <url>` | Backlink profile analysis |
+| `/powehi-seo cluster <seed>` | SERP-based semantic clustering |
+| `/powehi-seo sxo <url>` | Search Experience Optimization |
+| `/powehi-seo drift baseline\|compare\|history <url>` | SEO drift monitoring |
+| `/powehi-seo ecommerce <url>` | E-commerce SEO |
+| `/powehi-seo hreflang [url]` | Hreflang and international SEO |
+| `/powehi-seo plan <type>` | Strategic planning by industry |
+| `/powehi-seo programmatic [url\|plan]` | Programmatic SEO analysis |
+| `/powehi-seo competitor-pages [url\|generate]` | Competitor comparison pages |
+| `/powehi-seo flow [stage] [url\|topic]` | FLOW framework prompts |
+| `/powehi-seo google [command] [url]` | Google SEO APIs (GSC, PSI, CrUX, GA4) |
+| `/powehi-seo dataforseo [command]` | Live SEO data (extension) |
+| `/powehi-seo image-gen [use-case] <desc>` | AI image generation (extension) |
+| `/powehi-seo firecrawl [command] <url>` | Full-site crawling (extension) |
+| `/powehi-seo ahrefs [command] <url>` | Backlinks, organic keywords, and content data via the official Ahrefs MCP (extension) |
+| `/powehi-seo seranking [command]` | AI Share-of-Voice across ChatGPT, Gemini, Perplexity, AI Overviews, AI Mode (extension) |
+| `/powehi-seo profound [command]` | LLM citation tracking with time-series data (extension) |
+| `/powehi-seo bing [command] <url>` | Bing Webmaster Tools + IndexNow URL submission (extension) |
+| `/powehi-seo unlighthouse <url>` | Multi-page Lighthouse runner, runs locally (extension) |

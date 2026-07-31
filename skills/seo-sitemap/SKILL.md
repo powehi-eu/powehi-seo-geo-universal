@@ -8,7 +8,7 @@ user-invocable: true
 argument-hint: "[url or generate]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
@@ -20,7 +20,7 @@ metadata:
 Discover candidates before reporting a sitemap missing:
 
 ```bash
-claude-seo run sitemap_discovery.py <url> --json
+powehi-seo-geo run sitemap_discovery.py <url> --json
 ```
 
 The helper reads every bounded `Sitemap:` declaration in robots.txt, validates

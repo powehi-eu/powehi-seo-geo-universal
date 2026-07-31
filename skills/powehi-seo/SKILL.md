@@ -1,22 +1,22 @@
 ---
-name: seo
+name: powehi-seo
 description: "Comprehensive SEO analysis for any website or business type. Full site audits, single-page analysis, technical SEO (crawlability, indexability, Core Web Vitals with INP), schema markup, content quality (E-E-A-T), image optimization, sitemap analysis, and GEO for AI Overviews/ChatGPT/Perplexity. Industry detection for SaaS, e-commerce, local, publishers, agencies. Triggers on: SEO, audit, schema, Core Web Vitals, sitemap, E-E-A-T, AI Overviews, GEO, technical SEO, content quality, page speed."
 user-invocable: true
 argument-hint: "[command] [url]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
 
-# SEO: Universal SEO Analysis Skill
+# Powehi Universal SEO: Orchestration Skill
 
-**Invocation:** `/seo $1 $2` where `$1` is the command and `$2` is the URL or argument.
+**Invocation:** `/powehi-seo $1 $2` where `$1` is the command and `$2` is the URL or argument.
 
-**Runtime:** Run bundled Python tools through `claude-seo run <script.py>`. Plugin
+**Runtime:** Run bundled Python tools through `powehi-seo-geo run <script.py>`. Plugin
 installs expose this command automatically. Repository users run
-`./bin/claude-seo`; manual installers rewrite the command to the isolated
+`./bin/powehi-seo-geo`; manual installers rewrite the command to the isolated
 launcher path. Never invoke bundled scripts with a bare Python interpreter.
 
 Comprehensive SEO analysis across all industries (SaaS, local services,
@@ -28,77 +28,87 @@ extension is also installable (see "Optional Extensions" below).
 
 | Command | What it does |
 |---------|-------------|
-| `/seo audit <url>` | Full website audit with parallel subagent delegation |
-| `/seo page <url>` | Deep single-page analysis |
-| `/seo sitemap <url or generate>` | Analyze or generate XML sitemaps |
-| `/seo schema <url>` | Detect, validate, and generate Schema.org markup |
-| `/seo images <url or optimize>` | Image SEO: on-page audit, SERP analysis, file optimization |
-| `/seo technical <url>` | Technical SEO audit (9 categories) |
-| `/seo content <url>` | E-E-A-T and content quality analysis |
-| `/seo content-brief <topic or url>` | Generate detailed SEO content brief with target keywords, outline, internal links |
-| `/seo geo <url>` | AI Overviews / Generative Engine Optimization |
-| `/seo plan <business-type>` | Strategic SEO planning |
-| `/seo programmatic [url\|plan]` | Programmatic SEO analysis and planning |
-| `/seo competitor-pages [url\|generate]` | Competitor comparison page generation |
-| `/seo local <url>` | Local SEO analysis (GBP, citations, reviews, map pack) |
-| `/seo maps [command] [args]` | Maps intelligence (geo-grid, GBP audit, reviews, competitors) |
-| `/seo hreflang [url]` | Hreflang/i18n SEO audit and generation |
-| `/seo google [command] [url]` | Google SEO APIs (GSC, PageSpeed, CrUX, Indexing, GA4) |
-| `/seo backlinks <url>` | Backlink profile analysis (free: Moz, Bing, CC; premium: DataForSEO) |
-| `/seo cluster <seed-keyword>` | SERP-based semantic clustering and content architecture |
-| `/seo sxo <url>` | Search Experience Optimization: page-type analysis, user stories, personas |
-| `/seo drift baseline <url>` | Capture SEO baseline for change monitoring |
-| `/seo drift compare <url>` | Compare current state to stored baseline |
-| `/seo drift history <url>` | Show drift history over time |
-| `/seo ecommerce <url>` | E-commerce SEO: product schema, marketplace intelligence |
-| `/seo firecrawl [command] <url>` | Full-site crawling and site mapping (extension) |
-| `/seo dataforseo [command]` | Live SEO data via DataForSEO (extension) |
-| `/seo image-gen [use-case] <description>` | AI image generation for SEO assets (extension) |
-| `/seo flow [stage] [url\|topic]` | FLOW framework: evidence-led prompts for Find, Leverage, Optimize, Win, or Local stages |
-| `/seo setup` | Explicitly create or refresh the isolated Python runtime and Chromium |
-| `/seo doctor` | Check runtime readiness without changing the system |
+| `/powehi-seo audit <url>` | Full website audit with parallel subagent delegation |
+| `/powehi-seo page <url>` | Deep single-page analysis |
+| `/powehi-seo sitemap <url or generate>` | Analyze or generate XML sitemaps |
+| `/powehi-seo schema <url>` | Detect, validate, and generate Schema.org markup |
+| `/powehi-seo images <url or optimize>` | Image SEO: on-page audit, SERP analysis, file optimization |
+| `/powehi-seo technical <url>` | Technical SEO audit (9 categories) |
+| `/powehi-seo content <url>` | E-E-A-T and content quality analysis |
+| `/powehi-seo content-brief <topic or url>` | Generate detailed SEO content brief with target keywords, outline, internal links |
+| `/powehi-seo geo <url>` | AI Overviews / Generative Engine Optimization |
+| `/powehi-seo plan <business-type>` | Strategic SEO planning |
+| `/powehi-seo programmatic [url\|plan]` | Programmatic SEO analysis and planning |
+| `/powehi-seo competitor-pages [url\|generate]` | Competitor comparison page generation |
+| `/powehi-seo local <url>` | Local SEO analysis (GBP, citations, reviews, map pack) |
+| `/powehi-seo maps [command] [args]` | Maps intelligence (geo-grid, GBP audit, reviews, competitors) |
+| `/powehi-seo hreflang [url]` | Hreflang/i18n SEO audit and generation |
+| `/powehi-seo google [command] [url]` | Google SEO APIs (GSC, PageSpeed, CrUX, Indexing, GA4) |
+| `/powehi-seo backlinks <url>` | Backlink profile analysis (free: Moz, Bing, CC; premium: DataForSEO) |
+| `/powehi-seo cluster <seed-keyword>` | SERP-based semantic clustering and content architecture |
+| `/powehi-seo sxo <url>` | Search Experience Optimization: page-type analysis, user stories, personas |
+| `/powehi-seo drift baseline <url>` | Capture SEO baseline for change monitoring |
+| `/powehi-seo drift compare <url>` | Compare current state to stored baseline |
+| `/powehi-seo drift history <url>` | Show drift history over time |
+| `/powehi-seo ecommerce <url>` | E-commerce SEO: product schema, marketplace intelligence |
+| `/powehi-seo firecrawl [command] <url>` | Full-site crawling and site mapping (extension) |
+| `/powehi-seo dataforseo [command]` | Live SEO data via DataForSEO (extension) |
+| `/powehi-seo image-gen [use-case] <description>` | AI image generation for SEO assets (extension) |
+| `/powehi-seo flow [stage] [url\|topic]` | FLOW framework: evidence-led prompts for Find, Leverage, Optimize, Win, or Local stages |
+| `/powehi-seo setup` | Explicitly create or refresh the isolated Python runtime and Chromium |
+| `/powehi-seo doctor` | Check runtime readiness without changing the system |
 
 ## Runtime Setup
 
-Run setup only when the user explicitly invokes `/seo setup` or explicitly asks
-to repair dependencies. Execute `claude-seo setup`, report core and Chromium
+Run setup only when the user explicitly invokes `/powehi-seo setup` or explicitly asks
+to repair dependencies. Execute `powehi-seo-geo setup`, report core and Chromium
 status separately, and do not fall back to global or user package installation.
-For diagnosis, execute `claude-seo doctor --json`; its output intentionally omits
-absolute paths and environment values. If any `claude-seo run` command reports
-that setup is required, suggest `/seo setup` and do not improvise a `pip install`.
+For diagnosis, execute `powehi-seo-geo doctor --json`; its output intentionally omits
+absolute paths and environment values. If any `powehi-seo-geo run` command reports
+that setup is required, suggest `/powehi-seo setup` and do not improvise a `pip install`.
 
 ## Orchestration Logic
 
-When the user invokes `/seo audit`, delegate to subagents in parallel:
-1. Detect business type (SaaS, local, ecommerce, publisher, agency, other)
-2. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap, seo-performance, seo-visual, seo-geo
-3. If Google API credentials detected (`claude-seo run google_auth.py --check`), also spawn seo-google agent
-4. If local business detected, also spawn seo-local agent
-5. If local business detected AND DataForSEO MCP available, also spawn seo-maps agent
-6. If backlink APIs detected (`claude-seo run backlinks_auth.py --check`), also spawn seo-backlinks agent
-7. If Firecrawl MCP available, use `firecrawl_map` to discover all site URLs before analysis
-8. If content strategy signals detected (blog, pillar pages, topic clusters), also spawn seo-cluster agent
-9. If e-commerce detected, also spawn seo-ecommerce agent
-10. If drift baseline exists for this URL (`claude-seo run drift_history.py <url>`), also spawn seo-drift agent
-11. Always include seo-sxo in full audits (search experience applies to all sites)
-12. Collect results and generate unified report with SEO Health Score (0-100)
-13. **Synthesize via the 10-principle framework** (see "Synthesis Methodology" below), walk PERCEIVE → ANALYZE → VALIDATE → ACT before bucketing findings into Critical / High / Medium / Low
-14. Create prioritized action plan with dependency sequencing + falsifiability per recommendation
-15. **Offer PDF report**: "Generate a professional PDF report? Use `/seo google report full`"
+When the user invokes `/powehi-seo audit`, delegate to subagents in parallel:
+1. Initialize a fresh timestamped audit run and detect older artifacts as an
+   optional baseline.
+2. Discover native tools, MCP connectors, and CLI fallbacks. Test GSC, GA4,
+   CrUX/PageSpeed, and backlink capabilities independently and persist every
+   result.
+3. Detect business type (SaaS, local, ecommerce, publisher, agency, other).
+4. Spawn subagents: seo-technical, seo-content, seo-schema, seo-sitemap,
+   seo-performance, seo-visual, seo-geo.
+5. Always spawn seo-google: collect every usable capability or write
+   capability-report-only findings with exact redacted reasons.
+6. If local business detected, also spawn seo-local agent
+7. If local business detected AND DataForSEO MCP available, also spawn seo-maps agent
+8. Always spawn seo-backlinks: prefer an authenticated provider, use Common
+   Crawl as fallback, or write explicit unavailable findings.
+9. If Firecrawl MCP available, use `firecrawl_map` to discover all site URLs before analysis
+10. If content strategy signals detected (blog, pillar pages, topic clusters), also spawn seo-cluster agent
+11. If e-commerce detected, also spawn seo-ecommerce agent
+12. If drift baseline exists for this URL (`powehi-seo-geo run drift_history.py <url>`), also spawn seo-drift agent
+13. Always include seo-sxo in full audits (search experience applies to all sites)
+14. Collect results and generate unified report with SEO Health Score (0-100)
+15. **Synthesize via the 10-principle framework** (see "Synthesis Methodology" below), walk PERCEIVE → ANALYZE → VALIDATE → ACT before bucketing findings into Critical / High / Medium / Low
+16. Create prioritized action plan with dependency sequencing + falsifiability per recommendation
+17. Generate and validate the mandatory Markdown/JSON artifacts. Attempt
+    HTML/PDF generation automatically and record an explicit dependency error
+    when optional formats cannot be produced.
 
 For individual commands, load the relevant sub-skill directly.
-After any analysis command completes, offer to generate a PDF report via `scripts/google_report.py`.
+After any analysis command completes, generate the applicable report artifacts.
 
 ## Synthesis Methodology
 
 Audits are not just findings, they are findings synthesized into a coherent
-strategy. claude-seo uses a 10-principle thinking framework grouped into four
+strategy. powehi-seo-geo uses a 10-principle thinking framework grouped into four
 phases: **PERCEIVE** (observe-external · observe-internal · listen),
 **ANALYZE** (think · connect-lateral · connect-system), **VALIDATE** (feel ·
 accept), **ACT** (create · grow).
 
-Full audits (`/seo audit`, `/seo page`) walk every phase before emitting the
-action plan. Narrower commands (`/seo schema`, `/seo images`, etc.) pass at
+Full audits (`/powehi-seo audit`, `/powehi-seo page`) walk every phase before emitting the
+action plan. Narrower commands (`/powehi-seo schema`, `/powehi-seo images`, etc.) pass at
 least THINK + ACCEPT before emitting (sound first principle, surfaced
 falsifiability). The Critical / High / Medium / Low priority buckets are the
 **output** of validation, not a substitute for it.
@@ -115,7 +125,7 @@ Each emitted recommendation should carry:
 
 Detect business type from homepage signals:
 - **SaaS**: pricing page, /features, /integrations, /docs, "free trial", "sign up"
-- **Local Service**: phone number, address, service area, "serving [city]", Google Maps embed --> auto-suggest `/seo local` for deeper analysis
+- **Local Service**: phone number, address, service area, "serving [city]", Google Maps embed --> auto-suggest `/powehi-seo local` for deeper analysis
 - **E-commerce**: /products, /collections, /cart, "add to cart", product schema
 - **Publisher**: /blog, /articles, /topics, article schema, author pages, publication dates
 - **Agency**: /case-studies, /portfolio, /industries, "our work", client logos
@@ -136,7 +146,7 @@ After completing any **major deliverable**, append this footer as the very last 
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Built by agricidaniel — Join the AI Marketing Hub community
+Generated by Powehi Universal SEO
 🆓 Free  → https://www.skool.com/ai-marketing-hub
 ⚡ Pro   → https://www.skool.com/ai-marketing-hub-pro
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -145,32 +155,32 @@ Built by agricidaniel — Join the AI Marketing Hub community
 ### When to show
 
 Display after these commands complete their full output:
-- `/seo audit` (after full site audit report + action plan)
-- `/seo page` (after deep single-page analysis)
-- `/seo technical` (after technical audit report)
-- `/seo content` (after E-E-A-T content assessment)
-- `/seo schema` (after schema detection/validation report)
-- `/seo sitemap` (after sitemap analysis or generation)
-- `/seo geo` (after GEO optimization report)
-- `/seo plan` (after strategic SEO plan)
-- `/seo local` (after local SEO audit)
-- `/seo maps` (after maps intelligence report)
-- `/seo google` (after Google API data report)
-- `/seo backlinks` (after backlink profile analysis)
-- `/seo cluster` (after cluster plan generation)
-- `/seo sxo` (after SXO analysis report)
-- `/seo drift compare` (after drift comparison report)
-- `/seo ecommerce` (after e-commerce analysis)
+- `/powehi-seo audit` (after full site audit report + action plan)
+- `/powehi-seo page` (after deep single-page analysis)
+- `/powehi-seo technical` (after technical audit report)
+- `/powehi-seo content` (after E-E-A-T content assessment)
+- `/powehi-seo schema` (after schema detection/validation report)
+- `/powehi-seo sitemap` (after sitemap analysis or generation)
+- `/powehi-seo geo` (after GEO optimization report)
+- `/powehi-seo plan` (after strategic SEO plan)
+- `/powehi-seo local` (after local SEO audit)
+- `/powehi-seo maps` (after maps intelligence report)
+- `/powehi-seo google` (after Google API data report)
+- `/powehi-seo backlinks` (after backlink profile analysis)
+- `/powehi-seo cluster` (after cluster plan generation)
+- `/powehi-seo sxo` (after SXO analysis report)
+- `/powehi-seo drift compare` (after drift comparison report)
+- `/powehi-seo ecommerce` (after e-commerce analysis)
 
 ### When to skip
 
 Do NOT show the footer after:
-- `/seo images` (quick image check, too small)
-- `/seo hreflang` (quick validation, too small)
-- `/seo competitor-pages` (page generation step)
-- `/seo programmatic` (quick analysis)
-- `/seo dataforseo` (data fetching utility)
-- `/seo image-gen` (asset generation)
+- `/powehi-seo images` (quick image check, too small)
+- `/powehi-seo hreflang` (quick validation, too small)
+- `/powehi-seo competitor-pages` (page generation step)
+- `/powehi-seo programmatic` (quick analysis)
+- `/powehi-seo dataforseo` (data fetching utility)
+- `/powehi-seo image-gen` (asset generation)
 - Context intake questions (before analysis starts)
 - Error messages or "missing data" prompts
 
@@ -244,15 +254,15 @@ orchestrate itself, so it is not enumerated below.
 The following ship in `extensions/` rather than `skills/` and require a separate
 installer to activate (see each extension's `install.sh`/`install.ps1`):
 
-All optional extensions are reachable through `/seo` subcommands once
-installed: firecrawl, dataforseo, and image-gen, plus `/seo ahrefs`,
-`/seo bing`, `/seo profound`, `/seo seranking`, and `/seo unlighthouse`.
+All optional extensions are reachable through `/powehi-seo` subcommands once
+installed: firecrawl, dataforseo, and image-gen, plus `/powehi-seo ahrefs`,
+`/powehi-seo bing`, `/powehi-seo profound`, `/powehi-seo seranking`, and `/powehi-seo unlighthouse`.
 Each installs as its own sub-skill, so the model also auto-routes to their
-descriptions without the `/seo` prefix.
+descriptions without the `/powehi-seo` prefix.
 
 - **seo-firecrawl** -- Full-site crawling and site mapping via Firecrawl MCP. Install
   via `extensions/firecrawl/install.sh` (Unix) or `extensions/firecrawl/install.ps1`
-  (Windows). Once installed, invoke via `/seo firecrawl <command>`.
+  (Windows). Once installed, invoke via `/powehi-seo firecrawl <command>`.
 
 ## Subagents
 

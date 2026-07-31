@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) { throw "Python 3 required" }
 $SkillDir = Join-Path $HOME ".claude/skills"
 $SettingsJson = Join-Path $HOME ".claude/settings.json"
-if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "claude-seo not installed" }
+if (-not (Test-Path (Join-Path $SkillDir "seo"))) { throw "powehi-seo-geo not installed" }
 $BingKey = (Read-Host "Bing Webmaster Tools API key" -AsSecureString)
 $IdxKey  = Read-Host "IndexNow host key (32+ chars)"
 $IdxLoc  = Read-Host "IndexNow keyLocation URL"

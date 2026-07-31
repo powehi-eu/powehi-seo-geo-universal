@@ -11,7 +11,7 @@ user-invocable: true
 argument-hint: "[command] [url|property]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
@@ -19,20 +19,20 @@ metadata:
 # Google SEO APIs
 
 Direct access to Google's own SEO data. Bridges the gap between crawl-based
-analysis (existing claude-seo skills) and Google's real-time field data: actual
+analysis (existing powehi-seo-geo skills) and Google's real-time field data: actual
 Chrome user metrics, real indexation status, search performance, and organic traffic.
 
 All APIs are free. Setup requires a Google Cloud project with API key and/or
-service account -- run `/seo google setup` for step-by-step instructions.
+service account -- run `/powehi-seo google setup` for step-by-step instructions.
 
 ## Prerequisites
 
 Before executing any command, check credentials:
 ```bash
-claude-seo run google_auth.py --check --json
+powehi-seo-geo run google_auth.py --check --json
 ```
 
-Config file: `~/.config/claude-seo/google-api.json`
+Config file: `~/.config/powehi-seo-geo/google-api.json`
 ```json
 {
   "service_account_path": "/path/to/service_account.json",
@@ -59,54 +59,54 @@ Always communicate the detected tier before running commands.
 
 | Command | What it does | Tier |
 |---------|-------------|------|
-| `/seo google setup` | Check/configure API credentials | -- |
-| `/seo google pagespeed <url>` | PSI Lighthouse + CrUX field data | 0 |
-| `/seo google crux <url>` | CrUX field data only (p75 metrics) | 0 |
-| `/seo google crux-history <url>` | 25-week CWV trend analysis | 0 |
-| `/seo google gsc <property>` | Search Console: clicks, impressions, CTR, position | 1 |
-| `/seo google inspect <url>` | URL Inspection: index status, canonical, crawl info | 1 |
-| `/seo google inspect-batch <file>` | Batch URL Inspection from file | 1 |
-| `/seo google sitemaps <property>` | GSC sitemap status | 1 |
-| `/seo google index <url>` | Submit URL to Indexing API | 1 |
-| `/seo google index-batch <file>` | Batch submit up to 200 URLs | 1 |
-| `/seo google ga4 [property-id]` | GA4 organic traffic report | 2 |
-| `/seo google ga4-pages [property-id]` | Top organic landing pages | 2 |
-| `/seo google youtube <query>` | YouTube video search (views, likes, duration) | 0 |
-| `/seo google youtube-video <id>` | YouTube video details + top comments | 0 |
-| `/seo google nlp <url-or-text>` | NLP entity extraction + sentiment + classification | 0 |
-| `/seo google entities <url-or-text>` | Entity analysis only (for E-E-A-T) | 0 |
-| `/seo google keywords <seed>` | Keyword ideas from Google Ads Keyword Planner | 3 |
-| `/seo google volume <keywords>` | Search volume lookup from Keyword Planner | 3 |
-| `/seo google entity <query>` | Knowledge Graph entity check | 0 |
-| `/seo google safety <url>` | Web Risk URL safety check | 0 |
-| `/seo google quotas` | Show rate limits for all APIs | -- |
+| `/powehi-seo google setup` | Check/configure API credentials | -- |
+| `/powehi-seo google pagespeed <url>` | PSI Lighthouse + CrUX field data | 0 |
+| `/powehi-seo google crux <url>` | CrUX field data only (p75 metrics) | 0 |
+| `/powehi-seo google crux-history <url>` | 25-week CWV trend analysis | 0 |
+| `/powehi-seo google gsc <property>` | Search Console: clicks, impressions, CTR, position | 1 |
+| `/powehi-seo google inspect <url>` | URL Inspection: index status, canonical, crawl info | 1 |
+| `/powehi-seo google inspect-batch <file>` | Batch URL Inspection from file | 1 |
+| `/powehi-seo google sitemaps <property>` | GSC sitemap status | 1 |
+| `/powehi-seo google index <url>` | Submit URL to Indexing API | 1 |
+| `/powehi-seo google index-batch <file>` | Batch submit up to 200 URLs | 1 |
+| `/powehi-seo google ga4 [property-id]` | GA4 organic traffic report | 2 |
+| `/powehi-seo google ga4-pages [property-id]` | Top organic landing pages | 2 |
+| `/powehi-seo google youtube <query>` | YouTube video search (views, likes, duration) | 0 |
+| `/powehi-seo google youtube-video <id>` | YouTube video details + top comments | 0 |
+| `/powehi-seo google nlp <url-or-text>` | NLP entity extraction + sentiment + classification | 0 |
+| `/powehi-seo google entities <url-or-text>` | Entity analysis only (for E-E-A-T) | 0 |
+| `/powehi-seo google keywords <seed>` | Keyword ideas from Google Ads Keyword Planner | 3 |
+| `/powehi-seo google volume <keywords>` | Search volume lookup from Keyword Planner | 3 |
+| `/powehi-seo google entity <query>` | Knowledge Graph entity check | 0 |
+| `/powehi-seo google safety <url>` | Web Risk URL safety check | 0 |
+| `/powehi-seo google quotas` | Show rate limits for all APIs | -- |
 
 ---
 
 ## PageSpeed + CrUX
 
-### `/seo google pagespeed <url>`
+### `/powehi-seo google pagespeed <url>`
 
 Combined Lighthouse lab data + CrUX field data.
 
-**Script:** `claude-seo run pagespeed_check.py <url> --json`
+**Script:** `powehi-seo-geo run pagespeed_check.py <url> --json`
 **Reference:** `references/pagespeed-crux-api.md`
 **Default:** Both mobile + desktop strategies, all Lighthouse categories.
 
 Output merges lab scores (point-in-time Lighthouse) with field data (28-day
 Chrome user metrics). CrUX tries URL-level first, falls back to origin-level.
 
-### `/seo google crux <url>`
+### `/powehi-seo google crux <url>`
 
 CrUX field data only (no Lighthouse run). Faster.
 
-**Script:** `claude-seo run pagespeed_check.py <url> --crux-only --json`
+**Script:** `powehi-seo-geo run pagespeed_check.py <url> --crux-only --json`
 
-### `/seo google crux-history <url>`
+### `/powehi-seo google crux-history <url>`
 
 25-week CrUX History trends. Shows whether CWV metrics are improving, stable, or degrading.
 
-**Script:** `claude-seo run crux_history.py <url> --json`
+**Script:** `powehi-seo-geo run crux_history.py <url> --json`
 **Reference:** `references/pagespeed-crux-api.md`
 
 Output includes per-metric trend direction, percentage change, and weekly p75 values.
@@ -115,11 +115,11 @@ Output includes per-metric trend direction, percentage change, and weekly p75 va
 
 ## Search Console
 
-### `/seo google gsc <property>`
+### `/powehi-seo google gsc <property>`
 
 Search Analytics: clicks, impressions, CTR, position for last 28 days.
 
-**Script:** `claude-seo run gsc_query.py --property <property> --json`
+**Script:** `powehi-seo-geo run gsc_query.py --property <property> --json`
 **Reference:** `references/search-console-api.md`
 **Default:** 28 days, dimensions=query,page, type=web, limit=1000.
 
@@ -134,68 +134,68 @@ dimension rows, not the size of every pagination request.
 > - **AI Mode already rolls into standard Performance totals** (Web search type), clicks (external-link clicks in AI Mode) and impressions are counted in the normal report, so you **cannot** cleanly split "classic" vs "AI" traffic from totals. Use the Generative AI report for impressions-only AI visibility.
 > - **Data-reliability caveat:** a GSC logging error made **impressions, CTR, and average position unreliable from 2025-05-13 to 2026-04-27** (clicks unaffected; fixed forward-only, **no backfill**). Treat impression/CTR/position trends spanning that window with caution; expect an apparent impressions drop after the fix.
 
-### `/seo google inspect <url>`
+### `/powehi-seo google inspect <url>`
 
 URL Inspection: real indexation status from Google.
 
-**Script:** `claude-seo run gsc_inspect.py <url> --json`
+**Script:** `powehi-seo-geo run gsc_inspect.py <url> --json`
 
 Returns: verdict (PASS/FAIL), coverage state, robots.txt status, indexing state,
 page fetch state, canonical selection, mobile usability, rich results.
 
-### `/seo google inspect-batch <file>`
+### `/powehi-seo google inspect-batch <file>`
 
 Batch inspection from a file (one URL per line). Rate limited to 2,000/day per site.
 
-**Script:** `claude-seo run gsc_inspect.py --batch <file> --json`
+**Script:** `powehi-seo-geo run gsc_inspect.py --batch <file> --json`
 
-### `/seo google sitemaps <property>`
+### `/powehi-seo google sitemaps <property>`
 
 List submitted sitemaps with status, errors, warnings. Sitemap contents report
 submitted counts only; URL Inspection API is the indexation truth for whether
 specific URLs are indexed.
 
-**Script:** `claude-seo run gsc_query.py sitemaps --property <property> --json`
+**Script:** `powehi-seo-geo run gsc_query.py sitemaps --property <property> --json`
 
 ---
 
 ## Indexing API
 
-### `/seo google index <url>`
+### `/powehi-seo google index <url>`
 
 Notify Google of a URL update.
 
-**Script:** `claude-seo run indexing_notify.py <url> --json`
+**Script:** `powehi-seo-geo run indexing_notify.py <url> --json`
 **Reference:** `references/indexing-api.md`
 
 The Indexing API is officially for JobPosting and BroadcastEvent/VideoObject pages.
 Always inform the user of this restriction. Daily quota: 200 publish requests.
 
-### `/seo google index-batch <file>`
+### `/powehi-seo google index-batch <file>`
 
 Batch submit URLs from a file. Tracks quota usage.
 
-**Script:** `claude-seo run indexing_notify.py --batch <file> --json`
+**Script:** `powehi-seo-geo run indexing_notify.py --batch <file> --json`
 
 ---
 
 ## GA4 Traffic
 
-### `/seo google ga4 [property-id]`
+### `/powehi-seo google ga4 [property-id]`
 
 Organic traffic report: daily sessions, users, pageviews, bounce rate, engagement.
 
-**Script:** `claude-seo run ga4_report.py --property <id> --json`
+**Script:** `powehi-seo-geo run ga4_report.py --property <id> --json`
 **Reference:** `references/ga4-data-api.md`
 **Default:** 28 days, filtered to Organic Search channel group.
 
 > **GA4 "AI Assistants" channel (live ~2026-05-13):** GA4 added a native *AI Assistants* Default Channel Group. Sessions referred by a recognized AI assistant get `medium=ai-assistant`. Google's recognized sources are **ChatGPT, Gemini, Claude, Deepseek, Copilot, Grok** and the channel **excludes** Google AI Overviews / AI Mode. **Verify Perplexity separately if needed**; unsupported sources may stay in Referral, and most AI sessions arrive referrer-less and fall into **Direct**, so this channel undercounts AI traffic. Forward-only, no backfill.
 
-### `/seo google ga4-pages [property-id]`
+### `/powehi-seo google ga4-pages [property-id]`
 
 Top organic landing pages ranked by sessions.
 
-**Script:** `claude-seo run ga4_report.py --property <id> --report top-pages --json`
+**Script:** `powehi-seo-geo run ga4_report.py --property <id> --report top-pages --json`
 
 ---
 
@@ -203,19 +203,19 @@ Top organic landing pages ranked by sessions.
 
 Some third-party studies report a 0.737 correlation between YouTube mentions and AI visibility. Treat it as a methodology-dependent signal. Free, API key only.
 
-### `/seo google youtube <query>`
+### `/powehi-seo google youtube <query>`
 
 Search YouTube for videos. Returns title, channel, views, likes, duration.
 
-**Script:** `claude-seo run youtube_search.py search "<query>" --json`
+**Script:** `powehi-seo-geo run youtube_search.py search "<query>" --json`
 **Reference:** `references/youtube-api.md`
 **Quota:** 100 units per search (10,000 units/day free).
 
-### `/seo google youtube-video <video_id>`
+### `/powehi-seo google youtube-video <video_id>`
 
 Detailed video info + tags + top 10 comments.
 
-**Script:** `claude-seo run youtube_search.py video <video_id> --json`
+**Script:** `powehi-seo-geo run youtube_search.py video <video_id> --json`
 **Quota:** 2 units (video details + comments).
 
 ---
@@ -224,19 +224,19 @@ Detailed video info + tags + top 10 comments.
 
 Google NLP entity/sentiment output for internal content-quality checks. Do not treat it as Google E-E-A-T scoring.
 
-### `/seo google nlp <url-or-text>`
+### `/powehi-seo google nlp <url-or-text>`
 
 Full NLP analysis: entities, sentiment, content classification.
 
-**Script:** `claude-seo run nlp_analyze.py --url <url> --json` or `--text "..."`
+**Script:** `powehi-seo-geo run nlp_analyze.py --url <url> --json` or `--text "..."`
 **Reference:** `references/nlp-api.md`
 **Free tier:** 5,000 units/month. Requires billing enabled on GCP project.
 
-### `/seo google entities <url-or-text>`
+### `/powehi-seo google entities <url-or-text>`
 
 Entity extraction only (faster, less quota).
 
-**Script:** `claude-seo run nlp_analyze.py --url <url> --features entities --json`
+**Script:** `powehi-seo-geo run nlp_analyze.py --url <url> --features entities --json`
 
 ---
 
@@ -244,38 +244,38 @@ Entity extraction only (faster, less quota).
 
 Gold-standard keyword volume data. Requires Google Ads account.
 
-### `/seo google keywords <seed>`
+### `/powehi-seo google keywords <seed>`
 
 Generate keyword ideas from seed terms.
 
-**Script:** `claude-seo run keyword_planner.py ideas "<seed>" --json`
+**Script:** `powehi-seo-geo run keyword_planner.py ideas "<seed>" --json`
 **Reference:** `references/keyword-planner-api.md`
 **Requires:** Ads developer token + customer ID in config (Tier 3).
 
-### `/seo google volume <keywords>`
+### `/powehi-seo google volume <keywords>`
 
 Search volume for specific keywords (comma-separated).
 
-**Script:** `claude-seo run keyword_planner.py volume "<kw1>,<kw2>" --json`
+**Script:** `powehi-seo-geo run keyword_planner.py volume "<kw1>,<kw2>" --json`
 
 ---
 
 ## Supplementary
 
-### `/seo google entity <query>`
+### `/powehi-seo google entity <query>`
 
 Knowledge Graph entity check. Verifies brand presence.
 
 **Reference:** `references/supplementary-apis.md`
 Uses Knowledge Graph Search API with API key.
 
-### `/seo google safety <url>`
+### `/powehi-seo google safety <url>`
 
 Web Risk API check for malware/social engineering flags.
 
 **Reference:** `references/supplementary-apis.md`
 
-### `/seo google quotas`
+### `/powehi-seo google quotas`
 
 Display rate limits table. Read `references/rate-limits-quotas.md`.
 
@@ -285,11 +285,11 @@ Display rate limits table. Read `references/rate-limits-quotas.md`.
 
 After any analysis command, offer to generate a PDF/HTML report.
 
-### `/seo google report <type>`
+### `/powehi-seo google report <type>`
 
 Generate a professional PDF report with charts and analytics.
 
-**Script:** `claude-seo run google_report.py --type <type> --data <json> --domain <domain> --format pdf`
+**Script:** `powehi-seo-geo run google_report.py --type <type> --data <json> --domain <domain> --format pdf`
 
 | Type | Input | Output |
 |------|-------|--------|
@@ -300,10 +300,10 @@ Generate a professional PDF report with charts and analytics.
 
 **Workflow:**
 1. Run data collection commands (pagespeed, gsc, inspect-batch, etc.)
-2. Save JSON output to file: `claude-seo run pagespeed_check.py <url> --json > data.json`
-3. Generate report: `claude-seo run google_report.py --type cwv-audit --data data.json --domain <domain>`
+2. Save JSON output to file: `powehi-seo-geo run pagespeed_check.py <url> --json > data.json`
+3. Generate report: `powehi-seo-geo run google_report.py --type cwv-audit --data data.json --domain <domain>`
 
-**Convention:** After completing analysis, suggest: "Generate a report? Use `/seo google report <type>`"
+**Convention:** After completing analysis, suggest: "Generate a report? Use `/powehi-seo google report <type>`"
 
 ---
 
@@ -348,7 +348,7 @@ Generate a professional PDF report with charts and analytics.
 
 | Scenario | Action |
 |----------|--------|
-| No credentials configured | Run `/seo google setup`. List Tier 0 commands that work with just an API key. |
+| No credentials configured | Run `/powehi-seo google setup`. List Tier 0 commands that work with just an API key. |
 | Service account lacks GSC access | Report error. Instruct: add `client_email` to GSC > Settings > Users > Add. |
 | CrUX data unavailable (404) | Report insufficient Chrome traffic. Suggest PSI lab data as fallback. |
 | GA4 property not found | Report error. Show how to find property ID in GA4 Admin > Property Details. |

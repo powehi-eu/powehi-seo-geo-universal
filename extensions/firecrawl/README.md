@@ -1,10 +1,12 @@
-# Firecrawl Extension for Claude SEO
+> **Languages:** [Français](README.fr.md) | English
+
+# Firecrawl Extension for Powehi Universal SEO
 
 Full-site crawling, scraping, and site mapping powered by [Firecrawl](https://www.firecrawl.dev/). Enables comprehensive site-wide SEO analysis with JavaScript rendering support.
 
 ## Prerequisites
 
-- [Claude SEO](https://github.com/AgriciDaniel/claude-seo) installed
+- [Powehi Universal SEO](https://github.com/powehi-eu/powehi-seo-geo-universal) installed
 - Node.js 20+
 - Firecrawl API key ([sign up](https://www.firecrawl.dev/signup) -- free tier: 500 credits/month)
 
@@ -28,19 +30,19 @@ The installer will prompt for your Firecrawl API key and configure the MCP serve
 
 | Command | Purpose | Credits |
 |---------|---------|---------|
-| `/seo firecrawl crawl <url>` | Full-site crawl with content extraction | 1 per page |
-| `/seo firecrawl map <url>` | Discover site structure (URLs only) | 0.5 per URL |
-| `/seo firecrawl scrape <url>` | Single-page deep scrape with JS rendering | 1 |
-| `/seo firecrawl search <query> <url>` | Search within a site | 1 per result |
+| `/powehi-seo firecrawl crawl <url>` | Full-site crawl with content extraction | 1 per page |
+| `/powehi-seo firecrawl map <url>` | Discover site structure (URLs only) | 0.5 per URL |
+| `/powehi-seo firecrawl scrape <url>` | Single-page deep scrape with JS rendering | 1 |
+| `/powehi-seo firecrawl search <query> <url>` | Search within a site | 1 per result |
 
-## Integration with Claude SEO
+## Integration with Powehi Universal SEO
 
-When installed, other Claude SEO skills automatically leverage Firecrawl:
+When installed, other Powehi Universal SEO skills automatically leverage Firecrawl:
 
-- **`/seo audit`**: Uses `map` to discover all pages, then `crawl` for deep analysis
-- **`/seo technical`**: Broken link detection across entire site
-- **`/seo sitemap`**: Compare XML sitemap vs actual crawlable pages
-- **`/seo content`**: Thin content detection at scale
+- **`/powehi-seo audit`**: Uses `map` to discover all pages, then `crawl` for deep analysis
+- **`/powehi-seo technical`**: Broken link detection across entire site
+- **`/powehi-seo sitemap`**: Compare XML sitemap vs actual crawlable pages
+- **`/powehi-seo content`**: Thin content detection at scale
 
 ## Cost
 
@@ -79,4 +81,4 @@ When installed, other Claude SEO skills automatically leverage Firecrawl:
 
 - [Firecrawl Documentation](https://docs.firecrawl.dev/)
 - [Firecrawl MCP Server](https://www.npmjs.com/package/firecrawl-mcp)
-- [Claude SEO](https://github.com/AgriciDaniel/claude-seo)
+- [Powehi Universal SEO](https://github.com/powehi-eu/powehi-seo-geo-universal)

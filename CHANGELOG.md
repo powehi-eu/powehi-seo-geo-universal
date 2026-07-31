@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Cross-platform Google MCP installers and diagnostics for Windows, macOS, and Linux.
+- Portable Codex, Cursor, and VS Code MCP configurations for GSC, GA4, and CrUX.
+- Multi-OS CI checks and dedicated Google MCP configuration tests.
+- Optional SHA-256 verification for downloaded GSC MCP binaries.
+
 ## [2.2.4] - 2026-07-20
 
 Community maintenance release following a full review of every open issue and pull request.

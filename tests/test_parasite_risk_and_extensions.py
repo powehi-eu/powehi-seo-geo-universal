@@ -8,7 +8,9 @@ Tests for the v2 Checkpoint 5 deliverables:
 from __future__ import annotations
 
 import os
+import os
 import stat
+import subprocess
 import sys
 from pathlib import Path
 
@@ -129,8 +131,15 @@ def test_extension_has_install_skill_and_docs(name: str, skill_dir: str) -> None
 )
 def test_extension_install_script_is_executable(name: str) -> None:
     install = _REPO_ROOT / "extensions" / name / "install.sh"
-    mode = install.stat().st_mode
-    assert mode & stat.S_IXUSR, f"{name}/install.sh must be executable for chmod"
+    if os.name == "nt":
+        rel = install.relative_to(_REPO_ROOT).as_posix()
+        mode = subprocess.check_output(
+            ["git", "ls-files", "--stage", rel], cwd=_REPO_ROOT, text=True
+        ).split()[0]
+        assert mode == "100755", f"{name}/install.sh must be executable in git"
+    else:
+        mode = install.stat().st_mode
+        assert mode & stat.S_IXUSR, f"{name}/install.sh must be executable for chmod"
 
 
 def test_every_extension_install_and_uninstall_is_executable() -> None:
@@ -142,8 +151,14 @@ def test_every_extension_install_and_uninstall_is_executable() -> None:
             script = ext / script_name
             if not script.exists():
                 continue
-            mode = script.stat().st_mode
-            if not (mode & stat.S_IXUSR):
+            if os.name == "nt":
+                rel = script.relative_to(_REPO_ROOT).as_posix()
+                mode_ok = subprocess.check_output(
+                    ["git", "ls-files", "--stage", rel], cwd=_REPO_ROOT, text=True
+                ).split()[0] == "100755"
+            else:
+                mode_ok = bool(script.stat().st_mode & stat.S_IXUSR)
+            if not mode_ok:
                 failures.append(f"{ext.name}/{script_name}")
     assert not failures, (
         "Extension scripts missing user-exec bit (chmod +x):\n  "

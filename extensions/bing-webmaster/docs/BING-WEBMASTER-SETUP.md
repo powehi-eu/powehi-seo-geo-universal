@@ -1,10 +1,12 @@
+> **Languages:** [Français](BING-WEBMASTER-SETUP.fr.md) | English
+
 # Bing Webmaster Tools + IndexNow extension setup
 
 ## What this gives you
 
 1. **Bing Webmaster Tools API**: inbound links, crawl stats, search
    keywords, and competitor link comparison via
-   `scripts/bing_webmaster.py` (already shipped with claude-seo).
+   `scripts/bing_webmaster.py` (already shipped with powehi-seo-geo).
 2. **IndexNow URL submission** for Amazon, Bing, Naver, Seznam.cz,
    Yandex, and Yep via `scripts/indexnow_submit.py`.
 3. A unified `seo-bing` skill that routes the right command at the
@@ -33,7 +35,7 @@ writes only the env vars you provide.
    served at `https://example.com/<key>.txt`. The file body is the key.
 3. Run:
    ```
-   /seo bing verify-indexnow
+   /powehi-seo bing verify-indexnow
    ```
    The verifier fetches your keyLocation URL and confirms the body
    matches the key, the #1 onboarding mistake.
@@ -53,7 +55,7 @@ guarantee indexing speed.
 
 PowerShell manual removal:
 ```powershell
-Remove-Item -Recurse -Force "$HOME\.claude\skills\seo-bing"
+Remove-Item -Recurse -Force "$HOME\.claude\skills\powehi-seo-bing"
 notepad "$HOME\.claude\settings.json"
 ```
 

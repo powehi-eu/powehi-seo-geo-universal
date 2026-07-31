@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude SEO — SE Ranking extension installer.
+# Powehi Universal SEO — SE Ranking extension installer.
 #
 # SE Ranking's strength for v2: AI Share-of-Voice tracking across
 # ChatGPT, Gemini, Perplexity, AI Overviews, and AI Mode. The gap
@@ -14,13 +14,13 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║ Claude SEO — SE Ranking extension    ║"
+    echo "║ Powehi Universal SEO — SE Ranking extension    ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || { echo "✗ Python 3 required."; exit 1; }
 
-    if [ ! -d "${SKILL_DIR}/seo" ]; then
-        echo "✗ claude-seo base plugin not installed."
+    if [ ! -d "${SKILL_DIR}/powehi-seo" ]; then
+        echo "✗ powehi-seo-geo base plugin not installed."
         exit 1
     fi
 
@@ -52,7 +52,7 @@ print(f"✓ Wrote env.SERANKING_API_KEY to {path}")
 PY
 
     echo
-    echo "Done. Try: /seo seranking ai-visibility brandname"
+    echo "Done. Try: /powehi-seo seranking ai-visibility brandname"
     echo "Full docs: extensions/seranking/docs/SERANKING-SETUP.md"
 }
 

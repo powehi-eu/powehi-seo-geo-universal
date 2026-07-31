@@ -1,3 +1,5 @@
+> **Languages:** [Français](CONTRIBUTORS.fr.md) | English
+
 # Contributors
 
 Claude SEO is created and maintained by [@AgriciDaniel](https://github.com/AgriciDaniel).
@@ -40,7 +42,7 @@ not merged after review.
 | Contributor | PR | Contribution category | Review outcome |
 |------------|----|-----------------------|----------------|
 | [@wonsukchoi](https://github.com/wonsukchoi) | [#165](https://github.com/AgriciDaniel/claude-seo/pull/165), [#166](https://github.com/AgriciDaniel/claude-seo/pull/166), [#167](https://github.com/AgriciDaniel/claude-seo/pull/167), [#168](https://github.com/AgriciDaniel/claude-seo/pull/168), [#169](https://github.com/AgriciDaniel/claude-seo/pull/169), [#170](https://github.com/AgriciDaniel/claude-seo/pull/170), [#171](https://github.com/AgriciDaniel/claude-seo/pull/171) | Image paths, runtime setup, sitemap discovery, DataForSEO permissions, Bing API redesign, and Windows launcher proposals | Findings informed current-base implementations; patches were superseded or consolidated after review |
-| [@powehi-ai](https://github.com/powehi-ai) | [#162](https://github.com/AgriciDaniel/claude-seo/pull/162) | Codex manifest and documentation proposal | Reviewed; not integrated because the repository already uses its portable Codex surface |
+| [@powehi-eu](https://github.com/powehi-eu) | [#162](https://github.com/AgriciDaniel/claude-seo/pull/162) | Codex manifest and documentation proposal | Reviewed; not integrated because the repository already uses its portable Codex surface |
 | [@maticyorg](https://github.com/maticyorg) | [#160](https://github.com/AgriciDaniel/claude-seo/pull/160) | Subagent model inheritance proposal | Reviewed; the proposed model value was not portable, so the patch was not integrated |
 | [@GilboBlagins](https://github.com/GilboBlagins) | [#159](https://github.com/AgriciDaniel/claude-seo/pull/159) | Optional external knowledge-directory design | Reviewed; not integrated because the trust boundary needs a stricter design |
 | [@voipcomjohn](https://github.com/voipcomjohn) | [#158](https://github.com/AgriciDaniel/claude-seo/pull/158) | Windows UTF-8 hook output | Reconciled into the current-base Windows encoding work |

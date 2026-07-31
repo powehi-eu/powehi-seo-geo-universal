@@ -258,7 +258,7 @@ def test_faq_rich_results_retirement_documented() -> None:
         / "deprecated-types-2024-2026.md"
     ).read_text(encoding="utf-8")
     schema_types = (
-        root / "skills" / "seo" / "references" / "schema-types.md"
+            root / "skills" / "powehi-seo" / "references" / "schema-types.md"
     ).read_text(encoding="utf-8")
 
     # Retirement date documented in both canonical references.

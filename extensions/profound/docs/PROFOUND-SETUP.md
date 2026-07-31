@@ -1,3 +1,5 @@
+> **Languages:** [Français](PROFOUND-SETUP.fr.md) | English
+
 # Profound extension setup
 
 Profound (https://tryprofound.com) tracks brand mentions across LLMs as
@@ -15,7 +17,7 @@ Stores `PROFOUND_API_KEY` in `~/.claude/settings.json` env block, mode 0o600.
 ## Verify
 
 ```
-/seo profound citations "Claude SEO"
+/powehi-seo profound citations "Powehi Universal SEO"
 ```
 
 ## Uninstall

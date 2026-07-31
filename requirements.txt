@@ -1,4 +1,4 @@
-# Claude SEO - Python Dependencies
+# Powehi Universal SEO - Python dependencies
 # Bounded version pinning with security-conscious minimums
 # Last updated: July 20, 2026 (v2.2.4)
 

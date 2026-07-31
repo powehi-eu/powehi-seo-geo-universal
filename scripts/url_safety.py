@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Canonical URL safety module for claude-seo.
+Canonical URL safety module for powehi-seo-geo.
 
 Centralizes SSRF protection, DNS rebinding mitigation, and DNS-pinned HTTP
 fetching. Every script in this repository that accepts a user-supplied URL
@@ -51,7 +51,7 @@ Threading
 The DNS pinning helper is a critical section guarded by a non-blocking
 ``threading.Lock``. Two concurrent pinned fetches on the same process will
 raise rather than corrupt the global ``socket.getaddrinfo`` reference.
-claude-seo scripts are intentionally single-threaded; parallelism is
+powehi-seo-geo scripts are intentionally single-threaded; parallelism is
 delegated to the agent-process layer.
 
 Limitations
@@ -163,7 +163,7 @@ def _reject_authority_confusion(url: str, parsed) -> None:
 
     Backslashes, userinfo, and fragment/userinfo ambiguity have all been
     used to make one parser see a public host while another connects to a
-    private host. claude-seo never needs credentials in audit URLs, so
+    private host. powehi-seo-geo never needs credentials in audit URLs, so
     userinfo is refused outright.
     """
     authority = _raw_authority(url)
@@ -346,7 +346,7 @@ def validate_url_strict(url: str) -> tuple[str, str]:
 
 
 # A single non-blocking lock guards the global getaddrinfo monkey-patch.
-# This is a deliberate choice: claude-seo scripts run one URL fetch at a
+# This is a deliberate choice: powehi-seo-geo scripts run one URL fetch at a
 # time, and we'd rather raise loudly than silently corrupt resolver state
 # if a caller ever introduces threading.
 _dns_patch_lock = threading.Lock()
@@ -373,7 +373,7 @@ def _pin_dns(hostname: str, pinned_ip: str, port: int) -> Iterator[None]:
     if not _dns_patch_lock.acquire(blocking=False):
         raise URLSafetyError(
             "DNS-pinned fetch already in progress on another thread; "
-            "claude-seo url_safety is not thread-safe by design."
+            "powehi-seo-geo url_safety is not thread-safe by design."
         )
 
     original_getaddrinfo = socket.getaddrinfo
@@ -571,7 +571,7 @@ def _cli() -> None:
     import sys
 
     parser = argparse.ArgumentParser(
-        description="Validate a URL against claude-seo's SSRF policy."
+        description="Validate a URL against powehi-seo-geo's SSRF policy."
     )
     parser.add_argument("url", help="URL to validate")
     parser.add_argument(

@@ -14,7 +14,7 @@ Three credential types serve different APIs:
 
 1. Go to [console.cloud.google.com](https://console.cloud.google.com)
 2. Click **Select a project** > **New Project**
-3. Name it (e.g., "Claude SEO") and note the project ID
+3. Name it (e.g., "Powehi Universal SEO") and note the project ID
 4. Select the project after creation
 
 ## Step 2: Enable APIs
@@ -40,10 +40,10 @@ Navigate to **APIs & Services > Library** and enable:
 ## Step 4: Create a Service Account
 
 1. **IAM & Admin > Service Accounts > Create Service Account**
-2. Name: `claude-seo` (or similar)
+2. Name: `powehi-seo-geo` (or similar)
 3. Skip optional permissions steps
 4. Click on the created service account > **Keys > Add Key > Create new key > JSON**
-5. Download the JSON file and store it securely (e.g., `~/.config/claude-seo/service_account.json`)
+5. Download the JSON file and store it securely (e.g., `~/.config/powehi-seo-geo/service_account.json`)
 
 The JSON file looks like:
 ```json
@@ -82,14 +82,14 @@ The `client_email` field is what you add to GSC and GA4.
 ## Step 7: Create Config File
 
 ```bash
-mkdir -p ~/.config/claude-seo
+mkdir -p ~/.config/powehi-seo-geo
 ```
 
-Save to `~/.config/claude-seo/google-api.json`:
+Save to `~/.config/powehi-seo-geo/google-api.json`:
 
 ```json
 {
-  "service_account_path": "~/.config/claude-seo/service_account.json",
+  "service_account_path": "~/.config/powehi-seo-geo/service_account.json",
   "api_key": "<GOOGLE_API_KEY>",
   "default_property": "sc-domain:example.com",
   "ga4_property_id": "properties/123456789"
@@ -106,7 +106,7 @@ Save to `~/.config/claude-seo/google-api.json`:
 ## Step 8: Verify Setup
 
 ```bash
-claude-seo run google_auth.py --check
+powehi-seo-geo run google_auth.py --check
 ```
 
 Expected output at Tier 2 (full):

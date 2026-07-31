@@ -154,7 +154,7 @@ def compare(old: dict, new: dict) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Generate or compare claude-seo release SHA-256 manifests."
+        description="Generate or compare powehi-seo-geo release SHA-256 manifests."
     )
     parser.add_argument(
         "--compare",

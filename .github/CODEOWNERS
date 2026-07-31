@@ -1,33 +1,33 @@
-# CODEOWNERS for claude-seo
+# CODEOWNERS for Powehi Universal SEO & GEO
 #
-# Every change to this repository routes review to @AgriciDaniel.
+# Every change to this repository routes review to Powehi.
 # Sections below let us call out security-critical paths so a future
 # co-maintainer cannot accidentally land a change without the right
 # eyes on it.
 
 # Default owner — every file unless overridden below.
-*                                   @AgriciDaniel
+*                                   @powehi-eu
 
 # Security-critical: SSRF + DNS rebinding + credential handling.
-scripts/url_safety.py               @AgriciDaniel
-scripts/google_auth.py              @AgriciDaniel
-scripts/backlinks_auth.py           @AgriciDaniel
-scripts/render_page.py              @AgriciDaniel
-scripts/fetch_page.py               @AgriciDaniel
-scripts/capture_screenshot.py       @AgriciDaniel
-tests/test_url_safety.py            @AgriciDaniel
-SECURITY.md                         @AgriciDaniel
+scripts/url_safety.py               @powehi-eu
+scripts/google_auth.py              @powehi-eu
+scripts/backlinks_auth.py           @powehi-eu
+scripts/render_page.py              @powehi-eu
+scripts/fetch_page.py               @powehi-eu
+scripts/capture_screenshot.py       @powehi-eu
+tests/test_url_safety.py            @powehi-eu
+SECURITY.md                         @powehi-eu
 
 # Release + distribution: install scripts and version pinning are the
 # supply-chain surface.
-install.sh                          @AgriciDaniel
-install.ps1                         @AgriciDaniel
-.claude-plugin/plugin.json          @AgriciDaniel
-.claude-plugin/marketplace.json     @AgriciDaniel
-requirements.txt                    @AgriciDaniel
-pyproject.toml                      @AgriciDaniel
-CITATION.cff                        @AgriciDaniel
+install.sh                          @powehi-eu
+install.ps1                         @powehi-eu
+.claude-plugin/plugin.json          @powehi-eu
+.claude-plugin/marketplace.json     @powehi-eu
+requirements.txt                    @powehi-eu
+pyproject.toml                      @powehi-eu
+CITATION.cff                        @powehi-eu
 
 # CI / governance.
-.github/                            @AgriciDaniel
-tests/test_manifest_consistency.py  @AgriciDaniel
+.github/                            @powehi-eu
+tests/test_manifest_consistency.py  @powehi-eu

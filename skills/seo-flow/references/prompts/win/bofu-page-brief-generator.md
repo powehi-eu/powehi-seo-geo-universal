@@ -1,69 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
 title: "BOFU Page Brief Generator"
-description: "BOFU Page Brief Generator"
-updated: 2026-04-25
-tags:
-  - prompts
-  - win
+description: "Powehi specialized prompt for concevoir une page de décision qui répond aux critères d’achat sans promesse non prouvée."
+prompt_id: "flow.win.bofu-page-brief"
+stage: "win"
+objective: "bofu-page-brief"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
 # BOFU Page Brief Generator
 
 ## Use This When
 
-Use this when you need a bottom-funnel page brief for a service, product, location, comparison, pricing, demo, or lead-capture page.
+Use this prompt when you need to concevoir une page de décision qui répond aux critères d’achat sans promesse non prouvée. It is not a generic win template: its scope is limited to **bofu-page-brief** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Claude, GPT, Gemini, and other long-context models. Works best with current customer language and conversion evidence.
+- offer facts.
+- buyer criteria.
+- objections.
+- proof assets.
+- conversion event.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Offer, service, or product.
-- Target audience and segment.
-- Buying-stage intent.
-- Known objections or hesitation points.
-- Customer language from calls, chats, reviews, or surveys.
-- Conversion goal.
-- Required proof points.
-- Existing page text, if any.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to concevoir une page de décision qui répond aux critères d’achat sans promesse non prouvée. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Create a bottom-funnel page brief for [offer] targeting [audience].
+You are the Powehi specialist responsible for bofu-page-brief.
 
-Use only the inputs provided. Build the brief around what this audience needs to decide.
+Objective: concevoir une page de décision qui répond aux critères d’achat sans promesse non prouvée.
 
-Analyze:
-1. The immediate problem the visitor is trying to solve.
-2. The decision factors they likely need before converting.
-3. Objections, hesitation points, and missing clarity.
-4. Customer-language phrases that should appear naturally.
-5. Proof needed to support trust.
-6. CTA angle and page sections needed to reduce friction.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
 
-Return: page goal, search/conversion intent, primary audience, buyer questions, objections, recommended H1, section outline, proof points, CTA strategy, FAQ topics, and tracking notes for form, call, chat, and qualified-lead measurement. Flag missing inputs.
+Perform the following workflow:
+1. Hiérarchiser critères décisionnels.
+2. Mapper preuves et limites.
+3. Structurer comparaison FAQ et CTA.
+4. Définir événements de conversion et suivi.
+
+Return these deliverables in order: BOFU brief, proof map, page structure, conversion measurement. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- A structured Win-stage working document.
-- Prioritized recommendations.
-- Evidence and measurement gaps.
-- Claims or assumptions that require verification.
+- **BOFU brief** tailored to bofu-page-brief.
+- **Proof map** tailored to bofu-page-brief.
+- **Page structure** tailored to bofu-page-brief.
+- **Conversion measurement** tailored to bofu-page-brief.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: commercial repair page for facility managers with objections around response time, weekend availability, and pricing clarity. Output: a brief emphasizing urgency, service coverage, decision criteria, proof, FAQs, and call/form tracking.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- BOFU and Conversion Content
-- Dual-Surface Scorecard
+- The result addresses bofu-page-brief, not a generic win deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from SEJ State of SEO 2026, SEJ B2B Lead Generation, and CallRail/SEJ Better Leads More Sales 2025.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **bofu-page-brief** while preserving source attribution and evidence-led principles.

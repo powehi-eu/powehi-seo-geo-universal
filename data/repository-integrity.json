@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "allowed_duplicate_content": [
+    {
+      "id": "portable-skill-license-pointers",
+      "comparison": "normalized_text",
+      "normalized_sha256": "5c617ae0aa59b995e19b3e774fcc2f2ba91b864e0b4c3e18475b139526a2da1e",
+      "path_pattern": "(?:^|/)LICENSE\\.txt$",
+      "reason": "Each independently installable skill carries the same pointer to the repository license.",
+      "owner": "packaging"
+    },
+    {
+      "id": "banana-post-processing-reference",
+      "comparison": "normalized_text",
+      "normalized_sha256": "73f0ad0fff971ad1ec3abf2710d18eaa1c273ca298342b99af09afbecafa9609",
+      "paths": [
+        "extensions/banana/references/post-processing.md",
+        "skills/seo-image-gen/references/post-processing.md"
+      ],
+      "reason": "The standalone Banana extension and integrated skill need the same operational reference.",
+      "owner": "banana"
+    },
+    {
+      "id": "banana-presets-reference",
+      "comparison": "normalized_text",
+      "normalized_sha256": "074b2a54deae13cf9f1a79915cdad6ecd655658222b53dc10d2d312c637c9693",
+      "paths": [
+        "extensions/banana/references/presets.md",
+        "skills/seo-image-gen/references/presets.md"
+      ],
+      "reason": "The standalone Banana extension and integrated skill need the same presets.",
+      "owner": "banana"
+    },
+    {
+      "id": "dataforseo-cost-tiers-reference",
+      "comparison": "normalized_text",
+      "normalized_sha256": "25ec6d3af19ccf1ae8aad39bfe5b2863eaac89a1799aeb6582e3d2660d16becf",
+      "paths": [
+        "extensions/dataforseo/skills/seo-dataforseo/references/cost-tiers.md",
+        "skills/seo-dataforseo/references/cost-tiers.md"
+      ],
+      "reason": "The standalone DataForSEO extension and integrated skill share one pricing contract.",
+      "owner": "dataforseo"
+    },
+    {
+      "id": "dataforseo-tool-catalog-reference",
+      "comparison": "normalized_text",
+      "normalized_sha256": "984358361b5a6e62eece9a61f1d2ac8e5c8fef246e56df551e56548ba22886d7",
+      "paths": [
+        "extensions/dataforseo/skills/seo-dataforseo/references/tool-catalog.md",
+        "skills/seo-dataforseo/references/tool-catalog.md"
+      ],
+      "reason": "The standalone DataForSEO extension and integrated skill share one MCP tool catalog.",
+      "owner": "dataforseo"
+    }
+  ],
+  "mirrors": [
+    {"id":"dataforseo-license","source":"extensions/dataforseo/skills/seo-dataforseo/LICENSE.txt","target":"skills/seo-dataforseo/LICENSE.txt","comparison":"exact","reason":"Standalone packaging","owner":"dataforseo"},
+    {"id":"dataforseo-skill","source":"extensions/dataforseo/skills/seo-dataforseo/SKILL.md","target":"skills/seo-dataforseo/SKILL.md","comparison":"pinned_pair","source_sha256":"3a3f95600d725237885ed841de68849346ebcee581ea6924bd3d4a6da8d3e9e2","target_sha256":"0765c45dee2d016af5e221b159a6a468c8db65e46a69d08e7441f4f1b1c87c3c","reason":"Installation-context instructions differ","owner":"dataforseo"},
+    {"id":"dataforseo-cost-tiers","source":"extensions/dataforseo/skills/seo-dataforseo/references/cost-tiers.md","target":"skills/seo-dataforseo/references/cost-tiers.md","comparison":"exact","reason":"Shared operational reference","owner":"dataforseo"},
+    {"id":"dataforseo-tool-catalog","source":"extensions/dataforseo/skills/seo-dataforseo/references/tool-catalog.md","target":"skills/seo-dataforseo/references/tool-catalog.md","comparison":"exact","reason":"Shared operational reference","owner":"dataforseo"},
+    {"id":"dataforseo-agent","source":"extensions/dataforseo/agents/seo-dataforseo.md","target":"agents/seo-dataforseo.md","comparison":"body_equal","reason":"Harness frontmatter differs while agent behavior must stay identical","owner":"dataforseo"},
+    {"id":"banana-cost-tracking","source":"extensions/banana/references/cost-tracking.md","target":"skills/seo-image-gen/references/cost-tracking.md","comparison":"pinned_pair","source_sha256":"c86d39096a802044968f3810cda9427bf00e7abc680bba86cc1f296996405cf8","target_sha256":"1ea18dfe825e29cba902ecf05e6fad103888ea8ee7135fbc8757fab9a5b09dd8","reason":"Extension and integrated runtime expose different cost surfaces","owner":"banana"},
+    {"id":"banana-gemini-models","source":"extensions/banana/references/gemini-models.md","target":"skills/seo-image-gen/references/gemini-models.md","comparison":"pinned_pair","source_sha256":"bd3fafd0477e75019d05c529d3d277af157eedadeb9de6837375b45802411c01","target_sha256":"cad45ff9b8f1a2b333db8c50694f683673aea46d21cb10d4d71b83ee84045c3c","reason":"Extension and integrated runtime document different supported model surfaces","owner":"banana"},
+    {"id":"banana-mcp-tools","source":"extensions/banana/references/mcp-tools.md","target":"skills/seo-image-gen/references/mcp-tools.md","comparison":"pinned_pair","source_sha256":"d1b6aca6bbc9fa6f2265c26a519e0ac656ecf366be5f6d4b56bb5e5a9d577343","target_sha256":"410635e1f55a3d1549e4a1aab78fcefe5076da5c4a5bdd9cb3c83250a3665390","reason":"Integrated skill applies additional Powehi runtime constraints","owner":"banana"},
+    {"id":"banana-post-processing","source":"extensions/banana/references/post-processing.md","target":"skills/seo-image-gen/references/post-processing.md","comparison":"exact","reason":"Shared operational reference","owner":"banana"},
+    {"id":"banana-presets","source":"extensions/banana/references/presets.md","target":"skills/seo-image-gen/references/presets.md","comparison":"exact","reason":"Shared operational reference","owner":"banana"},
+    {"id":"banana-prompt-engineering","source":"extensions/banana/references/prompt-engineering.md","target":"skills/seo-image-gen/references/prompt-engineering.md","comparison":"pinned_pair","source_sha256":"574bf83eeffd083e851957f052dfc9d0ef7fe754015773750b9aff13417d4477","target_sha256":"0b8568d59ed7af61a97c877f6931145bd44a1b946f4579b9d9b1f83baf94bb00","reason":"Integrated skill adds Powehi-specific generation policy","owner":"banana"},
+    {"id":"banana-seo-image-presets","source":"extensions/banana/references/seo-image-presets.md","target":"skills/seo-image-gen/references/seo-image-presets.md","comparison":"pinned_pair","source_sha256":"35e71ad90ac49572aaf51e4a3b0d11f0eca79ff39e492ce71ccb945aca6c0eaa","target_sha256":"b63d55882f930036426701bccbfaec596537a3404da0b839dfb96f43416f985a","reason":"Integrated skill adds Powehi-specific SEO asset requirements","owner":"banana"},
+    {"id":"banana-skill","source":"extensions/banana/skills/seo-image-gen/SKILL.md","target":"skills/seo-image-gen/SKILL.md","comparison":"pinned_pair","source_sha256":"5414cc966d04ae8fb5e6b7aad7e83e5f6f90750e18d77d9511f8b13b74914748","target_sha256":"808a2d1342fc905045b8563830596d8aaf1f435fea429e1099a14e9adb8e829b","reason":"Installation-context and runtime fallback instructions differ","owner":"banana"},
+    {"id":"banana-agent","source":"extensions/banana/agents/seo-image-gen.md","target":"agents/seo-image-gen.md","comparison":"body_equal","reason":"Harness frontmatter differs while agent behavior must stay identical","owner":"banana"}
+  ]
+}

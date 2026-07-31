@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude SEO — Ahrefs extension installer.
+# Powehi Universal SEO — Ahrefs extension installer.
 #
 # Wires the official @ahrefs/mcp server into ~/.claude/settings.json and
 # copies the seo-ahrefs mirror skill into ~/.claude/skills/.
@@ -12,7 +12,7 @@ main() {
     SETTINGS_JSON="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
-    echo "║   Claude SEO — Ahrefs extension      ║"
+    echo "║   Powehi Universal SEO — Ahrefs extension      ║"
     echo "════════════════════════════════════════"
 
     command -v python3 >/dev/null 2>&1 || {
@@ -22,9 +22,9 @@ main() {
         echo "✗ Node 18+ / npx required."; exit 1;
     }
 
-    if [ ! -d "${SKILL_DIR}/seo" ]; then
-        echo "✗ claude-seo base plugin not installed."
-        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash"
+    if [ ! -d "${SKILL_DIR}/powehi-seo" ]; then
+        echo "✗ powehi-seo-geo base plugin not installed."
+        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash"
         exit 1
     fi
 
@@ -83,7 +83,7 @@ PY
 
     echo
     echo "Done. Open a new Claude Code session and run:"
-    echo "  /seo ahrefs metrics https://example.com"
+    echo "  /powehi-seo ahrefs metrics https://example.com"
     echo
     echo "Full docs: extensions/ahrefs/docs/AHREFS-SETUP.md"
 }

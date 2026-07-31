@@ -6,7 +6,7 @@ argument-hint: "<url>"
 license: MIT
 compatibility: "Free: Common Crawl + verify always available. Optional: Moz API, Bing Webmaster (free signup). Premium: DataForSEO extension."
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
@@ -18,27 +18,27 @@ metadata:
 Before analysis, detect available data sources:
 
 1. **DataForSEO MCP** (premium): Check if `dataforseo_backlinks_summary` tool is available
-2. **Moz API** (free signup): `claude-seo run backlinks_auth.py --check moz --json`
-3. **Bing Webmaster** (free signup): `claude-seo run backlinks_auth.py --check bing --json`
+2. **Moz API** (free signup): `powehi-seo-geo run backlinks_auth.py --check moz --json`
+3. **Bing Webmaster** (free signup): `powehi-seo-geo run backlinks_auth.py --check bing --json`
 4. **Common Crawl** (always available): Domain-level graph with PageRank
 5. **Verification Crawler** (always available): Checks if known backlinks still exist
 
-Run `claude-seo run backlinks_auth.py --check --json` to detect all sources at once.
+Run `powehi-seo-geo run backlinks_auth.py --check --json` to detect all sources at once.
 
 If no sources are configured beyond the always-available tier:
 - Still produce a report using Common Crawl domain metrics
-- Suggest: "Run `/seo backlinks setup` to add free Moz and Bing API keys for richer data"
+- Suggest: "Run `/powehi-seo backlinks setup` to add free Moz and Bing API keys for richer data"
 
 ## Quick Reference
 
 | Command | Purpose |
 |---------|---------|
-| `/seo backlinks <url>` | Full backlink profile analysis (uses all available sources) |
-| `/seo backlinks gap <url1> <url2>` | Competitor backlink gap analysis |
-| `/seo backlinks toxic <url>` | Toxic link detection and disavow recommendations |
-| `/seo backlinks new <url>` | New and lost backlinks (DataForSEO only) |
-| `/seo backlinks verify <url> --links <file>` | Verify known backlinks still exist |
-| `/seo backlinks setup` | Show setup instructions for free backlink APIs |
+| `/powehi-seo backlinks <url>` | Full backlink profile analysis (uses all available sources) |
+| `/powehi-seo backlinks gap <url1> <url2>` | Competitor backlink gap analysis |
+| `/powehi-seo backlinks toxic <url>` | Toxic link detection and disavow recommendations |
+| `/powehi-seo backlinks new <url>` | New and lost backlinks (DataForSEO only) |
+| `/powehi-seo backlinks verify <url> --links <file>` | Verify known backlinks still exist |
+| `/powehi-seo backlinks setup` | Show setup instructions for free backlink APIs |
 
 ## Analysis Framework
 
@@ -48,9 +48,9 @@ Produce all 7 sections below. Each section lists data sources in preference orde
 
 **DataForSEO:** `dataforseo_backlinks_summary` → total backlinks, referring domains, domain rank, follow ratio, trend.
 
-**Moz API:** `claude-seo run moz_api.py metrics <url> --json` → Domain Authority, Page Authority, Spam Score, linking root domains, external links.
+**Moz API:** `powehi-seo-geo run moz_api.py metrics <url> --json` → Domain Authority, Page Authority, Spam Score, linking root domains, external links.
 
-**Common Crawl:** `claude-seo run commoncrawl_graph.py <domain> --json` → PageRank, harmonic centrality, and low-confidence rank/presence data.
+**Common Crawl:** `powehi-seo-geo run commoncrawl_graph.py <domain> --json` → PageRank, harmonic centrality, and low-confidence rank/presence data.
 
 **Scoring:**
 
@@ -65,9 +65,9 @@ Produce all 7 sections below. Each section lists data sources in preference orde
 
 **DataForSEO:** `dataforseo_backlinks_anchors`
 
-**Moz API:** `claude-seo run moz_api.py anchors <url> --json`
+**Moz API:** `powehi-seo-geo run moz_api.py anchors <url> --json`
 
-**Bing Webmaster:** `claude-seo run bing_webmaster.py links <url> --json` (extract anchor text from link details)
+**Bing Webmaster:** `powehi-seo-geo run bing_webmaster.py links <url> --json` (extract anchor text from link details)
 
 **Healthy distribution benchmarks:**
 
@@ -86,9 +86,9 @@ Flag if exact-match anchors exceed 15% as a review heuristic; it may indicate un
 
 **DataForSEO:** `dataforseo_backlinks_referring_domains`
 
-**Moz API:** `claude-seo run moz_api.py domains <url> --json` → domains with DA scores
+**Moz API:** `powehi-seo-geo run moz_api.py domains <url> --json` → domains with DA scores
 
-**Common Crawl:** `claude-seo run commoncrawl_graph.py <domain> --json` → domain-level rank/presence data, no verified referring-domain counts
+**Common Crawl:** `powehi-seo-geo run commoncrawl_graph.py <domain> --json` → domain-level rank/presence data, no verified referring-domain counts
 
 Analyze:
 - **TLD distribution**: .edu, .gov, .org = high authority. Excessive .xyz, .info = low quality
@@ -100,9 +100,9 @@ Analyze:
 
 **DataForSEO:** `dataforseo_backlinks_bulk_spam_score` + toxic patterns from reference
 
-**Moz API:** Raw vendor spam_score from `claude-seo run moz_api.py metrics <url> --json` (source-label the value; apply thresholds only if verified against current Moz docs)
+**Moz API:** Raw vendor spam_score from `powehi-seo-geo run moz_api.py metrics <url> --json` (source-label the value; apply thresholds only if verified against current Moz docs)
 
-**Verification Crawler:** `claude-seo run verify_backlinks.py --target <url> --links <file> --json` (verify suspicious links still exist)
+**Verification Crawler:** `powehi-seo-geo run verify_backlinks.py --target <url> --links <file> --json` (verify suspicious links still exist)
 
 **High-risk indicators (flag immediately):**
 - Links from known PBN (Private Blog Network) domains
@@ -124,7 +124,7 @@ Load `../seo/references/backlink-quality.md` for the full 30 toxic patterns and 
 
 **DataForSEO:** `dataforseo_backlinks_backlinks` with target type "page"
 
-**Moz API:** `claude-seo run moz_api.py pages <domain> --json`
+**Moz API:** `powehi-seo-geo run moz_api.py pages <domain> --json`
 
 Find:
 - Which pages attract the most backlinks
@@ -136,11 +136,11 @@ Find:
 
 **DataForSEO:** `dataforseo_backlinks_referring_domains` for both domains, then compare
 
-**Bing Webmaster:** `claude-seo run bing_webmaster.py compare <url1> <url2> --json`
+**Bing Webmaster:** `powehi-seo-geo run bing_webmaster.py compare <url1> <url2> --json`
 only when both properties are registered and accessible to the same Bing API
 account. For arbitrary competitors, use DataForSEO, Moz, or Common Crawl.
 
-**Moz API:** Compare DA/PA between domains via `claude-seo run moz_api.py metrics <url> --json` for each
+**Moz API:** Compare DA/PA between domains via `powehi-seo-geo run moz_api.py metrics <url> --json` for each
 
 Output:
 - Domains linking to competitor but NOT to target = link building opportunities
@@ -152,7 +152,7 @@ Output:
 
 **DataForSEO only:** `dataforseo_backlinks_backlinks` with date filters for 30/60/90 day changes
 
-**Verification Crawler:** For known links, verify current status with `claude-seo run verify_backlinks.py --target <url> --links <file> --json`
+**Verification Crawler:** For known links, verify current status with `powehi-seo-geo run verify_backlinks.py --target <url> --links <file> --json`
 
 **Note:** Free sources cannot track new/lost links over time. If this section is requested without DataForSEO, inform the user: "Link velocity tracking requires the DataForSEO extension. Free sources provide point-in-time snapshots only."
 
@@ -182,7 +182,7 @@ Calculate a 0-100 score. When mixing sources, apply confidence weighting:
   Backlink Health Score: INSUFFICIENT DATA (X/7 factors scored)
   ```
   Show individual factor scores that ARE available with their source and confidence.
-  Recommend: "Configure Moz API (free) for a scoreable profile. Run `/seo backlinks setup`"
+  Recommend: "Configure Moz API (free) for a scoreable profile. Run `/powehi-seo backlinks setup`"
 
 When only CC is available, do not produce a numeric score; report low-confidence rank/presence data only.
 A numeric score with fewer than 4 data sources is **misleading**, it implies poor health when
@@ -210,7 +210,7 @@ the reality is we simply lack data.
 
 | Error | Cause | Resolution |
 |-------|-------|-----------|
-| No sources configured | No API keys, no DataForSEO | Run `/seo backlinks setup` |
+| No sources configured | No API keys, no DataForSEO | Run `/powehi-seo backlinks setup` |
 | Moz rate limit | Free tier: 1 req/10s | Wait 10 seconds, retry. Built into script. |
 | Bing site not verified | Site not verified in Bing | Verify at https://www.bing.com/webmasters |
 | CC download timeout | Large graph file, slow connection | Use `--timeout 180` flag |
@@ -224,7 +224,7 @@ the reality is we simply lack data.
    when both properties are accessible (confidence: 0.70)
 4. Always: Common Crawl for domain-level metrics (confidence: 0.50)
 5. Always: Verification crawler for known link checks (confidence: 0.95)
-6. Nothing works? → "Run `/seo backlinks setup` to configure free APIs"
+6. Nothing works? → "Run `/powehi-seo backlinks setup` to configure free APIs"
 
 ## Pre-Delivery Review (MANDATORY)
 
@@ -258,10 +258,10 @@ If ANY check fails, fix the finding before presenting. Never present inferred da
 ## Post-Analysis
 
 After completing any backlink analysis command, always offer:
-"Generate a professional PDF report? Use `/seo google report`"
+"Generate a professional PDF report? Use `/powehi-seo google report`"
 
 ## Reference Documentation
 
 Load on demand (do NOT load at startup):
-- `skills/seo/references/backlink-quality.md` -- Detailed toxic link patterns and scoring methodology (shared reference, load when analyzing toxic links or spam scores)
-- `skills/seo/references/free-backlink-sources.md` -- Source comparison, confidence weighting, setup guides (shared reference, load when configuring free backlink APIs)
+- `skills/powehi-seo/references/backlink-quality.md` -- Detailed toxic link patterns and scoring methodology (shared reference, load when analyzing toxic links or spam scores)
+- `skills/powehi-seo/references/free-backlink-sources.md` -- Source comparison, confidence weighting, setup guides (shared reference, load when configuring free backlink APIs)

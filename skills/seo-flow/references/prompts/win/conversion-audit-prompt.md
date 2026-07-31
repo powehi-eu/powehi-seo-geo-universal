@@ -1,68 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
-title: "Conversion Audit Prompt"
-description: "Conversion Audit Prompt"
-updated: 2026-04-25
-tags:
-  - prompts
-  - win
+title: "Conversion Audit"
+description: "Powehi specialized prompt for identifier les frictions de conversion sans sacrifier confiance ni accessibilité."
+prompt_id: "flow.win.conversion-friction-audit"
+stage: "win"
+objective: "conversion-friction-audit"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
-# Conversion Audit Prompt
+# Conversion Audit
 
 ## Use This When
 
-Use this when a page, campaign, or funnel gets traffic but produces weak leads, low conversion rate, unclear attribution, or poor sales follow-up quality.
+Use this prompt when you need to identifier les frictions de conversion sans sacrifier confiance ni accessibilité. It is not a generic win template: its scope is limited to **conversion-friction-audit** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Claude, GPT, Gemini, and other long-context models. Works best with current customer language and conversion evidence.
+- page and funnel.
+- analytics events.
+- user feedback.
+- device data.
+- offer constraints.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Page or funnel copy.
-- Traffic sources.
-- Conversion goal.
-- Analytics or conversion data.
-- Call, chat, or form transcript samples.
-- Known objections.
-- Ad copy or campaign promise.
-- Sales feedback, if available.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to identifier les frictions de conversion sans sacrifier confiance ni accessibilité. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Audit this conversion path for lead quality, friction, and measurement gaps.
+You are the Powehi specialist responsible for conversion-friction-audit.
 
-Use the supplied page, campaign, and first-party conversation data. Identify:
-1. Where visitor expectations may not match the page or offer.
-2. Common objections and hesitation points.
-3. Missing decision-making information.
-4. Language mismatches between customers and the page.
-5. CTA friction.
-6. Tracking gaps across form, phone, chat, and offline outcomes.
-7. Whether reporting connects to qualified leads or sales, not only traffic.
+Objective: identifier les frictions de conversion sans sacrifier confiance ni accessibilité.
 
-Return an executive summary, top blockers, lead-quality risks, messaging fixes, page/content fixes, tracking fixes, first-party data to collect next, and a ranked test backlog. Do not recommend more spend until content, offer clarity, and measurement gaps are assessed.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
+
+Perform the following workflow:
+1. Cartographier étapes et abandons.
+2. Vérifier clarté proposition preuve et CTA.
+3. Distinguer friction utile et accidentelle.
+4. Prioriser expériences mesurables.
+
+Return these deliverables in order: funnel findings, friction map, experiment backlog, guardrail metrics. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- A structured Win-stage working document.
-- Prioritized recommendations.
-- Evidence and measurement gaps.
-- Claims or assumptions that require verification.
+- **Funnel findings** tailored to conversion-friction-audit.
+- **Friction map** tailored to conversion-friction-audit.
+- **Experiment backlog** tailored to conversion-friction-audit.
+- **Guardrail metrics** tailored to conversion-friction-audit.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: paid search landing page with many calls but few booked appointments. Output: an audit of pricing clarity, qualification, phone attribution, repeated objections, CTA mismatch, and test priorities.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- BOFU and Conversion Content
-- Dual-Surface Scorecard
+- The result addresses conversion-friction-audit, not a generic win deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from PPC Trends 2026, CallRail/SEJ Better Leads More Sales 2025, and SEJ State of SEO 2026.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **conversion-friction-audit** while preserving source attribution and evidence-led principles.

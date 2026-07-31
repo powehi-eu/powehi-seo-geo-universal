@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "google_search_console": {
+      "command": "gsc-mcp",
+      "startup_timeout_sec": 30,
+      "env": {
+        "GOOGLE_SERVICE_ACCOUNT_FILE": "${GOOGLE_SERVICE_ACCOUNT_FILE}"
+      }
+    },
+    "google_analytics": {
+      "command": "analytics-mcp",
+      "startup_timeout_sec": 60,
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
+        "GOOGLE_PROJECT_ID": "${GOOGLE_PROJECT_ID}"
+      }
+    }
+  }
+}

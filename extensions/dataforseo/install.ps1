@@ -1,22 +1,22 @@
-# DataForSEO Extension Installer for Claude SEO (Windows)
+# DataForSEO Extension Installer for Powehi Universal SEO (Windows)
 # PowerShell installation script
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host "║   DataForSEO Extension - Installer   ║" -ForegroundColor Cyan
-Write-Host "║   For Claude SEO                     ║" -ForegroundColor Cyan
+Write-Host "║   For Powehi Universal SEO                     ║" -ForegroundColor Cyan
 Write-Host "════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host ""
 
 # Check prerequisites
-$SeoSkillDir = "$env:USERPROFILE\.claude\skills\seo"
+$SeoSkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo"
 if (-not (Test-Path $SeoSkillDir)) {
-    Write-Host "✗ Claude SEO is not installed." -ForegroundColor Red
-    Write-Host "  Install it first: irm https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.ps1 | iex"
+    Write-Host "✗ Powehi Universal SEO is not installed." -ForegroundColor Red
+    Write-Host "  Install it first: irm https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.ps1 | iex"
     exit 1
 }
-Write-Host "✓ Claude SEO detected" -ForegroundColor Green
+Write-Host "✓ Powehi Universal SEO detected" -ForegroundColor Green
 
 $nodeCmd = Get-Command -Name node -ErrorAction SilentlyContinue
 if ($null -eq $nodeCmd) {
@@ -68,12 +68,12 @@ if (Test-Path "$ScriptDir\skills\seo-dataforseo\SKILL.md") {
     $SourceDir = "$ScriptDir\extensions\dataforseo"
 } else {
     Write-Host "✗ Cannot find extension source files." -ForegroundColor Red
-    Write-Host "  Run this script from the claude-seo repo."
+    Write-Host "  Run this script from the powehi-seo-geo repo."
     exit 1
 }
 
 # Set paths
-$SkillDir = "$env:USERPROFILE\.claude\skills\seo-dataforseo"
+$SkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo-dataforseo"
 $AgentDir = "$env:USERPROFILE\.claude\agents"
 $SettingsFile = "$env:USERPROFILE\.claude\settings.json"
 $FieldConfigPath = "$SeoSkillDir\dataforseo-field-config.json"
@@ -165,10 +165,10 @@ Write-Host ""
 Write-Host "Usage:" -ForegroundColor Cyan
 Write-Host "  1. Start Claude Code:  claude"
 Write-Host "  2. Run commands:"
-Write-Host "     /seo dataforseo serp best coffee shops"
-Write-Host "     /seo dataforseo keywords seo tools"
-Write-Host "     /seo dataforseo backlinks example.com"
-Write-Host "     /seo dataforseo ai-mentions your brand"
+Write-Host "     /powehi-seo dataforseo serp best coffee shops"
+Write-Host "     /powehi-seo dataforseo keywords seo tools"
+Write-Host "     /powehi-seo dataforseo backlinks example.com"
+Write-Host "     /powehi-seo dataforseo ai-mentions your brand"
 Write-Host ""
 Write-Host "All 23 commands: see extensions\dataforseo\README.md"
 Write-Host "To uninstall: .\extensions\dataforseo\uninstall.ps1"

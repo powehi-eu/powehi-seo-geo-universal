@@ -1,0 +1,124 @@
+name: Sync upstream release
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Prepare upstream release PR
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Powehi
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ env.GH_TOKEN }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Resolve upstream releases
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          base_tag=$(python -c "import json; print(json.load(open('data/upstream-release.json'))['tag'])")
+          latest_json=$(gh api repos/AgriciDaniel/claude-seo/releases/latest)
+          latest_tag=$(jq -r '.tag_name' <<<"$latest_json")
+          latest_url=$(jq -r '.html_url' <<<"$latest_json")
+          latest_published=$(jq -r '.published_at' <<<"$latest_json")
+          echo "base_tag=$base_tag" >> "$GITHUB_OUTPUT"
+          echo "latest_tag=$latest_tag" >> "$GITHUB_OUTPUT"
+          echo "latest_url=$latest_url" >> "$GITHUB_OUTPUT"
+          echo "latest_published=$latest_published" >> "$GITHUB_OUTPUT"
+          if [[ "$base_tag" == "$latest_tag" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Powehi already tracks upstream release $latest_tag." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch release tags
+        if: steps.release.outputs.changed == 'true'
+        run: |
+          git remote add upstream https://github.com/AgriciDaniel/claude-seo.git
+          git fetch --force --tags upstream \
+            "refs/tags/${{ steps.release.outputs.base_tag }}:refs/tags/upstream-base" \
+            "refs/tags/${{ steps.release.outputs.latest_tag }}:refs/tags/upstream-latest"
+
+      - name: Apply importable release delta
+        if: steps.release.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          protected=(
+            ':(exclude).github/**' ':(exclude).claude-plugin/**'
+            ':(exclude).codex-plugin/**' ':(exclude)README.md'
+            ':(exclude)AGENTS.md' ':(exclude)CLAUDE.md'
+            ':(exclude)CITATION.cff' ':(exclude)pyproject.toml'
+            ':(exclude)docs/**' ':(exclude)bin/**'
+            ':(exclude)install.sh' ':(exclude)install.ps1'
+            ':(exclude)uninstall.sh' ':(exclude)uninstall.ps1'
+            ':(exclude)skills/seo/**'
+            ':(exclude)data/upstream-release.json'
+          )
+          git diff --binary upstream-base upstream-latest -- . "${protected[@]}" > /tmp/upstream.patch
+          git diff --name-only upstream-base upstream-latest -- . > /tmp/all-upstream-files.txt
+          if [[ -s /tmp/upstream.patch ]]; then
+            if ! git apply --3way --index /tmp/upstream.patch; then
+              echo "::error::The upstream release delta requires manual conflict resolution."
+              echo "Release: ${{ steps.release.outputs.latest_url }}" >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('data/upstream-release.json')
+          state = json.loads(path.read_text(encoding='utf-8'))
+          state.update({
+              'tag': '${{ steps.release.outputs.latest_tag }}',
+              'published_at': '${{ steps.release.outputs.latest_published }}',
+              'release_url': '${{ steps.release.outputs.latest_url }}',
+          })
+          path.write_text(json.dumps(state, indent=2) + '\n', encoding='utf-8')
+          PY
+          git add data/upstream-release.json
+          {
+            echo "Automated, reviewable update from upstream release [${{ steps.release.outputs.latest_tag }}](${{ steps.release.outputs.latest_url }})."
+            echo
+            echo "Baseline: \`${{ steps.release.outputs.base_tag }}\`"
+            echo
+            echo "Importable path changes were applied as a release-to-release patch. Powehi-owned identity, documentation, manifests, installers, workflows, and the renamed orchestrator remain protected and require explicit review when upstream changes touch them."
+            echo
+            echo "CI and the Google MCP compatibility matrix must pass before merge."
+            echo
+            echo "<details><summary>All upstream changed paths</summary>"
+            echo
+            sed 's/^/- `/' /tmp/all-upstream-files.txt | sed 's/$/`/'
+            echo
+            echo "</details>"
+          } > /tmp/upstream-pr.md
+
+      - name: Open or update release synchronization PR
+        if: steps.release.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ env.GH_TOKEN }}
+          base: main
+          branch: sync/upstream-release
+          delete-branch: true
+          title: 'chore: sync upstream release ${{ steps.release.outputs.latest_tag }}'
+          commit-message: 'chore: sync upstream release ${{ steps.release.outputs.latest_tag }}'
+          body-path: /tmp/upstream-pr.md
+          labels: upstream-sync

@@ -1,10 +1,10 @@
-# Claude SEO Installer for Windows
+# Powehi Universal SEO Installer for Windows
 # PowerShell installation script
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "|   Claude SEO - Installer             |" -ForegroundColor Cyan
+Write-Host "|   Powehi Universal SEO - Installer             |" -ForegroundColor Cyan
 Write-Host "|   Claude Code SEO Skill              |" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
@@ -111,29 +111,29 @@ try {
 }
 
 # Set paths
-$SkillDir = "$env:USERPROFILE\.claude\skills\seo"
+$SkillDir = "$env:USERPROFILE\.claude\skills\powehi-seo"
 $AgentDir = "$env:USERPROFILE\.claude\agents"
-$RepoUrl = "https://github.com/AgriciDaniel/claude-seo"
+$RepoUrl = "https://github.com/powehi-eu/powehi-seo-geo-universal"
 # Pin to a specific release tag to prevent silent updates from main.
 # This default MUST be bumped on every release. CI guard
 # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
-# Override: $env:CLAUDE_SEO_TAG = 'main'; .\install.ps1
-$RepoTag = if ($env:CLAUDE_SEO_TAG) { $env:CLAUDE_SEO_TAG } else { 'v2.2.4' }
+# Override: $env:POWEHI_SEO_GEO_TAG = 'main'; .\install.ps1
+$RepoTag = if ($env:POWEHI_SEO_GEO_TAG) { $env:POWEHI_SEO_GEO_TAG } else { 'v2.2.4' }
 
 # Create directories
 New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
 New-Item -ItemType Directory -Force -Path $AgentDir | Out-Null
 
 # Clone to temp directory
-$TempDir = Join-Path $env:TEMP "claude-seo-install"
+$TempDir = Join-Path $env:TEMP "powehi-seo-geo-install"
 if (Test-Path $TempDir) {
     Remove-Item -Recurse -Force $TempDir
 }
 
-$keepTemp = ($env:CLAUDE_SEO_KEEP_TEMP -eq '1')
+$keepTemp = ($env:POWEHI_SEO_GEO_KEEP_TEMP -eq '1')
 
 try {
-    Write-Host ">> Downloading Claude SEO ($RepoTag)..." -ForegroundColor Yellow
+    Write-Host ">> Downloading Powehi Universal SEO ($RepoTag)..." -ForegroundColor Yellow
     $clone = Invoke-External -Exe 'git' -Args @('clone','--depth','1','--branch',$RepoTag,$RepoUrl,$TempDir) -Quiet
     if ($clone.ExitCode -ne 0) {
         throw "git clone failed. Output:`n$($clone.Output -join "`n")"
@@ -191,9 +191,12 @@ try {
     # Copy the stable launcher used by skill and agent instructions.
     $BinPath = Join-Path $TempDir 'bin'
     $SkillBin = Join-Path $SkillDir 'bin'
-    if (Test-Path (Join-Path $BinPath 'claude-seo')) {
+    if (Test-Path (Join-Path $BinPath 'powehi-seo-geo')) {
         New-Item -ItemType Directory -Force -Path $SkillBin | Out-Null
-        Copy-Item -Force (Join-Path $BinPath 'claude-seo') (Join-Path $SkillBin 'claude-seo')
+        Copy-Item -Force (Join-Path $BinPath 'powehi-seo-geo') (Join-Path $SkillBin 'powehi-seo-geo')
+        if (Test-Path (Join-Path $BinPath 'claude-seo')) {
+            Copy-Item -Force (Join-Path $BinPath 'claude-seo') (Join-Path $SkillBin 'claude-seo')
+        }
     }
 
     # Copy hooks
@@ -257,7 +260,7 @@ try {
     # Manual installs do not receive plugin bin/ PATH injection. Rewrite only
     # the canonical runtime token in installed Markdown. Claude Code's Bash tool
     # expands $HOME on Windows as well as Unix.
-    $manualRunner = '"$HOME/.claude/skills/seo/bin/claude-seo" run'
+    $manualRunner = '"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" run'
     $installedDocs = @()
     Get-ChildItem -Path $SkillsPath -Directory | ForEach-Object {
         $sourceRoot = $_.FullName
@@ -297,11 +300,11 @@ try {
     $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
     $installedDocs | ForEach-Object {
         $text = [System.IO.File]::ReadAllText($_.FullName)
-        $manualSetup = '"$HOME/.claude/skills/seo/bin/claude-seo" setup'
-        $manualDoctor = '"$HOME/.claude/skills/seo/bin/claude-seo" doctor'
-        $updated = $text.Replace('claude-seo run', $manualRunner)
-        $updated = $updated.Replace('claude-seo setup', $manualSetup)
-        $updated = $updated.Replace('claude-seo doctor', $manualDoctor)
+        $manualSetup = '"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" setup'
+        $manualDoctor = '"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" doctor'
+        $updated = $text.Replace('powehi-seo-geo run', $manualRunner)
+        $updated = $updated.Replace('powehi-seo-geo setup', $manualSetup)
+        $updated = $updated.Replace('powehi-seo-geo doctor', $manualDoctor)
         if ($updated -ne $text) {
             [System.IO.File]::WriteAllText($_.FullName, $updated, $utf8NoBom)
         }
@@ -332,10 +335,10 @@ try {
 }
 
 Write-Host ""
-Write-Host "[+] Claude SEO installed successfully!" -ForegroundColor Green
+Write-Host "[+] Powehi Universal SEO installed successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Usage:" -ForegroundColor Cyan
 Write-Host "  1. Start Claude Code:  claude"
-Write-Host "  2. Run commands:       /seo audit https://example.com"
+Write-Host "  2. Run commands:       /powehi-seo audit https://example.com"
 Write-Host ""
 Write-Host "Python deps location: $installedReqFile" -ForegroundColor Gray

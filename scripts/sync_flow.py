@@ -16,6 +16,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from prompt_integrity import validate_prompt_set
+
 
 API_ROOT = "https://api.github.com/repos/AgriciDaniel/flow/contents"
 _ALLOWED_HOST = "api.github.com"
@@ -210,6 +213,7 @@ def prompt_meta(stage, filename, raw):
         "filename": filename,
         "title": frontmatter_value(lines, "title") or first_h1(lines),
         "description": frontmatter_value(lines, "description") or first_description(lines),
+        "objective": frontmatter_value(lines, "objective"),
     }
 
 
@@ -218,13 +222,21 @@ def escape_cell(value):
 
 
 def prompt_readme(rows):
-    lines = ["# Flow Prompt Index", "", "| Stage | Filename | Title | Description |", "|---|---|---|---|"]
+    lines = [
+        "<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi -->",
+        "",
+        "# Flow Prompt Index",
+        "",
+        "| Stage | Filename | Title | Objective | Description |",
+        "|---|---|---|---|---|",
+    ]
     for row in rows:
         lines.append(
-            "| {stage} | {filename} | {title} | {description} |".format(
+            "| {stage} | {filename} | {title} | {objective} | {description} |".format(
                 stage=escape_cell(row["stage"]),
                 filename=escape_cell(row["filename"]),
                 title=escape_cell(row["title"]),
+                objective=escape_cell(row["objective"]),
                 description=escape_cell(row["description"]),
             )
         )
@@ -271,6 +283,21 @@ def record_write(root, path, content, dry_run, changes):
         _atomic_write(path, content)
 
 
+def validate_staged_prompts(candidates, refs):
+    """Validate a complete downloaded prompt set before touching the checkout."""
+    with tempfile.TemporaryDirectory(prefix="powehi-flow-sync-") as temp_dir:
+        prompt_root = pathlib.Path(temp_dir) / "prompts"
+        for path, content in candidates.items():
+            try:
+                relative = path.relative_to(refs / "prompts")
+            except ValueError:
+                continue
+            target = prompt_root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+        return validate_prompt_set(prompt_root)
+
+
 def sync(args):
     root = script_root()
     refs = root / "skills" / "seo-flow" / "references"
@@ -278,6 +305,7 @@ def sync(args):
     headers = _base_headers()
     changes = {"added": [], "updated": [], "unchanged": [], "hashes": {}}
     prompt_rows = []
+    candidates = {}
 
     for source, target in STATIC_FILES:
         print(f"fetch: {source}", file=sys.stderr)
@@ -285,7 +313,7 @@ def sync(args):
         content = f"{attribution_header(today)}\n{raw}"
         tpath = refs / target
         content = rewrite_flow_links(content, tpath, refs)
-        record_write(root, tpath, content, args.dry_run, changes)
+        candidates[tpath] = content
 
     for stage in PROMPT_STAGES:
         source_dir = f"docs/09-prompts/{stage}"
@@ -297,9 +325,26 @@ def sync(args):
             target = refs / "prompts" / stage / filename
             content = f"{attribution_header(today)}\n{raw}"
             content = rewrite_flow_links(content, target, refs)
-            record_write(root, target, content, args.dry_run, changes)
+            candidates[target] = content
 
-    record_write(root, refs / "prompts" / "README.md", prompt_readme(prompt_rows), args.dry_run, changes)
+    candidates[refs / "prompts" / "README.md"] = prompt_readme(prompt_rows)
+
+    prompt_validation = validate_staged_prompts(candidates, refs)
+    if prompt_validation["status"] != "PASS":
+        print("FLOW sync rejected: upstream prompt contract failed; local files preserved.", file=sys.stderr)
+        return {
+            "status": "rejected",
+            "reason": "upstream_prompt_contract_failed",
+            "local_files_preserved": True,
+            "prompt_validation": prompt_validation,
+            "added": [],
+            "updated": [],
+            "unchanged": [],
+            "hashes": {},
+        }
+
+    for path, content in candidates.items():
+        record_write(root, path, content, args.dry_run, changes)
 
     # Generate SHA-256 lockfile
     lock_path = root / LOCK_REL
@@ -348,8 +393,14 @@ def sync(args):
         except ValueError:
             pass
 
+    changes["status"] = "validated"
+    changes["prompt_validation"] = prompt_validation
     return changes
 
 
 if __name__ == "__main__":
-    print(json.dumps(sync(parse_args()), sort_keys=True))
+    parsed_args = parse_args()
+    result = sync(parsed_args)
+    print(json.dumps(result, sort_keys=True))
+    if result.get("status") == "rejected" and not parsed_args.dry_run:
+        raise SystemExit(1)

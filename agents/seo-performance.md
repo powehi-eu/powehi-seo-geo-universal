@@ -25,7 +25,7 @@ Google evaluates the **75th percentile** of page visits, 75% of visits must meet
 ## When Analyzing Performance
 
 1. Use PageSpeed Insights API if available
-2. Use `claude-seo run render_page.py <URL> --mode auto --json` before HTML/source inspection so SPA content is visible when needed
+2. Use `powehi-seo-geo run render_page.py <URL> --mode auto --json` before HTML/source inspection so SPA content is visible when needed
 3. Provide specific, actionable optimization recommendations
 4. Prioritize by expected impact
 
@@ -61,16 +61,16 @@ Google evaluates the **75th percentile** of page visits, 75% of visits must meet
 
 **CrUX Vis** replaced the CrUX Dashboard (Looker Studio), which was shut down at end of November 2025 (October 2025 was its final dataset). Use [CrUX Vis](https://cruxvis.withgoogle.com) or the CrUX API directly.
 
-**LCP subparts** (TTFB, resource load delay, resource load time, element render delay) are now available in CrUX data (January 2025). See `skills/seo/references/cwv-thresholds.md` for details.
+**LCP subparts** (TTFB, resource load delay, resource load time, element render delay) are now available in CrUX data (January 2025). See `skills/powehi-seo/references/cwv-thresholds.md` for details.
 
 ## Tools
 
 ```bash
 # PageSpeed Insights API (uses header-based API key handling)
-claude-seo run pagespeed_check.py URL --json
+powehi-seo-geo run pagespeed_check.py URL --json
 
 # SPA-aware HTML/render inspection
-claude-seo run render_page.py URL --mode auto --json
+powehi-seo-geo run render_page.py URL --mode auto --json
 
 # Lighthouse CLI
 npx lighthouse URL --output json
@@ -80,8 +80,8 @@ npx lighthouse URL --output json
 
 If Google API credentials are configured, prefer CrUX field data over Lighthouse lab data for CWV assessment:
 ```bash
-claude-seo run pagespeed_check.py URL --json
-claude-seo run crux_history.py URL --json
+powehi-seo-geo run pagespeed_check.py URL --json
+powehi-seo-geo run crux_history.py URL --json
 ```
 Field data (28-day Chrome user average) is more representative than lab data (single Lighthouse run). Use lab data as fallback when CrUX returns 404 (insufficient traffic).
 

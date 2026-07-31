@@ -1,4 +1,6 @@
-# Migrating from claude-seo v1.x to v2.0.0
+> **Languages:** [Français](MIGRATION-v1-to-v2.fr.md) | English
+
+# Migrating from powehi-seo-geo v1.x to v2.0.0
 
 v2 is **backward-compatible by design**. Every v1.x CLI invocation, every
 script signature, and every skill command still works. The breaking
@@ -157,7 +159,7 @@ We considered but ultimately did **not** break the following:
   CLI layer only; the underlying function stays raw-mode by default.
 - `capture_screenshot()` API. Pre-flight is upgraded but the call
   signature and result dict are unchanged.
-- All v1.x command names (`/seo audit`, `/seo content`, …). Every
+- All v1.x command names (`/powehi-seo audit`, `/powehi-seo content`, …). Every
   one of them works in v2.
 
 ## How to upgrade
@@ -166,7 +168,7 @@ Caution: Prefer downloading, inspecting, then running remote scripts; the pipe-t
 
 ```bash
 # Pull v2.0.0
-curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash
 
 # Verify the new requirements pin landed
 pip install -r requirements.txt
@@ -179,7 +181,7 @@ python3 -m pytest tests/test_manifest_consistency.py -v
 ```
 
 That's it. The first time you run anything that touches
-`~/.config/claude-seo/oauth-token.json`, v2 will silently re-chmod it
+`~/.config/powehi-seo-geo/oauth-token.json`, v2 will silently re-chmod it
 to `0o600` — no user action required.
 
 ## Test coverage

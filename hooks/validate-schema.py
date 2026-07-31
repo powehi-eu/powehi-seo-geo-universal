@@ -36,6 +36,11 @@ import re
 import sys
 from typing import List
 
+for _stream in (sys.stdout, sys.stderr):
+    _reconfigure = getattr(_stream, "reconfigure", None)
+    if _reconfigure:
+        _reconfigure(encoding="utf-8", errors="replace")
+
 
 def validate_jsonld(content: str) -> List[str]:
     """Validate JSON-LD blocks in HTML content."""

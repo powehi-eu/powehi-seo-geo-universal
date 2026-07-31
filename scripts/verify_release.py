@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Verify the integrity of a claude-seo checkout against a release manifest.
+Verify the integrity of a powehi-seo-geo checkout against a release manifest.
 
 Usage
 =====
@@ -95,7 +95,7 @@ def verify(manifest_path: Path, root: Path = REPO_ROOT) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Verify a claude-seo checkout against a release manifest."
+        description="Verify a powehi-seo-geo checkout against a release manifest."
     )
     parser.add_argument(
         "manifest", type=Path, help="Path to release-manifest.json."

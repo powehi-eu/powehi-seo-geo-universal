@@ -146,6 +146,7 @@ def test_full_audit_html_includes_summary_categories_and_roadmap(tmp_path: Path)
 
     assert result["error"] is None
     html_path = Path(result["files"][0])
+    assert html_path.name.startswith("Powehi-SEO-Audit-")
     html = html_path.read_text(encoding="utf-8")
     assert "Executive Summary" in html
     assert "SaaS" in html

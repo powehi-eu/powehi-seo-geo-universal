@@ -1,3 +1,5 @@
+> **Languages:** [Français](BANANA-SETUP.fr.md) | English
+
 # Banana Extension Setup Guide
 
 ## Google AI API Key
@@ -31,18 +33,18 @@ add to `~/.claude/settings.json`:
 
 Scripted setup helper:
 ```bash
-claude-seo run --extension banana setup_mcp.py --key YOUR_KEY
+powehi-seo-geo run --extension banana setup_mcp.py --key YOUR_KEY
 ```
 
 ## Verifying Installation
 
 Run the validation script:
 ```bash
-claude-seo run --extension banana validate_setup.py
+powehi-seo-geo run --extension banana validate_setup.py
 ```
 
 Or check manually:
-1. `ls ~/.claude/skills/seo-image-gen/SKILL.md`:skill file exists
+1. `ls ~/.claude/skills/powehi-seo-image-gen/SKILL.md`:skill file exists
 2. `ls ~/.claude/agents/seo-image-gen.md`:agent file exists
 3. `grep nanobanana ~/.claude/settings.json`:MCP configured
 

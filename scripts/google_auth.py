@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Google API credential management for Claude SEO.
+Google API credential management for Powehi Universal SEO.
 
 Loads and validates credentials for Google Search Console, PageSpeed Insights,
 CrUX, Indexing API, and GA4. Supports service accounts, OAuth web credentials
@@ -19,12 +19,50 @@ import argparse
 import json
 import os
 import re
+import shutil
 import sys
 import time
+from pathlib import Path
 from typing import Optional
 
-CONFIG_PATH = os.path.expanduser("~/.config/claude-seo/google-api.json")
-TOKEN_PATH = os.path.expanduser("~/.config/claude-seo/oauth-token.json")
+CONFIG_PATH = os.path.expanduser("~/.config/powehi-seo-geo/google-api.json")
+TOKEN_PATH = os.path.expanduser("~/.config/powehi-seo-geo/oauth-token.json")
+LEGACY_CONFIG_DIR = Path(os.path.expanduser("~/.config/claude-seo"))
+
+
+def migrate_legacy_config() -> dict:
+    """Copy legacy credential files into the Powehi directory without deleting them."""
+    config_dir = Path(CONFIG_PATH).parent
+    result = {"migrated": [], "source": str(LEGACY_CONFIG_DIR), "target": str(config_dir)}
+    if not LEGACY_CONFIG_DIR.is_dir():
+        return result
+
+    config_dir.mkdir(parents=True, exist_ok=True)
+    for filename in ("google-api.json", "oauth-token.json"):
+        source = LEGACY_CONFIG_DIR / filename
+        target = config_dir / filename
+        if source.is_file() and not target.exists():
+            shutil.copy2(source, target)
+            try:
+                os.chmod(target, 0o600)
+            except OSError:
+                pass
+            result["migrated"].append(filename)
+
+    marker = config_dir / "migration.json"
+    marker.write_text(
+        json.dumps(
+            {
+                "from": "~/.config/claude-seo",
+                "to": "~/.config/powehi-seo-geo",
+                "status": "completed",
+                "files": result["migrated"],
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return result
 
 # Service-to-scope mapping
 SCOPES = {
@@ -93,13 +131,14 @@ def load_config() -> dict:
     """
     Load configuration from config file with environment variable fallbacks.
 
-    Reads ~/.config/claude-seo/google-api.json first. Any missing fields
+    Reads ~/.config/powehi-seo-geo/google-api.json first. Any missing fields
     are filled from environment variables.
 
     Returns:
         Dictionary with keys: service_account_path, api_key,
         default_property, ga4_property_id. Missing values are None.
     """
+    migrate_legacy_config()
     config = {
         "service_account_path": None,
         "api_key": None,
@@ -760,8 +799,8 @@ Google SEO API Setup Instructions
      Paste email, set Viewer role
 
 6. CREATE CONFIG FILE
-   mkdir -p ~/.config/claude-seo
-   Save to ~/.config/claude-seo/google-api.json:
+   mkdir -p ~/.config/powehi-seo-geo
+   Save to ~/.config/powehi-seo-geo/google-api.json:
 
    {
      "service_account_path": "/path/to/service_account.json",
@@ -783,7 +822,7 @@ ENVIRONMENT VARIABLE ALTERNATIVES:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Google API credential management for Claude SEO"
+        description="Google API credential management for Powehi Universal SEO"
     )
     parser.add_argument(
         "--check",

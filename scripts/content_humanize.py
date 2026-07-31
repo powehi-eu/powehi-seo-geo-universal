@@ -11,7 +11,7 @@ content. Every replacement is a deterministic 1:1 swap.
 Attribution
 ===========
 Replacement table aligns with the Wikipedia "AI Cleanup" catalogue
-(CC BY-SA 4.0) and ivankuznetsov/claude-seo's 24-pattern list (MIT).
+(CC BY-SA 4.0) and ivankuznetsov/powehi-seo-geo's 24-pattern list (MIT).
 We diverge from those upstreams only on a handful of phrases where
 their preferred replacement reads less naturally for SEO contexts
 (e.g. "leverage" -> "use", not "employ"). Diff is documented inline.

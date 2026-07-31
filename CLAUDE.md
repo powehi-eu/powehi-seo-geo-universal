@@ -1,8 +1,8 @@
-# Claude SEO: Universal SEO Analysis Skill
+# Powehi Universal SEO: Universal SEO Analysis Skill
 
 ## Project Overview
 
-This repository contains **Claude SEO**, a Tier 4 Claude Code skill for comprehensive
+This repository contains **Powehi Universal SEO**, a Tier 4 Claude Code skill for comprehensive
 SEO analysis across all industries. It follows the Agent Skills open standard and the
 3-layer architecture (directive, orchestration, execution). 25 sub-skills (21 core +
 1 orchestrator + 1 framework integration + 2 extension mirrors), 18 sub-agents (15 core +
@@ -16,7 +16,7 @@ SEO, and international SEO with cultural adaptation profiles.
 ## Architecture
 
 ```
-claude-seo/
+powehi-seo-geo/
   CLAUDE.md                          # Project instructions (this file)
   CONTRIBUTORS.md                    # Community credits (Pro Hub Challenge)
   AGENTS.md                          # Multi-platform agent instructions (Cursor, Antigravity)
@@ -155,37 +155,37 @@ claude-seo/
 
 | Command | Use Case |
 |---------|----------|
-| `/seo audit <url>` | Full website audit with parallel subagents |
-| `/seo page <url>` | Single page analysis |
-| `/seo technical <url>` | Technical SEO across 9 categories |
-| `/seo content <url>` | E-E-A-T and content quality |
-| `/seo content-brief <topic>` | Detailed content brief: keywords, outline, internal links |
-| `/seo schema <url>` | Schema markup detection, validation, generation |
-| `/seo sitemap <url>` | Sitemap validation |
-| `/seo sitemap generate` | Create new sitemap with industry templates |
-| `/seo images <url>` | Image optimization |
-| `/seo geo <url>` | AI search optimization (GEO) |
-| `/seo local <url>` | Local SEO (GBP, citations, reviews) |
-| `/seo maps [command]` | Maps intelligence (geo-grid, GBP audit, competitors) |
-| `/seo backlinks <url>` | Backlink profile analysis |
-| `/seo cluster <seed>` | SERP-based semantic clustering |
-| `/seo sxo <url>` | Search Experience Optimization |
-| `/seo drift baseline\|compare\|history <url>` | SEO drift monitoring |
-| `/seo ecommerce <url>` | E-commerce SEO |
-| `/seo hreflang [url]` | Hreflang and international SEO |
-| `/seo plan <type>` | Strategic planning by industry |
-| `/seo programmatic [url\|plan]` | Programmatic SEO analysis |
-| `/seo competitor-pages [url\|generate]` | Competitor comparison pages |
-| `/seo flow [stage] [url\|topic]` | FLOW framework prompts |
-| `/seo google [command] [url]` | Google SEO APIs (GSC, PSI, CrUX, GA4) |
-| `/seo dataforseo [command]` | Live SEO data (extension) |
-| `/seo image-gen [use-case] <desc>` | AI image generation (extension) |
-| `/seo firecrawl [command] <url>` | Full-site crawling (extension) |
-| `/seo ahrefs [command] <url>` | Backlinks, organic keywords, and content data via the official Ahrefs MCP (extension) |
-| `/seo seranking [command]` | AI Share-of-Voice across ChatGPT, Gemini, Perplexity, AI Overviews, AI Mode (extension) |
-| `/seo profound [command]` | LLM citation tracking with time-series data (extension) |
-| `/seo bing [command] <url>` | Bing Webmaster Tools + IndexNow URL submission (extension) |
-| `/seo unlighthouse <url>` | Multi-page Lighthouse runner, runs locally (extension) |
+| `/powehi-seo audit <url>` | Full website audit with parallel subagents |
+| `/powehi-seo page <url>` | Single page analysis |
+| `/powehi-seo technical <url>` | Technical SEO across 9 categories |
+| `/powehi-seo content <url>` | E-E-A-T and content quality |
+| `/powehi-seo content-brief <topic>` | Detailed content brief: keywords, outline, internal links |
+| `/powehi-seo schema <url>` | Schema markup detection, validation, generation |
+| `/powehi-seo sitemap <url>` | Sitemap validation |
+| `/powehi-seo sitemap generate` | Create new sitemap with industry templates |
+| `/powehi-seo images <url>` | Image optimization |
+| `/powehi-seo geo <url>` | AI search optimization (GEO) |
+| `/powehi-seo local <url>` | Local SEO (GBP, citations, reviews) |
+| `/powehi-seo maps [command]` | Maps intelligence (geo-grid, GBP audit, competitors) |
+| `/powehi-seo backlinks <url>` | Backlink profile analysis |
+| `/powehi-seo cluster <seed>` | SERP-based semantic clustering |
+| `/powehi-seo sxo <url>` | Search Experience Optimization |
+| `/powehi-seo drift baseline\|compare\|history <url>` | SEO drift monitoring |
+| `/powehi-seo ecommerce <url>` | E-commerce SEO |
+| `/powehi-seo hreflang [url]` | Hreflang and international SEO |
+| `/powehi-seo plan <type>` | Strategic planning by industry |
+| `/powehi-seo programmatic [url\|plan]` | Programmatic SEO analysis |
+| `/powehi-seo competitor-pages [url\|generate]` | Competitor comparison pages |
+| `/powehi-seo flow [stage] [url\|topic]` | FLOW framework prompts |
+| `/powehi-seo google [command] [url]` | Google SEO APIs (GSC, PSI, CrUX, GA4) |
+| `/powehi-seo dataforseo [command]` | Live SEO data (extension) |
+| `/powehi-seo image-gen [use-case] <desc>` | AI image generation (extension) |
+| `/powehi-seo firecrawl [command] <url>` | Full-site crawling (extension) |
+| `/powehi-seo ahrefs [command] <url>` | Backlinks, organic keywords, and content data via the official Ahrefs MCP (extension) |
+| `/powehi-seo seranking [command]` | AI Share-of-Voice across ChatGPT, Gemini, Perplexity, AI Overviews, AI Mode (extension) |
+| `/powehi-seo profound [command]` | LLM citation tracking with time-series data (extension) |
+| `/powehi-seo bing [command] <url>` | Bing Webmaster Tools + IndexNow URL submission (extension) |
+| `/powehi-seo unlighthouse <url>` | Multi-page Lighthouse runner, runs locally (extension) |
 
 ## Development Rules
 
@@ -194,8 +194,8 @@ claude-seo/
 - Scripts must have docstrings, CLI interface, and JSON output
 - Follow kebab-case naming for all skill directories
 - Agents invoked via Agent tool, never via Bash
-- Bundled tools run through `claude-seo run`; plugin state uses `CLAUDE_PLUGIN_DATA`
-- Manual Python dependencies install into `~/.claude/skills/seo/.venv/`
+- Bundled tools run through `powehi-seo-geo run`; plugin state uses `CLAUDE_PLUGIN_DATA`
+- Manual Python dependencies install into `~/.claude/skills/powehi-seo/.venv/`
 - Test with `python3 -m pytest tests/` after changes (if applicable)
 
 ## Security Rules
@@ -204,7 +204,7 @@ claude-seo/
 - **URL validation**: All scripts that connect to user-supplied URLs must use `scripts/url_safety.py` (`validate_url_strict()` plus the pinned safe request helpers). This blocks private IPs, loopback, metadata endpoints, redirect rebinding, and DNS rebinding.
 - **OAuth tokens**: Never store `client_secret` in the token file. Read it from the client_secret.json file at runtime.
 - **No hardcoded paths**: Use `os.path.dirname(os.path.abspath(__file__))` for relative paths, never a user-specific absolute path
-- **Config location**: `~/.config/claude-seo/google-api.json` and `~/.config/claude-seo/backlinks-api.json` (user-space, not in repo)
+- **Config location**: `~/.config/powehi-seo-geo/google-api.json` and `~/.config/powehi-seo-geo/backlinks-api.json` (user-space, not in repo)
 
 ## Report Generation Rules
 
@@ -218,7 +218,7 @@ claude-seo/
 - **No `page-break-inside: avoid`** on any element (causes white gaps in WeasyPrint)
 - **Post-generation review**: `_review_pdf()` runs automatically, checking for empty images, thin sections, duplicates
 - **Before presenting any PDF to the user**: verify the review passes (`"status": "PASS"`)
-- **Cross-skill enforcement**: After completing ANY analysis command (audit, page, technical, content, schema, geo, local, maps), offer: "Generate a PDF report? Use `/seo google report`"
+- **Cross-skill enforcement**: After completing ANY analysis command (audit, page, technical, content, schema, geo, local, maps), offer: "Generate a PDF report? Use `/powehi-seo google report`"
 - **Google logo** appears on title page when using Google API data ("Powered by Google APIs")
 
 ## Ecosystem
@@ -243,8 +243,8 @@ the other (different orgs, no parent/child relationship in the GitHub UI).
 
 | Remote | URL | Visibility | Role |
 |---|---|---|---|
-| `origin` | `https://github.com/AgriciDaniel/claude-seo` | **Public** | Published distribution. Users discover, clone, and install from here. `main` only reflects released history. |
-| `aimh` | `https://github.com/AI-Marketing-Hub/claude-seo` | **Private** | Working repo inside the AI Marketing Hub org. Daily development. v2 branch + post-release work lives here before promotion to public. |
+| `origin` | `https://github.com/powehi-eu/powehi-seo-geo-universal` | **Public** | Published distribution. Users discover, clone, and install from here. `main` only reflects released history. |
+| `aimh` | `https://github.com/AI-Marketing-Hub/powehi-seo-geo` | **Private** | Working repo inside the AI Marketing Hub org. Daily development. v2 branch + post-release work lives here before promotion to public. |
 
 ### Workflow
 
@@ -262,7 +262,7 @@ Promoting to public on release:
    - The "tag before merge" sequence (see `feedback_push_caution` memory)
      applies on `origin` to avoid the `curl|bash` outage window where
      users pull a tag that doesn't yet point at code on `main`.
-4. `gh release create vX.Y.Z --repo AgriciDaniel/claude-seo` (public-only).
+4. `gh release create vX.Y.Z --repo powehi-eu/powehi-seo-geo-universal` (public-only).
 5. `/release-blog` to publish the release post.
 
 ### Safety rules
@@ -298,4 +298,4 @@ After cutting a new release (git tag + `gh release create`), run:
 /release-blog
 ```
 
-This generates a blog post on https://claude-seo.md/blog/, handles cover image generation, SEO metadata, FAQ schema, internal linking, sitemap/llms.txt updates, Vercel deployment, and Google indexing.
+This generates a blog post on the configured Powehi publication target, handles cover image generation, SEO metadata, FAQ schema, internal linking, sitemap/llms.txt updates, deployment, and Google indexing.

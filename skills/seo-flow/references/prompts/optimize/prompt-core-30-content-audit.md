@@ -1,70 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
-title: "Prompt: Core 30 Content Audit"
-description: "Prompt: Core 30 Content Audit"
-updated: 2026-04-25
-tags:
-  - prompts
-  - optimize
+title: "Core Content Portfolio Audit"
+description: "Powehi specialized prompt for auditer les pages stratégiques d’un portefeuille plutôt qu’une page isolée."
+prompt_id: "flow.optimize.core-content-portfolio-audit"
+stage: "optimize"
+objective: "core-content-portfolio-audit"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
-# Prompt: Core 30 Content Audit
+# Core Content Portfolio Audit
 
 ## Use This When
 
-Use this prompt when you need a structured optimize deliverable and want the model to separate observations, assumptions, recommended actions, and claims that need verification.
+Use this prompt when you need to auditer les pages stratégiques d’un portefeuille plutôt qu’une page isolée. It is not a generic optimize template: its scope is limited to **core-content-portfolio-audit** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Works with long-context reasoning models. For smaller models, provide narrower inputs and ask for one output section at a time.
+- priority URL inventory.
+- traffic and conversion data.
+- crawl findings.
+- content owners.
+- business goals.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Business or website name.
-- Target page, profile, query set, or campaign.
-- Audience and geography where relevant.
-- Existing evidence: analytics, search results, calls, reviews, profile facts, or source notes.
-- Constraints, exclusions, and required sources.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to auditer les pages stratégiques d’un portefeuille plutôt qu’une page isolée. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Act as a senior SEO strategist using the FLOW model.
+You are the Powehi specialist responsible for core-content-portfolio-audit.
 
-Task: create a optimize deliverable for: [BUSINESS OR ASSET].
+Objective: auditer les pages stratégiques d’un portefeuille plutôt qu’une page isolée.
 
-Use only the supplied inputs and clearly label any assumption. Do not invent statistics. Do not reuse private examples. Build the answer around:
-1. Searcher or buyer intent.
-2. Evidence available now.
-3. Gaps that block trust, extraction, or conversion.
-4. Recommended changes in priority order.
-5. Measurement events and review cadence.
-6. Claims that require source verification before publication.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
 
-Return a concise working document the team can execute.
+Perform the following workflow:
+1. Définir les pages réellement core.
+2. Scorer qualité fraîcheur preuve et performance.
+3. Repérer consolidation suppression ou mise à jour.
+4. Construire un programme de remédiation par vagues.
+
+Return these deliverables in order: portfolio scorecard, keep-update-merge decisions, remediation waves, owner map. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- Executive summary.
-- Priority table.
-- Recommended copy, structure, or audit findings.
-- Evidence needed.
-- Measurement plan.
-- Verification checklist.
+- **Portfolio scorecard** tailored to core-content-portfolio-audit.
+- **Keep-update-merge decisions** tailored to core-content-portfolio-audit.
+- **Remediation waves** tailored to core-content-portfolio-audit.
+- **Owner map** tailored to core-content-portfolio-audit.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: a local service page with weak proof and inconsistent profile details.
-
-Expected output: a prioritized rewrite brief, facts to reconcile, internal links to add, and the conversion event to measure.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- [FLOW Framework](../../flow-framework.md)
-- [Bibliography](../../bibliography.md)
+- The result addresses core-content-portfolio-audit, not a generic optimize deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from the Local SEO Knowledge Base structure and rewritten for public use with the repository evidence standard.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **core-content-portfolio-audit** while preserving source attribution and evidence-led principles.

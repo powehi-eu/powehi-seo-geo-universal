@@ -11,7 +11,7 @@ CONTRIBUTORS = ROOT / "CONTRIBUTORS.md"
 EXPECTED_HANDLES = {
     "DreaminginAI",
     "wonsukchoi",
-    "powehi-ai",
+    "powehi-eu",
     "maticyorg",
     "GilboBlagins",
     "voipcomjohn",

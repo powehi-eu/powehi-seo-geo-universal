@@ -172,6 +172,9 @@ docs/VERIFICATION-AUDIT*.md
 
 # Additional credential/key formats (defense in depth)
 **/*credentials*.json
+**/*gsc-service-account*.json
+**/*ga4-credentials*.json
+.mcp.local.json
 *.pem
 *.p12
 *.pfx

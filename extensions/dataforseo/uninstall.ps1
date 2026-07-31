@@ -1,12 +1,12 @@
-# DataForSEO Extension Uninstaller for Claude SEO (Windows)
+# DataForSEO Extension Uninstaller for Powehi Universal SEO (Windows)
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "→ Uninstalling DataForSEO extension..." -ForegroundColor Yellow
 
 # Remove skill
-if (Test-Path "$env:USERPROFILE\.claude\skills\seo-dataforseo") {
-    Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\seo-dataforseo"
+if (Test-Path "$env:USERPROFILE\.claude\skills\powehi-seo-dataforseo") {
+    Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\powehi-seo-dataforseo"
 }
 
 # Remove agent
@@ -16,7 +16,7 @@ if (Test-Path $agentFile) {
 }
 
 # Remove field config
-$fieldConfig = "$env:USERPROFILE\.claude\skills\seo\dataforseo-field-config.json"
+$fieldConfig = "$env:USERPROFILE\.claude\skills\powehi-seo\dataforseo-field-config.json"
 if (Test-Path $fieldConfig) {
     Remove-Item -Force $fieldConfig
 }

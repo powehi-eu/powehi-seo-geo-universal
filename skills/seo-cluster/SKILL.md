@@ -12,7 +12,7 @@ user-invocable: true
 argument-hint: "<seed-keyword or url>"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   original_author: "Lutfiya Miller (Pro Hub Challenge Winner)"
   version: "2.2.4"
   category: seo
@@ -33,10 +33,10 @@ interactive cluster map visualizations.
 
 | Command | What it does |
 |---------|-------------|
-| `/seo cluster plan <seed-keyword>` | Full planning workflow: expand, cluster, architect, visualize |
-| `/seo cluster plan --from strategy` | Import from existing `/seo plan` output |
-| `/seo cluster execute` | Execute plan: create content via claude-blog or output briefs |
-| `/seo cluster map` | Regenerate the interactive cluster visualization |
+| `/powehi-seo cluster plan <seed-keyword>` | Full planning workflow: expand, cluster, architect, visualize |
+| `/powehi-seo cluster plan --from strategy` | Import from existing `/powehi-seo plan` output |
+| `/powehi-seo cluster execute` | Execute plan: create content via claude-blog or output briefs |
+| `/powehi-seo cluster map` | Regenerate the interactive cluster visualization |
 
 ---
 
@@ -80,7 +80,7 @@ the full algorithm.
 - Skip pairs where both are long-tail variants of the same head term (assume same cluster)
 
 **DataForSEO integration:** If DataForSEO MCP is available, use `serp_organic_live_advanced`
-instead of WebSearch for SERP data. Run `claude-seo run dataforseo_costs.py check serp_organic_live_advanced --count N`
+instead of WebSearch for SERP data. Run `powehi-seo-geo run dataforseo_costs.py check serp_organic_live_advanced --count N`
 before each batch. If `"status": "needs_approval"`, show cost estimate and ask user.
 If `"status": "blocked"`, fall back to WebSearch.
 
@@ -179,7 +179,7 @@ Generate `cluster-map.html` using the template at `templates/cluster-map.html`.
 
 When invoked with `--from strategy`:
 
-1. Look for the most recent `/seo plan` output in the current directory (search for
+1. Look for the most recent `/powehi-seo plan` output in the current directory (search for
    files matching `*SEO*Plan*`, `*strategy*`, `*content-strategy*`)
 2. Parse markdown tables for: keywords, page types, content pillars, URL structures
 3. Validate extracted data: check for duplicates, missing keywords, incomplete entries
@@ -187,13 +187,13 @@ When invoked with `--from strategy`:
 5. Build cluster plan using the imported keywords as the starting set (skip Step 1)
 
 If no strategy file is found, prompt the user: "No existing SEO plan found in the
-current directory. Run `/seo plan` first, or provide a seed keyword for fresh clustering."
+current directory. Run `/powehi-seo plan` first, or provide a seed keyword for fresh clustering."
 
 ---
 
 ## Execution Workflow
 
-When `/seo cluster execute` is invoked:
+When `/powehi-seo cluster execute` is invoked:
 
 ### Check for claude-blog
 
@@ -237,7 +237,7 @@ Test: Does ~/.claude/skills/blog/SKILL.md exist?
 
 ## Cluster Scorecard
 
-Post-execution quality report. Run automatically after `/seo cluster execute` or
+Post-execution quality report. Run automatically after `/powehi-seo cluster execute` or
 on demand via analysis of the output directory.
 
 | Metric | Target | How Measured |
@@ -255,7 +255,7 @@ on demand via analysis of the output directory.
 
 ## Map Regeneration
 
-When `/seo cluster map` is invoked:
+When `/powehi-seo cluster map` is invoked:
 
 1. Read `cluster-plan.json` from the current directory
 2. Scan output directory and update post statuses (planned vs written)
@@ -289,7 +289,7 @@ All outputs are written to the current working directory:
 | `seo-google` | Reporting: generate PDF report of cluster plan and scorecard |
 
 After cluster planning or execution completes, offer:
-"Generate a PDF report? Use `/seo google report`"
+"Generate a PDF report? Use `/powehi-seo google report`"
 
 ---
 
@@ -300,8 +300,8 @@ After cluster planning or execution completes, offer:
 | "No seed keyword provided" | Missing argument | Prompt user for seed keyword or URL |
 | "Insufficient keyword variants" | Expansion yielded < 15 keywords | Run second expansion pass with PAA questions |
 | "SERP data unavailable" | WebSearch and DataForSEO both failing | Retry after 30s; if persistent, use intent-only clustering with warning |
-| "No strategy file found" | `--from strategy` but no plan exists | Prompt user to run `/seo plan` first |
-| "cluster-plan.json not found" | Execute without planning | Prompt user to run `/seo cluster plan` first |
+| "No strategy file found" | `--from strategy` but no plan exists | Prompt user to run `/powehi-seo plan` first |
+| "cluster-plan.json not found" | Execute without planning | Prompt user to run `/powehi-seo cluster plan` first |
 | "claude-blog not installed" | Execute attempted without blog skill | Generate content briefs instead; suggest installation |
 | "DataForSEO budget exceeded" | Cost check returned "blocked" | Fall back to WebSearch; inform user |
 | "Duplicate primary keywords" | Cannibalization detected | Merge affected posts or reassign keywords |
@@ -312,11 +312,11 @@ After cluster planning or execution completes, offer:
 
 ## Security
 
-- All URLs fetched via `claude-seo run render_page.py <url> --mode auto` (SPA-aware SSRF protection via `url_safety`)
+- All URLs fetched via `powehi-seo-geo run render_page.py <url> --mode auto` (SPA-aware SSRF protection via `url_safety`)
 - No credentials stored or transmitted
 - Output files contain no PII or API keys
 - DataForSEO cost checks run before every API call
 
 ## FLOW Framework Integration
 
-For prompt-guided keyword research and gap analysis, use `/seo flow find [url|topic]`: FLOW's 5 find-stage prompts complement the SERP-overlap clustering methodology with structured discovery prompts.
+For prompt-guided keyword research and gap analysis, use `/powehi-seo flow find [url|topic]`: FLOW's 5 find-stage prompts complement the SERP-overlap clustering methodology with structured discovery prompts.

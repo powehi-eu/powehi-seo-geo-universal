@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Backlink API credential management for Claude SEO.
+Backlink API credential management for Powehi Universal SEO.
 
 Loads and validates credentials for Moz Link Explorer API,
 Bing Webmaster Tools API, and Common Crawl web graphs.
@@ -17,7 +17,9 @@ Usage:
 import argparse
 import json
 import os
+import shutil
 import sys
+from pathlib import Path
 from typing import Optional
 
 # Import SSRF protection from the canonical url_safety module.
@@ -37,8 +39,23 @@ except ImportError as _import_exc:
         "Install with: pip install -r requirements.txt"
     ) from _import_exc
 
-CONFIG_PATH = os.path.expanduser("~/.config/claude-seo/backlinks-api.json")
-CACHE_DIR = os.path.expanduser("~/.cache/claude-seo/commoncrawl")
+CONFIG_PATH = os.path.expanduser("~/.config/powehi-seo-geo/backlinks-api.json")
+CACHE_DIR = os.path.expanduser("~/.cache/powehi-seo-geo/commoncrawl")
+LEGACY_CONFIG_PATH = Path(os.path.expanduser("~/.config/claude-seo/backlinks-api.json"))
+
+
+def migrate_legacy_config() -> bool:
+    """Copy the legacy backlink config into the Powehi directory if needed."""
+    target = Path(CONFIG_PATH)
+    if target.exists() or not LEGACY_CONFIG_PATH.is_file():
+        return False
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(LEGACY_CONFIG_PATH, target)
+    try:
+        os.chmod(target, 0o600)
+    except OSError:
+        pass
+    return True
 
 # Which services need which auth type
 SERVICE_AUTH = {
@@ -61,13 +78,14 @@ def load_config() -> dict:
     """
     Load configuration from config file with environment variable fallbacks.
 
-    Reads ~/.config/claude-seo/backlinks-api.json first. Any missing fields
+    Reads ~/.config/powehi-seo-geo/backlinks-api.json first. Any missing fields
     are filled from environment variables.
 
     Returns:
         Dictionary with keys: moz_api_key, bing_api_key,
         bing_verified_sites, commoncrawl_cache_dir.
     """
+    migrate_legacy_config()
     config = {
         "moz_api_key": None,
         "bing_api_key": None,
@@ -293,7 +311,7 @@ def print_setup_instructions():
 Backlink API Setup Instructions
 ================================
 
-Free backlink data sources for Claude SEO. No payment required for any of these.
+Free backlink data sources for Powehi Universal SEO. No payment required for any of these.
 
 TIER 0: ALWAYS AVAILABLE (no setup needed)
 ------------------------------------------
@@ -309,7 +327,7 @@ TIER 1: MOZ API (free signup, 2,500 rows/month)
      (Free tier continues after trial with 2,500 rows/month)
   3. A valid credit card is required at signup but will NOT be charged
   4. After signup, go to https://moz.com/products/api/keys
-  5. Copy your API credentials. Claude SEO accepts either:
+  5. Copy your API credentials. Powehi Universal SEO accepts either:
      - a token-style key (looks like: mozscape-xxxxxxxx)
      - free-tier accessId:secret credentials, raw or base64 encoded
 
@@ -369,7 +387,7 @@ VERIFY CONFIGURATION:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Backlink API credential management for Claude SEO"
+        description="Backlink API credential management for Powehi Universal SEO"
     )
     parser.add_argument(
         "--check",

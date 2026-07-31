@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Banana Image Generation Extension Installer for Claude SEO
+# Banana Image Generation Extension Installer for Powehi Universal SEO
 # Wraps everything in main() to prevent partial execution on network failure
 
 main() {
     SKILL_DIR="${HOME}/.claude/skills/seo-image-gen"
     AGENT_DIR="${HOME}/.claude/agents"
-    SEO_SKILL_DIR="${HOME}/.claude/skills/seo"
+    SEO_SKILL_DIR="${HOME}/.claude/skills/powehi-seo"
     SETTINGS_FILE="${HOME}/.claude/settings.json"
 
     echo "════════════════════════════════════════"
     echo "║  Banana Image Gen - SEO Extension    ║"
-    echo "║  For Claude SEO                      ║"
+    echo "║  For Powehi Universal SEO                      ║"
     echo "════════════════════════════════════════"
     echo ""
 
     # Check prerequisites
     if [ ! -d "${SEO_SKILL_DIR}" ]; then
-        echo "✗ Claude SEO is not installed."
-        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.sh | bash"
+        echo "✗ Powehi Universal SEO is not installed."
+        echo "  Install it first: curl -fsSL https://raw.githubusercontent.com/powehi-eu/powehi-seo-geo-universal/main/install.sh | bash"
         exit 1
     fi
-    echo "✓ Claude SEO detected"
+    echo "✓ Powehi Universal SEO detected"
 
     if ! command -v node >/dev/null 2>&1; then
         echo "✗ Node.js is required but not installed."
@@ -54,7 +54,7 @@ main() {
         SOURCE_DIR="${SCRIPT_DIR}/extensions/banana"
     else
         echo "✗ Cannot find extension source files."
-        echo "  Run this script from the claude-seo repo: ./extensions/banana/install.sh"
+        echo "  Run this script from the powehi-seo-geo repo: ./extensions/banana/install.sh"
         exit 1
     fi
 
@@ -158,10 +158,10 @@ PY
     # not receive plugin bin/ PATH injection.
     for installed_doc in "${SKILL_DIR}/SKILL.md" "${SKILL_DIR}/references/"*.md "${AGENT_DIR}/seo-image-gen.md"; do
         [ -f "${installed_doc}" ] || continue
-        temp_doc="${installed_doc}.claude-seo-tmp"
-        sed -e 's#claude-seo run#"$HOME/.claude/skills/seo/bin/claude-seo" run#g' \
-            -e 's#claude-seo setup#"$HOME/.claude/skills/seo/bin/claude-seo" setup#g' \
-            -e 's#claude-seo doctor#"$HOME/.claude/skills/seo/bin/claude-seo" doctor#g' \
+        temp_doc="${installed_doc}.powehi-seo-geo-tmp"
+        sed -e 's#powehi-seo-geo run#"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" run#g' \
+            -e 's#powehi-seo-geo setup#"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" setup#g' \
+            -e 's#powehi-seo-geo doctor#"$HOME/.claude/skills/powehi-seo/bin/powehi-seo-geo" doctor#g' \
             "${installed_doc}" > "${temp_doc}"
         mv "${temp_doc}" "${installed_doc}"
     done
@@ -176,12 +176,12 @@ PY
     echo "Usage:"
     echo "  1. Start Claude Code:  claude"
     echo "  2. Run commands:"
-    echo "     /seo image-gen og \"Professional SaaS dashboard\""
-    echo "     /seo image-gen hero \"Dramatic sunset over city skyline\""
-    echo "     /seo image-gen product \"Wireless headphones on marble\""
-    echo "     /seo image-gen infographic \"SEO ranking factors 2026\""
-    echo "     /seo image-gen custom \"Any creative concept\""
-    echo "     /seo image-gen batch \"Product variations\" 3"
+    echo "     /powehi-seo image-gen og \"Professional SaaS dashboard\""
+    echo "     /powehi-seo image-gen hero \"Dramatic sunset over city skyline\""
+    echo "     /powehi-seo image-gen product \"Wireless headphones on marble\""
+    echo "     /powehi-seo image-gen infographic \"SEO ranking factors 2026\""
+    echo "     /powehi-seo image-gen custom \"Any creative concept\""
+    echo "     /powehi-seo image-gen batch \"Product variations\" 3"
     echo ""
     echo "Full docs: extensions/banana/README.md"
     echo "To uninstall: ./extensions/banana/uninstall.sh"

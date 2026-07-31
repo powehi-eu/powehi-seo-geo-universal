@@ -16,6 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PLUGIN_JSON = REPO_ROOT / ".claude-plugin" / "plugin.json"
+CODEX_PLUGIN_JSON = REPO_ROOT / ".codex-plugin" / "plugin.json"
 MARKETPLACE_JSON = REPO_ROOT / ".claude-plugin" / "marketplace.json"
 CITATION_CFF = REPO_ROOT / "CITATION.cff"
 
@@ -134,6 +135,24 @@ def test_version_triangulation():
     )
 
 
+def test_codex_manifest_release_version_matches_repository():
+    """Codex cachebusters may vary, but their release base must match main."""
+    plugin = json.loads(PLUGIN_JSON.read_text(encoding="utf-8"))
+    codex = json.loads(CODEX_PLUGIN_JSON.read_text(encoding="utf-8"))
+    codex_base = codex["version"].split("+", 1)[0]
+    assert codex_base == plugin["version"], (
+        f"Codex manifest base version is {codex_base} but repository version is "
+        f"{plugin['version']}"
+    )
+
+
+def test_codex_manifest_points_to_this_fork():
+    """Codex metadata must not silently point users back to upstream."""
+    codex = json.loads(CODEX_PLUGIN_JSON.read_text(encoding="utf-8"))
+    assert codex["name"] == "powehi-universal-seo-geo"
+    assert "powehi-eu/powehi-seo-geo-universal" in codex["repository"]
+
+
 def test_pyproject_version_matches_plugin_json():
     """pyproject.toml version must equal plugin.json version.
 
@@ -168,14 +187,14 @@ def test_install_scripts_default_tag_matches_plugin_version():
 
     sh_text = (REPO_ROOT / "install.sh").read_text(encoding="utf-8")
     sh_match = re.search(
-        r'REPO_TAG="\$\{CLAUDE_SEO_TAG:-([^}]+)\}"', sh_text
+        r'REPO_TAG="\$\{POWEHI_SEO_GEO_TAG:-([^}]+)\}"', sh_text
     )
     assert sh_match, "install.sh has no recognizable REPO_TAG default"
     sh_tag = sh_match.group(1)
     assert sh_tag == expected_tag, (
         f"install.sh default tag is {sh_tag} but plugin.json is at "
         f"version {plugin['version']} (expected {expected_tag}). "
-        f"Bump install.sh's CLAUDE_SEO_TAG default on every release."
+        f"Bump install.sh's POWEHI_SEO_GEO_TAG default on every release."
     )
 
     ps_text = (REPO_ROOT / "install.ps1").read_text(encoding="utf-8")
@@ -197,14 +216,14 @@ def _extract_section(text: str, heading: str) -> str:
 
 
 def test_orchestrator_sub_skills_list_matches_disk():
-    """skills/seo/SKILL.md Sub-Skills numbered list must equal set(skills/*) minus orchestrator itself.
+    """skills/powehi-seo/SKILL.md Sub-Skills numbered list must equal set(skills/*) minus orchestrator itself.
 
     Background: v1.9.8 CI guard checks README/CLAUDE/AGENTS but not the orchestrator's
     own canonical-phrasing source. PR #92 surfaced that the orchestrator had stale "21
     specialized" claims and the list included seo-firecrawl (extension-only). This
     guard closes that gap.
     """
-    text = (REPO_ROOT / "skills" / "seo" / "SKILL.md").read_text(encoding="utf-8")
+    text = (REPO_ROOT / "skills" / "powehi-seo" / "SKILL.md").read_text(encoding="utf-8")
     section = _extract_section(text, "Sub-Skills")
     listed_list = re.findall(r"^\d+\.\s+\*\*(seo-[a-z-]+)\*\*", section, re.MULTILINE)
     assert len(listed_list) == len(set(listed_list)), (
@@ -216,10 +235,10 @@ def test_orchestrator_sub_skills_list_matches_disk():
         d.name for d in (REPO_ROOT / "skills").iterdir()
         if d.is_dir() and (d / "SKILL.md").is_file()
     }
-    # The orchestrator (`seo`) does not list itself.
+    # The orchestrator (`powehi-seo`) does not list itself.
     # seo-firecrawl is documented separately in an Optional Extensions subsection
     # because it lives only in extensions/, not in skills/.
-    expected = on_disk - {"seo"}
+    expected = on_disk - {"powehi-seo"}
     assert listed == expected, (
         f"Sub-Skills list != skills/ dir. "
         f"Missing from list: {sorted(expected - listed)}. "
@@ -228,13 +247,13 @@ def test_orchestrator_sub_skills_list_matches_disk():
 
 
 def test_orchestrator_subagents_list_matches_disk():
-    """skills/seo/SKILL.md Subagents bullet list must equal set(agents/seo-*.md), no duplicates.
+    """skills/powehi-seo/SKILL.md Subagents bullet list must equal set(agents/seo-*.md), no duplicates.
 
     Background: same drift pattern as Sub-Skills. Codex round 3 review surfaced that
     the Subagents list was missing seo-flow (file on disk) and included seo-firecrawl
     (no agent file on disk).
     """
-    text = (REPO_ROOT / "skills" / "seo" / "SKILL.md").read_text(encoding="utf-8")
+    text = (REPO_ROOT / "skills" / "powehi-seo" / "SKILL.md").read_text(encoding="utf-8")
     section = _extract_section(text, "Subagents")
     listed_list = re.findall(r"^- `(seo-[a-z-]+)`", section, re.MULTILINE)
     assert len(listed_list) == len(set(listed_list)), (
@@ -391,7 +410,7 @@ def test_reference_files_have_at_least_one_link():
     references/ but was reachable only through a sibling cross-link, not
     through its parent SKILL.md.
 
-    Cross-skill references are legitimate (e.g. skills/seo/references/
+    Cross-skill references are legitimate (e.g. skills/powehi-seo/references/
     backlink-quality.md is cited from seo-backlinks/SKILL.md) so the search
     is repo-wide rather than per-parent-skill.
 

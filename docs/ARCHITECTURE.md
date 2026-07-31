@@ -1,15 +1,17 @@
+> **Languages:** [Français](ARCHITECTURE.fr.md) | English
+
 # Architecture
 
 ## Overview
 
-Claude SEO follows Anthropic's official Claude Code skill specification with a modular, multi-skill architecture.
+Powehi Universal SEO follows Anthropic's official Claude Code skill specification with a modular, multi-skill architecture.
 
 ## Directory Structure
 
 The plugin ships 25 sub-skills (21 core + 1 orchestrator + 1 framework integration + 2 extension mirrors) and 18 sub-agents (15 core + 1 framework integration + 2 extension mirrors).
 
 ```
-~/.claude/plugins/.../claude-seo/
+~/.claude/plugins/.../powehi-seo-geo/
 ├── skills/
 │   ├── seo/                    # Main orchestrator
 │   │   ├── SKILL.md
@@ -102,14 +104,14 @@ Reference files contain static data loaded on-demand to avoid bloating the main 
 
 ## Orchestration Flow
 
-### Full Audit (`/seo audit`)
+### Full Audit (`/powehi-seo audit`)
 
 ```
 User request
     │
     ▼
 ┌──────────────────┐
-│   seo            │  Main orchestrator (skills/seo/SKILL.md)
+│   powehi-seo     │  Main orchestrator (skills/powehi-seo/SKILL.md)
 └────────┬─────────┘
          │  Detects business type and signals
          │  Spawns subagents in parallel
@@ -148,7 +150,7 @@ User request
 ### Individual Command
 
 ```
-User Request (e.g., /seo page)
+User Request (e.g., /powehi-seo page)
     │
     ▼
 ┌─────────────────┐
@@ -206,7 +208,7 @@ User Request (e.g., /seo page)
 1. Create `skills/seo-newskill/SKILL.md`
 2. Add YAML frontmatter with name and description
 3. Write skill instructions
-4. Update main `skills/seo/SKILL.md` to route to new skill
+4. Update main `skills/powehi-seo/SKILL.md` to route to new skill
 
 ### Adding a New Subagent
 
@@ -224,13 +226,13 @@ User Request (e.g., /seo page)
 
 ### Managed Python runtime
 
-Bundled tools are dispatched through `bin/claude-seo` and
+Bundled tools are dispatched through `bin/powehi-seo-geo` and
 `scripts/runtime.py`, never through a working-directory-relative Python command.
 The launcher resolves Python 3.10 or newer, while the standard-library runtime
 provides three operations: `run`, `setup`, and read-only `doctor`.
 
 Plugin environments live under persistent `CLAUDE_PLUGIN_DATA`. Manual installs
-keep the compatible `~/.claude/skills/seo/.venv` location. A state marker records
+keep the compatible `~/.claude/skills/powehi-seo/.venv` location. A state marker records
 the runtime schema, requirements SHA-256, Python major and minor version, public
 plugin version, and browser state. Requirements, runtime-schema, or Python ABI
 changes require explicit setup; a version-only difference remains compatible and

@@ -8,8 +8,8 @@ Provides cost-aware guardrails for DataForSEO API usage:
 - Session and daily budget tracking
 - Spending history and summaries
 
-Config: ~/.config/claude-seo/dataforseo-costs.json
-Ledger: ~/.config/claude-seo/dataforseo-ledger.json
+Config: ~/.config/powehi-seo-geo/dataforseo-costs.json
+Ledger: ~/.config/powehi-seo-geo/dataforseo-ledger.json
 
 Usage:
     python dataforseo_costs.py estimate <endpoint> [--count N]
@@ -21,7 +21,7 @@ Usage:
     python dataforseo_costs.py reset
 
 Original concept: Matej Marjanovic (Pro Hub Challenge)
-Security fixes: config path corrected to ~/.config/claude-seo/
+Security fixes: config path corrected to ~/.config/powehi-seo-geo/
 """
 
 import argparse
@@ -37,7 +37,7 @@ except ImportError:
     fcntl = None  # Windows fallback: no locking
 
 # ----- paths -----
-CONFIG_DIR = Path.home() / ".config" / "claude-seo"
+CONFIG_DIR = Path.home() / ".config" / "powehi-seo-geo"
 CONFIG_FILE = CONFIG_DIR / "dataforseo-costs.json"
 LEDGER_FILE = CONFIG_DIR / "dataforseo-ledger.json"
 

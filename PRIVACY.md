@@ -1,8 +1,10 @@
+> **Languages:** [Français](PRIVACY.fr.md) | English
+
 # Privacy
 
 ## Data Handling
 
-Claude SEO is a Claude Code skill that runs on your local machine. The core skill makes no third-party API calls by default (audits still fetch the target URLs you point them at), and does not collect, store, or transmit any personal data to a vendor.
+Powehi Universal SEO is a Claude Code skill that runs on your local machine. The core skill makes no third-party API calls by default (audits still fetch the target URLs you point them at), and does not collect, store, or transmit any personal data to a vendor.
 
 ## What Stays Local
 
@@ -58,6 +60,6 @@ Google API usage is governed by [Google's Privacy Policy](https://policies.googl
 
 ## Credentials
 
-- API keys and OAuth tokens are stored locally in `~/.config/claude-seo/` or environment variables
+- API keys and OAuth tokens are stored locally in `~/.config/powehi-seo-geo/` or environment variables
 - Credentials are never committed to the repository (blocked by `.gitignore`)
 - OAuth tokens use refresh tokens and never store client secrets in token files

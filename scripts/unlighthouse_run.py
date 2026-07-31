@@ -13,7 +13,7 @@ This wrapper:
   - Invokes ``npx --yes unlighthouse@0.13.5 …`` with sensible
     defaults (mobile form factor, 8 parallel workers, JSON output).
   - Captures the JSON summary the CLI writes and returns it parsed
-    so claude-seo agents can ingest the result without re-running
+    so powehi-seo-geo agents can ingest the result without re-running
     Lighthouse.
 
 Prerequisites
@@ -75,7 +75,7 @@ def run(
         return {"ok": False, "error": node_err}
 
     out_dir = Path(output_dir) if output_dir else Path(tempfile.mkdtemp(
-        prefix="claude-seo-unlighthouse-"))
+        prefix="powehi-seo-geo-unlighthouse-"))
     out_dir.mkdir(parents=True, exist_ok=True)
 
     cmd = [

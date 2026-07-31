@@ -24,11 +24,11 @@ specifically for **Amazon/Bing/Naver/Seznam.cz/Yandex/Yep indexing** and
 
 | Command | Underlying script |
 |---|---|
-| `/seo bing links <url>` | `claude-seo run bing_webmaster.py links <url>` |
-| `/seo bing compare <urlA> <urlB>` | `claude-seo run bing_webmaster.py compare <urlA> <urlB>`; both properties must be registered to the API account |
-| `/seo bing submit <url>` (single URL) | `claude-seo run indexnow_submit.py --host ... --urls <url>` |
-| `/seo bing submit-batch <file>` | `claude-seo run indexnow_submit.py --host ... --urls-file <file>` |
-| `/seo bing verify-indexnow` | `claude-seo run indexnow_submit.py --host ... --verify-only` |
+| `/powehi-seo bing links <url>` | `powehi-seo-geo run bing_webmaster.py links <url>` |
+| `/powehi-seo bing compare <urlA> <urlB>` | `powehi-seo-geo run bing_webmaster.py compare <urlA> <urlB>`; both properties must be registered to the API account |
+| `/powehi-seo bing submit <url>` (single URL) | `powehi-seo-geo run indexnow_submit.py --host ... --urls <url>` |
+| `/powehi-seo bing submit-batch <file>` | `powehi-seo-geo run indexnow_submit.py --host ... --urls-file <file>` |
+| `/powehi-seo bing verify-indexnow` | `powehi-seo-geo run indexnow_submit.py --host ... --verify-only` |
 
 ## When this skill applies
 

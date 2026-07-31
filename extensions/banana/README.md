@@ -1,4 +1,6 @@
-# Banana Image Generation Extension for Claude SEO
+> **Languages:** [Français](README.fr.md) | English
+
+# Banana Image Generation Extension for Powehi Universal SEO
 
 Generate production-ready SEO images using AI: OG/social previews, blog heroes,
 product photography, infographics, and more. Powered by Google Gemini via the
@@ -9,7 +11,7 @@ banana Creative Director pipeline.
 > This extension wraps [Claude Banana](https://github.com/AgriciDaniel/banana-claude)
 > for SEO-specific use cases. Install the standalone skill for general-purpose image generation.
 
-- **Claude SEO** installed (`~/.claude/skills/seo/`)
+- **Powehi Universal SEO** installed (`~/.claude/skills/powehi-seo/`)
 - **Node.js 20+** with npx
 - **Google AI API key** (free at [aistudio.google.com/apikey](https://aistudio.google.com/apikey))
 - **ImageMagick** (optional, for post-processing)
@@ -21,7 +23,7 @@ banana Creative Director pipeline.
 ```
 
 The installer will:
-1. Verify Claude SEO is installed
+1. Verify Powehi Universal SEO is installed
 2. Prompt for your Google AI API key (if nanobanana-mcp not already configured)
 3. Install the `seo-image-gen` skill and agent
 4. Configure the MCP server in `~/.claude/settings.json`
@@ -30,16 +32,16 @@ The installer will:
 
 | Command | What it does |
 |---------|-------------|
-| `/seo image-gen og <description>` | OG/social preview image (1200x630 feel) |
-| `/seo image-gen hero <description>` | Blog hero image (widescreen, dramatic) |
-| `/seo image-gen product <description>` | Product photography (clean, white BG) |
-| `/seo image-gen infographic <description>` | Infographic visual (vertical, data-heavy) |
-| `/seo image-gen custom <description>` | Custom with full Creative Director pipeline |
-| `/seo image-gen batch <description> [N]` | Generate N variations (default: 3) |
+| `/powehi-seo image-gen og <description>` | OG/social preview image (1200x630 feel) |
+| `/powehi-seo image-gen hero <description>` | Blog hero image (widescreen, dramatic) |
+| `/powehi-seo image-gen product <description>` | Product photography (clean, white BG) |
+| `/powehi-seo image-gen infographic <description>` | Infographic visual (vertical, data-heavy) |
+| `/powehi-seo image-gen custom <description>` | Custom with full Creative Director pipeline |
+| `/powehi-seo image-gen batch <description> [N]` | Generate N variations (default: 3) |
 
 CSV batch planning helper:
 ```bash
-claude-seo run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"
+powehi-seo-geo run --extension banana batch.py --csv requests.csv --model "$NANOBANANA_MODEL"
 ```
 
 ## Use Case Defaults
@@ -77,7 +79,7 @@ After every generation, Claude provides:
 
 ## Audit Integration
 
-During `/seo audit`, the extension optionally spawns an image analysis agent that:
+During `/powehi-seo audit`, the extension optionally spawns an image analysis agent that:
 - Audits existing OG/social images across the site
 - Identifies missing or low-quality images
 - Creates a prioritized generation plan with prompt suggestions

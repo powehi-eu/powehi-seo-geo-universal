@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Normalize DataForSEO API responses for consistent consumption by claude-seo skills.
+Normalize DataForSEO API responses for consistent consumption by powehi-seo-geo skills.
 
 Provides generic helpers (extract_items, truncate_for_context, format_table) and
 per-module normalizers (merchant, social, reviews, etc.).
@@ -380,7 +380,7 @@ def normalize_reviews(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Normalize DataForSEO API responses for claude-seo skills"
+        description="Normalize DataForSEO API responses for powehi-seo-geo skills"
     )
     parser.add_argument("input", help="Input JSON file (use - for stdin)")
     parser.add_argument(

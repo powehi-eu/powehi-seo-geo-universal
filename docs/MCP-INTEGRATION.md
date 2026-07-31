@@ -1,8 +1,17 @@
+> **Languages:** [Français](MCP-INTEGRATION.fr.md) | English
+
 # MCP Integration
 
 ## Overview
 
-Claude SEO can integrate with Model Context Protocol (MCP) servers to access external APIs and enhance analysis capabilities.
+## Google Search Console, GA4, and CrUX
+
+This repository includes portable MCP templates for Codex, Cursor, and VS Code
+in [Google MCP integration](GOOGLE-MCP.md). The templates use the current
+`gsc-mcp` and `analytics-mcp` stdio servers and keep credentials in environment
+variables. Do not replace them with committed absolute paths or credential JSON.
+
+Powehi Universal SEO can integrate with Model Context Protocol (MCP) servers to access external APIs and enhance analysis capabilities.
 
 ## Available Integrations
 
@@ -21,7 +30,19 @@ curl -H "X-Goog-Api-Key: $GOOGLE_API_KEY" \
   "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=URL"
 ```
 
-### Google Search Console
+### Google Search Console, GA4, and CrUX MCP suite
+
+For the maintained local Google MCP integration, use the portable templates and
+credential guidance in [GOOGLE-MCP.md](GOOGLE-MCP.md). It provides:
+
+- `gsc-mcp-go-windows-amd64.exe` with service-account authentication;
+- `analytics-mcp` with OAuth or service-account authentication;
+- CrUX helper access with optional `CRUX_API_KEY` quota authentication.
+
+The older `mcp-server-gsc` example below remains available for compatibility,
+but it is not the maintained Google Suite configuration for this repository.
+
+### Legacy Google Search Console
 
 For organic search data, use the `mcp-server-gsc` MCP server by [ahonn](https://github.com/ahonn/mcp-server-gsc). Provides search performance data, URL inspection, and sitemap management.
 
@@ -69,7 +90,7 @@ The MCP ecosystem for SEO has matured significantly. These are production-ready 
 |------|-------------------|------|-------|
 | **Ahrefs** | `@ahrefs/mcp` | Official | Launched July 2025. Supports local and remote modes. Backlinks, keywords, site audit data. |
 | **Semrush** | `https://mcp.semrush.com/v1/mcp` | Official (remote) | Full API access via remote MCP endpoint. Domain analytics, keyword research, backlink data. |
-| **Google Search Console** | `mcp-server-gsc` | Community | By ahonn. Search performance, URL inspection, sitemaps. |
+| **Google Search Console** | `gsc-mcp-go-windows-amd64.exe` + [Google MCP guide](GOOGLE-MCP.md) | Local integration | Service-account GSC evidence; the older `mcp-server-gsc` example is retained below for compatibility. |
 | **PageSpeed Insights** | `mcp-server-pagespeed` | Community | By enemyrr. Lighthouse audits, CWV metrics, performance scoring. |
 | **DataForSEO** | `dataforseo-mcp-server` | Official extension | 9 modules, 79 tools, 23 commands. Install: `./extensions/dataforseo/install.sh`. See [extension docs](../extensions/dataforseo/README.md). |
 | **kwrds.ai** | kwrds MCP server | Community | Keyword research, search volume, difficulty scoring. |
@@ -141,7 +162,7 @@ def get_crux_data(url: str, api_key: str) -> dict:
 
 ## Without API Keys
 
-If you don't have API keys, Claude SEO can still:
+If you don't have API keys, Powehi Universal SEO can still:
 
 1. Analyze HTML source for potential issues
 2. Identify common performance problems

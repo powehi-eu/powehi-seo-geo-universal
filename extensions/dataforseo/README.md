@@ -1,10 +1,12 @@
-# DataForSEO Extension for Claude SEO
+> **Languages:** [Français](README.fr.md) | English
+
+# DataForSEO Extension for Powehi Universal SEO
 
 Live SEO data via the [DataForSEO MCP server](https://github.com/dataforseo/mcp-server-typescript). Adds 23 data commands across 9 API modules: SERP analysis, keyword research, backlinks, on-page analysis, competitor analysis, content analysis, business listings, AI visibility checking, and LLM mention tracking.
 
 ## Prerequisites
 
-- [Claude SEO](https://github.com/AgriciDaniel/claude-seo) installed
+- [Powehi Universal SEO](https://github.com/powehi-eu/powehi-seo-geo-universal) installed
 - Node.js 20+
 - [DataForSEO account](https://app.dataforseo.com/register) with API credentials
 
@@ -13,16 +15,16 @@ Live SEO data via the [DataForSEO MCP server](https://github.com/dataforseo/mcp-
 ### Unix/macOS/Linux
 
 ```bash
-git clone https://github.com/AgriciDaniel/claude-seo.git
-cd claude-seo
+git clone https://github.com/powehi-eu/powehi-seo-geo-universal.git
+cd powehi-seo-geo
 ./extensions/dataforseo/install.sh
 ```
 
 ### Windows
 
 ```powershell
-git clone https://github.com/AgriciDaniel/claude-seo.git
-cd claude-seo
+git clone https://github.com/powehi-eu/powehi-seo-geo-universal.git
+cd powehi-seo-geo
 .\extensions\dataforseo\install.ps1
 ```
 
@@ -38,54 +40,54 @@ The installer will:
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo serp <keyword>` | Google organic SERP results (also supports Bing/Yahoo via `se` parameter) |
-| `/seo dataforseo serp-images <keyword>` | Google Images SERP results |
-| `/seo dataforseo serp-youtube <keyword>` | YouTube search results |
-| `/seo dataforseo youtube <video_id>` | YouTube video deep analysis (info, comments, subtitles) |
+| `/powehi-seo dataforseo serp <keyword>` | Google organic SERP results (also supports Bing/Yahoo via `se` parameter) |
+| `/powehi-seo dataforseo serp-images <keyword>` | Google Images SERP results |
+| `/powehi-seo dataforseo serp-youtube <keyword>` | YouTube search results |
+| `/powehi-seo dataforseo youtube <video_id>` | YouTube video deep analysis (info, comments, subtitles) |
 
 ### Keyword Research
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo keywords <seed>` | Keyword ideas, suggestions, and related terms |
-| `/seo dataforseo volume <keywords>` | Search volume for keyword list |
-| `/seo dataforseo difficulty <keywords>` | Keyword difficulty scores |
-| `/seo dataforseo intent <keywords>` | Search intent classification |
-| `/seo dataforseo trends <keyword>` | Google Trends data over time |
+| `/powehi-seo dataforseo keywords <seed>` | Keyword ideas, suggestions, and related terms |
+| `/powehi-seo dataforseo volume <keywords>` | Search volume for keyword list |
+| `/powehi-seo dataforseo difficulty <keywords>` | Keyword difficulty scores |
+| `/powehi-seo dataforseo intent <keywords>` | Search intent classification |
+| `/powehi-seo dataforseo trends <keyword>` | Google Trends data over time |
 
 ### Domain & Competitor Analysis
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo backlinks <domain>` | Full backlink profile with spam scores |
-| `/seo dataforseo competitors <domain>` | Competing domains and traffic estimates |
-| `/seo dataforseo ranked <domain>` | Keywords a domain ranks for |
-| `/seo dataforseo intersection <domains>` | Keyword/backlink overlap (2-20 domains) |
-| `/seo dataforseo traffic <domains>` | Bulk traffic estimation |
-| `/seo dataforseo subdomains <domain>` | Subdomains with ranking data |
-| `/seo dataforseo top-searches <domain>` | Top queries mentioning domain |
+| `/powehi-seo dataforseo backlinks <domain>` | Full backlink profile with spam scores |
+| `/powehi-seo dataforseo competitors <domain>` | Competing domains and traffic estimates |
+| `/powehi-seo dataforseo ranked <domain>` | Keywords a domain ranks for |
+| `/powehi-seo dataforseo intersection <domains>` | Keyword/backlink overlap (2-20 domains) |
+| `/powehi-seo dataforseo traffic <domains>` | Bulk traffic estimation |
+| `/powehi-seo dataforseo subdomains <domain>` | Subdomains with ranking data |
+| `/powehi-seo dataforseo top-searches <domain>` | Top queries mentioning domain |
 
 ### Technical / On-Page
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo onpage <url>` | On-page analysis (Lighthouse + content parsing) |
-| `/seo dataforseo tech <domain>` | Technology stack detection |
-| `/seo dataforseo whois <domain>` | WHOIS registration data |
+| `/powehi-seo dataforseo onpage <url>` | On-page analysis (Lighthouse + content parsing) |
+| `/powehi-seo dataforseo tech <domain>` | Technology stack detection |
+| `/powehi-seo dataforseo whois <domain>` | WHOIS registration data |
 
 ### Content & Business Data
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo content <keyword/url>` | Content analysis, search, and phrase trends |
-| `/seo dataforseo listings <keyword>` | Business listings search |
+| `/powehi-seo dataforseo content <keyword/url>` | Content analysis, search, and phrase trends |
+| `/powehi-seo dataforseo listings <keyword>` | Business listings search |
 
 ### AI Visibility / GEO
 
 | Command | Description |
 |---------|-------------|
-| `/seo dataforseo ai-scrape <query>` | ChatGPT web scraper for GEO visibility |
-| `/seo dataforseo ai-mentions <keyword>` | LLM mention tracking across AI platforms |
+| `/powehi-seo dataforseo ai-scrape <query>` | ChatGPT web scraper for GEO visibility |
+| `/powehi-seo dataforseo ai-mentions <keyword>` | LLM mention tracking across AI platforms |
 
 ## API Modules
 
@@ -119,15 +121,15 @@ New accounts include a free trial balance. See [DataForSEO pricing](https://data
 
 The extension includes a custom `field-config.json` that reduces API response sizes by ~75%, keeping only SEO-relevant fields. This saves tokens and speeds up analysis.
 
-## Integration with Claude SEO
+## Integration with Powehi Universal SEO
 
-When installed, other Claude SEO skills automatically detect DataForSEO availability and use live data:
+When installed, other Powehi Universal SEO skills automatically detect DataForSEO availability and use live data:
 
-- **`/seo audit`**:Uses real SERP, backlink, and on-page data
-- **`/seo technical`**:Uses on-page analysis for real technical data
-- **`/seo content`**:Uses keyword volume, difficulty, and intent data
-- **`/seo geo`**:Uses ChatGPT scraper and LLM mentions for GEO signals
-- **`/seo plan`**:Uses competitor and keyword data for strategy
+- **`/powehi-seo audit`**:Uses real SERP, backlink, and on-page data
+- **`/powehi-seo technical`**:Uses on-page analysis for real technical data
+- **`/powehi-seo content`**:Uses keyword volume, difficulty, and intent data
+- **`/powehi-seo geo`**:Uses ChatGPT scraper and LLM mentions for GEO signals
+- **`/powehi-seo plan`**:Uses competitor and keyword data for strategy
 
 ## Troubleshooting
 
@@ -167,4 +169,4 @@ This removes the skill, agent, field config, and MCP server entry from settings.
 
 - [DataForSEO API Docs](https://docs.dataforseo.com/)
 - [DataForSEO MCP Server](https://github.com/dataforseo/mcp-server-typescript)
-- [Claude SEO](https://github.com/AgriciDaniel/claude-seo)
+- [Powehi Universal SEO](https://github.com/powehi-eu/powehi-seo-geo-universal)

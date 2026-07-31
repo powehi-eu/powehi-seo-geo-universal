@@ -74,7 +74,7 @@
 
 **Disavow file format:**
 ```
-# Toxic domains identified by Claude SEO backlink analysis
+# Toxic domains identified by Powehi Universal SEO backlink analysis
 # Date: YYYY-MM-DD
 # Total domains disavowed: X
 domain:spamsite1.com

@@ -11,6 +11,7 @@ credential-bearing settings file atomically with ``0600`` perms.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -60,9 +61,15 @@ def test_installer_credential_injection_is_inert(tmp_path: Path, rel: str, argc:
     # settings path + credential slots; the first credential carries the payload
     argv = [sys.executable, str(script), str(settings), payload]
     argv += ["filler"] * (argc - 2)
-    subprocess.run(argv, check=True, cwd=tmp_path)
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
+    subprocess.run(argv, check=True, cwd=tmp_path, env=env)
 
     assert not marker.exists(), f"{rel}: credential injection executed code"
-    blob = json.dumps(json.loads(settings.read_text(encoding="utf-8")))
-    assert payload in blob, f"{rel}: credential not stored literally"
-    assert (settings.stat().st_mode & 0o777) == 0o600, f"{rel}: settings not 0600"
+    data = json.loads(settings.read_text(encoding="utf-8"))
+    values = []
+    for server in data.get("mcpServers", {}).values():
+        values.extend(server.get("env", {}).values())
+    assert payload in values, f"{rel}: credential not stored literally"
+    if os.name != "nt":
+        assert (settings.stat().st_mode & 0o777) == 0o600, f"{rel}: settings not 0600"

@@ -76,7 +76,7 @@ def test_source_checkout_uses_repository_venv_without_plugin_environment(
     (root / ".git").mkdir()
     monkeypatch.delenv("CLAUDE_PLUGIN_DATA", raising=False)
     monkeypatch.delenv("CLAUDE_PLUGIN_ROOT", raising=False)
-    monkeypatch.delenv("CLAUDE_SEO_DATA_DIR", raising=False)
+    monkeypatch.delenv("POWEHI_SEO_GEO_DATA_DIR", raising=False)
     data_dir, mode = runtime._data_dir(root)
     assert data_dir == root
     assert mode == "manual"

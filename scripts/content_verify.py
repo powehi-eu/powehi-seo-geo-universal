@@ -3,7 +3,7 @@
 Claim extractor + citation-gap detector.
 
 Surfaces *verifiable claims* in a body of text and reports which ones
-lack a nearby citation marker. Designed for the v2 ``/seo content
+lack a nearby citation marker. Designed for the v2 ``/powehi-seo content
 verify`` workflow: a fact-check pass on drafts before publish.
 
 What counts as a claim

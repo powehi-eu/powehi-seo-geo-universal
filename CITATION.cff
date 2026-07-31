@@ -1,15 +1,13 @@
 cff-version: 1.2.0
-title: Claude SEO
+title: Powehi Universal SEO
 message: >-
   If you use this software, please cite it using the metadata from this file.
 type: software
 authors:
-  - alias: AgriciDaniel
-    given-names: Daniel
-    family-names: Agrici
-    website: 'https://agricidaniel.com'
-repository-code: 'https://github.com/AgriciDaniel/claude-seo'
-url: 'https://github.com/AgriciDaniel/claude-seo'
+  - name: Powehi
+    website: 'https://powehi.eu'
+repository-code: 'https://github.com/powehi-eu/powehi-seo-geo-universal'
+url: 'https://github.com/powehi-eu/powehi-seo-geo-universal'
 license: MIT
 version: 2.2.4
 date-released: '2026-07-20'

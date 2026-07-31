@@ -2,7 +2,7 @@
 
 > Load this reference when you need to find a specific DataForSEO MCP tool
 > that is not covered by the main SKILL.md commands. These are utility tools
-> available for internal use but without dedicated `/seo dataforseo` commands.
+> available for internal use but without dedicated `/powehi-seo dataforseo` commands.
 
 ## SERP Utilities
 

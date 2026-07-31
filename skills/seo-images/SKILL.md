@@ -11,7 +11,7 @@ user-invocable: true
 argument-hint: "[url]"
 license: MIT
 metadata:
-  author: AgriciDaniel
+  author: Powehi
   version: "2.2.4"
   category: seo
 ---
@@ -199,7 +199,7 @@ Sorted by file size impact (largest savings first):
 
 When DataForSEO MCP is available, enhance the image audit with competitive data.
 
-### `/seo images serp <keyword>`
+### `/powehi-seo images serp <keyword>`
 
 Cross-reference on-page images with Google Images SERP rankings.
 
@@ -228,7 +228,7 @@ If DataForSEO MCP is not available, inform user and suggest installing the exten
 
 Optimize image files for SEO: format conversion, metadata injection, compression.
 
-### `/seo images optimize <path>`
+### `/powehi-seo images optimize <path>`
 
 Optimize image file(s) for web and SEO. Converts to WebP/AVIF, injects IPTC
 metadata, compresses, and generates responsive variants.
@@ -321,13 +321,13 @@ https://support.google.com/merchants/answer/14743464
 
 ```bash
 # Audit a directory for the IPTC label (counts: missing, ai, captured, etc.)
-claude-seo run iptc_ai_label.py audit ./images/ --json
+powehi-seo-geo run iptc_ai_label.py audit ./images/ --json
 
 # Audit a single image
-claude-seo run iptc_ai_label.py audit ./hero.webp --json
+powehi-seo-geo run iptc_ai_label.py audit ./hero.webp --json
 
 # Inject the AI label into an image
-claude-seo run iptc_ai_label.py inject ./ai-hero.webp \
+powehi-seo-geo run iptc_ai_label.py inject ./ai-hero.webp \
     --source-type trainedAlgorithmicMedia
 
 # Other vocabulary values:
@@ -379,7 +379,7 @@ Google extracts these IPTC `DigitalSourceType` values:
 > text alone. No new published image-SEO lever yet; keep descriptive alt text +
 > clean structured data.
 
-When `/seo images optimize` is run on AI-generated assets, prompt the user to
+When `/powehi-seo images optimize` is run on AI-generated assets, prompt the user to
 confirm the source type and inject the matching IPTC value automatically.
 
 For **AI-generated product titles and descriptions**, Google Merchant Center

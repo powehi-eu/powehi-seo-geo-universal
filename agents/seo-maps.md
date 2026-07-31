@@ -50,18 +50,18 @@ You are a Maps Intelligence specialist. When delegated tasks during an SEO audit
 ## Reference Files
 
 Load on-demand:
-- `skills/seo/references/maps-api-endpoints.md`: DataForSEO endpoint details and costs
-- `skills/seo/references/maps-free-apis.md`: Overpass, Geoapify, Nominatim query templates
-- `skills/seo/references/maps-geo-grid.md`: Grid algorithm, SoLV calculation, heatmap rendering
-- `skills/seo/references/maps-gbp-checklist.md`: 25-field GBP audit checklist with industry weights
-- `skills/seo/references/local-seo-signals.md`: Ranking factors, review benchmarks (shared with seo-local)
-- `skills/seo/references/local-schema-types.md`: LocalBusiness subtypes by industry (shared with seo-local)
+- `skills/powehi-seo/references/maps-api-endpoints.md`: DataForSEO endpoint details and costs
+- `skills/powehi-seo/references/maps-free-apis.md`: Overpass, Geoapify, Nominatim query templates
+- `skills/powehi-seo/references/maps-geo-grid.md`: Grid algorithm, SoLV calculation, heatmap rendering
+- `skills/powehi-seo/references/maps-gbp-checklist.md`: 25-field GBP audit checklist with industry weights
+- `skills/powehi-seo/references/local-seo-signals.md`: Ranking factors, review benchmarks (shared with seo-local)
+- `skills/powehi-seo/references/local-schema-types.md`: LocalBusiness subtypes by industry (shared with seo-local)
 
 ## Cross-Skill Delegation
 
-- Do NOT duplicate seo-local on-page analysis. Recommend `/seo local <url>` for website-level checks.
-- Do NOT duplicate seo-geo AI visibility analysis. Recommend `/seo geo <url>` for full GEO audit.
-- Do NOT duplicate seo-schema validation. Recommend `/seo schema <url>` for schema fixes.
+- Do NOT duplicate seo-local on-page analysis. Recommend `/powehi-seo local <url>` for website-level checks.
+- Do NOT duplicate seo-geo AI visibility analysis. Recommend `/powehi-seo geo <url>` for full GEO audit.
+- Do NOT duplicate seo-schema validation. Recommend `/powehi-seo schema <url>` for schema fixes.
 
 ## Output Format
 

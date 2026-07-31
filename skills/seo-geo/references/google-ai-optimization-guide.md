@@ -4,7 +4,7 @@ Google published a dedicated **AI optimization guide** under Search Central
 docs (under the new "Generative AI fundamentals" section; announced via the
 Search Central blog 2026-05-15, doc last updated 2026-06-29). Its position is
 the most-cited primary source for how AI Overviews and AI Mode interact with
-Search ranking. Every claude-seo audit that touches GEO should treat this doc
+Search ranking. Every powehi-seo-geo audit that touches GEO should treat this doc
 as the canonical reference and reject community claims that contradict it.
 
 **Primary source:**
@@ -16,7 +16,7 @@ https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
 > rankings; third-party tools have **no access to Google's internal ranking
 > data**; Google does not endorse vendors; evaluate AEO/GEO claims against
 > official guidance; Search Console is the authoritative first-party source.
-> claude-seo's scores are heuristics, not Google-internal signals — state this
+> powehi-seo-geo's scores are heuristics, not Google-internal signals — state this
 > honestly in reports. Source:
 > https://developers.google.com/search/docs/fundamentals/third-party-seo
 
@@ -120,13 +120,13 @@ Search; ucp.dev lists 2026-04-08 as the latest date-based release, non-Google
 and hedged). UCP audit criteria:
 `skills/seo-ecommerce/references/ucp-universal-commerce-protocol.md`.
 
-## How claude-seo treats this guide
+## How powehi-seo-geo treats this guide
 
 1. `seo-geo` audits cite this URL as the authoritative source whenever the
    user asks about AEO/GEO frameworks.
 2. The myth-busting list above gates community-sourced AI-SEO recommendations
    — if a recommendation contradicts Google's stated position, flag it.
-3. Where a third-party claim and Google contradict, claude-seo defers to
+3. Where a third-party claim and Google contradict, powehi-seo-geo defers to
    Google and notes the contradiction explicitly.
 4. `seo-ecommerce` and `seo-images` enforce the two operational requirements
    above for sites using AI to generate product content.

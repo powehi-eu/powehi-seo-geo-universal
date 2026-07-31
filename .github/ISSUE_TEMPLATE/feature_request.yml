@@ -1,12 +1,12 @@
 name: Feature Request
-description: Suggest a new feature or improvement for Claude SEO
+description: Suggest a new feature or improvement for Powehi Universal SEO
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Have a great idea? We'd love to hear it! For general discussion, consider using [GitHub Discussions](https://github.com/AgriciDaniel/claude-seo/discussions) instead.
+        Have a great idea? We'd love to hear it! For general discussion, consider using [GitHub Discussions](https://github.com/powehi-eu/powehi-seo-geo-universal/discussions) instead.
   - type: textarea
     id: problem
     attributes:

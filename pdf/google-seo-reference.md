@@ -1,3 +1,5 @@
+> **Languages:** [Français](google-seo-reference.fr.md) | English
+
 <!-- Updated: 2026-07-10 -->
 # Google SEO Quick Reference (July 2026)
 

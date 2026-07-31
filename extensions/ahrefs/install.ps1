@@ -1,4 +1,4 @@
-# Claude SEO — Ahrefs extension installer (Windows / PowerShell).
+# Powehi Universal SEO — Ahrefs extension installer (Windows / PowerShell).
 # Mirrors extensions/ahrefs/install.sh.
 [CmdletBinding()]
 param()
@@ -17,7 +17,7 @@ $SkillDir = Join-Path $HOME ".claude/skills"
 $SettingsJson = Join-Path $HOME ".claude/settings.json"
 
 if (-not (Test-Path (Join-Path $SkillDir "seo"))) {
-    throw "claude-seo base plugin not installed."
+    throw "powehi-seo-geo base plugin not installed."
 }
 
 $Token = Read-Host "Ahrefs API token" -AsSecureString
@@ -58,4 +58,4 @@ print(f'Wrote mcpServers.ahrefs to {path}')
 $pyScript | python - $SettingsJson $Plain
 
 Write-Host ""
-Write-Host "Done. Open a new Claude Code session and run /seo ahrefs metrics <url>."
+Write-Host "Done. Open a new Claude Code session and run /powehi-seo ahrefs metrics <url>."

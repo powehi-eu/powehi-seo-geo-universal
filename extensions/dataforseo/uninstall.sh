@@ -11,7 +11,7 @@ main() {
     rm -f "${HOME}/.claude/agents/seo-dataforseo.md"
 
     # Remove field config
-    rm -f "${HOME}/.claude/skills/seo/dataforseo-field-config.json"
+    rm -f "${HOME}/.claude/skills/powehi-seo/dataforseo-field-config.json"
 
     # Remove MCP server entry from settings.json
     SETTINGS_FILE="${HOME}/.claude/settings.json"

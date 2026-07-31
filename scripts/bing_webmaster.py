@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bing Webmaster Tools API client for Claude SEO.
+Bing Webmaster Tools API client for Powehi Universal SEO.
 
 Queries the Bing Webmaster API for inbound link data, referring domain counts,
 and comparison between properties accessible to the same API account.
@@ -550,7 +550,7 @@ def main():
         result = {
             "status": "error",
             "data": None,
-            "error": "No Bing Webmaster API key configured. Run: claude-seo run backlinks_auth.py --setup",
+            "error": "No Bing Webmaster API key configured. Run: powehi-seo-geo run backlinks_auth.py --setup",
             "metadata": {"source": "bing_webmaster"},
         }
         if args.json:

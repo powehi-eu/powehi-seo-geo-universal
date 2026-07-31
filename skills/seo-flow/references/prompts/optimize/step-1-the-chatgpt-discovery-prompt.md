@@ -1,70 +1,69 @@
-<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Synced: 2026-04-26 -->
+<!-- Source: github.com/AgriciDaniel/flow | License: CC BY 4.0 | Adapted by Powehi | Updated: 2026-07-31 -->
 ---
-title: "Step 1: The ChatGPT Discovery Prompt"
-description: "Step 1: The ChatGPT Discovery Prompt"
-updated: 2026-04-25
-tags:
-  - prompts
-  - optimize
+title: "Conversational Discovery Analysis"
+description: "Powehi specialized prompt for identifier comment un utilisateur pourrait découvrir une entité dans une réponse conversationnelle."
+prompt_id: "flow.optimize.conversational-discovery"
+stage: "optimize"
+objective: "conversational-discovery"
+source: "github.com/AgriciDaniel/flow"
+adaptation: "Powehi"
+updated: "2026-07-31"
 ---
 
-# Step 1: The ChatGPT Discovery Prompt
+# Conversational Discovery Analysis
 
 ## Use This When
 
-Use this prompt when you need a structured optimize deliverable and want the model to separate observations, assumptions, recommended actions, and claims that need verification.
+Use this prompt when you need to identifier comment un utilisateur pourrait découvrir une entité dans une réponse conversationnelle. It is not a generic optimize template: its scope is limited to **conversational-discovery** and its output must remain traceable to the supplied evidence.
 
-## AI Compatibility
+## Required Inputs
 
-Works with long-context reasoning models. For smaller models, provide narrower inputs and ask for one output section at a time.
+- entity facts.
+- audience questions.
+- competitor entities.
+- cited web sources.
+- geographic scope.
+- Constraints, exclusions, target market, and freshness requirements.
 
-## Inputs
+## Evidence Rules
 
-- Business or website name.
-- Target page, profile, query set, or campaign.
-- Audience and geography where relevant.
-- Existing evidence: analytics, search results, calls, reviews, profile facts, or source notes.
-- Constraints, exclusions, and required sources.
+Treat supplied measurements and primary sources as evidence; label observations, inferences, and assumptions separately. For this workflow, never invent missing data or convert an unsupported correlation into causation. Specifically verify every claim used to identifier comment un utilisateur pourrait découvrir une entité dans une réponse conversationnelle. Record the source and observation date for volatile facts.
 
 ## Prompt
 
 ```text
-Act as a senior SEO strategist using the FLOW model.
+You are the Powehi specialist responsible for conversational-discovery.
 
-Task: create a optimize deliverable for: [BUSINESS OR ASSET].
+Objective: identifier comment un utilisateur pourrait découvrir une entité dans une réponse conversationnelle.
 
-Use only the supplied inputs and clearly label any assumption. Do not invent statistics. Do not reuse private examples. Build the answer around:
-1. Searcher or buyer intent.
-2. Evidence available now.
-3. Gaps that block trust, extraction, or conversion.
-4. Recommended changes in priority order.
-5. Measurement events and review cadence.
-6. Claims that require source verification before publication.
+Use only the supplied inputs. Keep facts, inferences, assumptions, and recommendations visibly separate. Do not invent volumes, rankings, customer statements, credentials, or performance results.
 
-Return a concise working document the team can execute.
+Perform the following workflow:
+1. Formuler les parcours de découverte.
+2. Identifier les faits nécessaires à la désambiguïsation.
+3. Évaluer les surfaces citables.
+4. Prioriser les contenus qui répondent aux premières questions.
+
+Return these deliverables in order: discovery journeys, entity gaps, citable assets, content priorities. For every recommendation, include its evidence, confidence, owner or dependency, and a concrete verification method. End with unresolved questions that block publication or implementation.
 ```
 
-## Output
+## Expected Output
 
-- Executive summary.
-- Priority table.
-- Recommended copy, structure, or audit findings.
-- Evidence needed.
-- Measurement plan.
-- Verification checklist.
+- **Discovery journeys** tailored to conversational-discovery.
+- **Entity gaps** tailored to conversational-discovery.
+- **Citable assets** tailored to conversational-discovery.
+- **Content priorities** tailored to conversational-discovery.
+- A source and assumption ledger.
+- A prioritized next-action list with verification criteria.
 
-## Example
+## Verification Checklist
 
-Input: a local service page with weak proof and inconsistent profile details.
-
-Expected output: a prioritized rewrite brief, facts to reconcile, internal links to add, and the conversion event to measure.
-
-## See Also
-
-- [Prompt Library](../README.md)
-- [FLOW Framework](../../flow-framework.md)
-- [Bibliography](../../bibliography.md)
+- The result addresses conversational-discovery, not a generic optimize deliverable.
+- Every material claim is supported or explicitly marked as an assumption.
+- The proposed actions can be verified after implementation.
+- Missing inputs and stale evidence are visible.
+- The output does not duplicate another FLOW prompt's purpose.
 
 ## Source Note
 
-Derived from the Local SEO Knowledge Base structure and rewritten for public use with the repository evidence standard.
+Adapted by Powehi from the FLOW framework by Daniel Agrici, licensed under CC BY 4.0. The Powehi adaptation specializes the original stage template for **conversational-discovery** while preserving source attribution and evidence-led principles.

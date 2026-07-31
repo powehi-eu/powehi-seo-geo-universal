@@ -1,16 +1,16 @@
 #!/usr/bin/env pwsh
-# claude-seo manual-install uninstaller (Windows)
+# powehi-seo-geo manual-install uninstaller (Windows)
 #
-# Removes the orchestrator skill (~/.claude/skills/seo), all sub-skills
-# (~/.claude/skills/seo-*), and all sub-agents (~/.claude/agents/seo-*.md).
+# Removes the orchestrator skill (~/.claude/skills/powehi-seo), all sub-skills
+# (~/.claude/skills/powehi-seo-*), and all sub-agents (~/.claude/agents/seo-*.md).
 #
 # Uses glob enumeration rather than a hardcoded list so future skill
 # additions are cleaned up automatically without releasing a new
 # uninstaller.
 #
 # Plugin-install users should use Claude Code's own command instead:
-#   /plugin uninstall claude-seo@agricidaniel-claude-seo
-#   /plugin marketplace remove AgriciDaniel/claude-seo
+#   /plugin uninstall powehi-seo-geo@powehi-universal-seo-geo
+#   /plugin marketplace remove powehi-eu/powehi-seo-geo-universal
 
 $ErrorActionPreference = "Stop"
 
@@ -22,7 +22,7 @@ function Main {
     $SkillDir = Join-Path $env:USERPROFILE ".claude" "skills"
     $AgentDir = Join-Path $env:USERPROFILE ".claude" "agents"
 
-    Write-Color Cyan "=== Uninstalling claude-seo ==="
+    Write-Color Cyan "=== Uninstalling powehi-seo-geo ==="
     Write-Host ""
 
     $removedSkills = 0
@@ -56,12 +56,12 @@ function Main {
 
     Write-Host ""
     if ($removedSkills -eq 0 -and $removedAgents -eq 0) {
-        Write-Color Yellow "Nothing to remove. Claude SEO does not appear to be installed."
+        Write-Color Yellow "Nothing to remove. Powehi Universal SEO does not appear to be installed."
         Write-Color Yellow "If you installed via /plugin install, run /plugin uninstall instead."
         return
     }
 
-    Write-Color Cyan "=== claude-seo uninstalled ($removedSkills skill dirs, $removedAgents agent files) ==="
+    Write-Color Cyan "=== powehi-seo-geo uninstalled ($removedSkills skill dirs, $removedAgents agent files) ==="
     Write-Host ""
     Write-Color Yellow "Restart Claude Code to complete removal."
 }
