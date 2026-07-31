@@ -1,6 +1,6 @@
 > **Languages:** [Français](README.fr.md) | English
 
-![Powehi Universal SEO works with OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI and other agent environments across Windows, macOS and Linux](assets/universal-platforms.png)
+![Powehi Universal SEO works with OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI and other agent environments across Windows, macOS and Linux](assets/universal-platforms.svg)
 
 ![Powehi Universal SEO platform: audit, technical SEO, content, schema, Google, backlinks, AI Search and FLOW workflows](assets/cover.svg)
 
@@ -361,6 +361,11 @@ is preserved in [docs/UPSTREAM.md](docs/UPSTREAM.md) and
 The project is licensed under the [MIT License](LICENSE). FLOW prompts retain
 their separate CC BY 4.0 attribution. Contributions are welcome; read
 [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+Platform icons used in the illustrations come from
+[Simple Icons](https://simpleicons.org) (CC0 1.0). The underlying names and
+logos are trademarks of their respective owners; they are shown to identify
+supported environments and do not imply any endorsement or affiliation.
 
 ---
 
