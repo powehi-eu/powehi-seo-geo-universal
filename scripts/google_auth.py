@@ -16,9 +16,12 @@ Usage:
 """
 
 import argparse
+import base64
+import hashlib
 import json
 import os
 import re
+import secrets
 import shutil
 import sys
 import time
@@ -88,6 +91,11 @@ OAUTH_SCOPES = (
     "https://www.googleapis.com/auth/analytics.readonly"
 )
 OAUTH_REDIRECT_URI = "http://localhost:8085"
+# Applied to every token-endpoint call. Without it urllib blocks forever on a
+# blackholed egress path, hanging every Google-API script behind this module.
+OAUTH_HTTP_TIMEOUT = 30
+# How long run_oauth_flow waits for the browser to hit the local callback.
+OAUTH_CALLBACK_TIMEOUT = 300
 
 # Human-readable service names
 SERVICE_NAMES = {
@@ -226,14 +234,70 @@ def _load_oauth_client(creds_path: str) -> Optional[dict]:
         return None
 
 
+# Paths already hardened in this process. icacls costs a subprocess spawn, and
+# _chmod_quiet runs on every token load, so the result is memoised per run.
+_WINDOWS_ACL_APPLIED: set[str] = set()
+
+
+def _restrict_windows_acl(path: str) -> bool:
+    """Replace the inherited DACL on ``path`` with an owner-only ACE.
+
+    ``os.chmod(path, 0o600)`` is a no-op for access control on Windows: it
+    only toggles the read-only attribute, leaving the file readable by every
+    other local account that inherits rights from the parent directory. This
+    helper calls ``icacls`` to break inheritance and grant full control to the
+    current user alone.
+
+    Returns True when the ACL was applied, False otherwise (caller decides
+    whether to warn).
+    """
+    if os.name != "nt":
+        return False
+    if path in _WINDOWS_ACL_APPLIED:
+        return True
+    import subprocess
+
+    user = os.environ.get("USERNAME")
+    if not user:
+        return False
+    domain = os.environ.get("USERDOMAIN")
+    principal = f"{domain}\\{user}" if domain else user
+    try:
+        result = subprocess.run(
+            ["icacls", path, "/inheritance:r", "/grant:r", f"{principal}:(F)"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=15,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    if result.returncode == 0:
+        _WINDOWS_ACL_APPLIED.add(path)
+        return True
+    return False
+
+
 def _chmod_quiet(path: str, mode: int) -> None:
-    """Best-effort chmod that swallows errors (e.g. on filesystems that don't
-    support POSIX permissions). Used to remediate legacy 0o644 token files
-    written by v1.9.x without forcing the user to re-auth."""
+    """Best-effort permission tightening that swallows errors.
+
+    On POSIX this is a plain chmod (used to remediate legacy 0o644 token
+    files written by v1.9.x without forcing the user to re-auth). On Windows
+    chmod cannot express "owner only", so an ``icacls`` ACL rewrite is
+    attempted as well; if it fails the caller is warned rather than left
+    believing the file is protected.
+    """
     try:
         os.chmod(path, mode)
     except OSError:
         pass
+    if os.name == "nt" and mode == 0o600 and not _restrict_windows_acl(path):
+        print(
+            f"Warning: could not restrict Windows ACL on {path}. "
+            f"Other local accounts may be able to read this credential file.",
+            file=sys.stderr,
+        )
 
 
 def _load_oauth_token() -> Optional[dict]:
@@ -264,8 +328,10 @@ def _save_oauth_token(token_data: dict):
            file pre-existed at step 2 — defeats the
            os.path.exists()/os.open() TOCTOU race where an external
            creator could install a 0o644 file between the two calls.
+        4. On Windows, an icacls DACL rewrite (chmod cannot express
+           "owner only" there); a warning is printed if it fails.
 
-    The token file is never world-readable, even briefly.
+    On POSIX the token file is never world-readable, even briefly.
     """
     os.makedirs(os.path.dirname(TOKEN_PATH), exist_ok=True)
     if os.path.exists(TOKEN_PATH):
@@ -284,18 +350,17 @@ def _save_oauth_token(token_data: dict):
         pass  # FS may not support fchmod (e.g. some Windows filesystems)
     with os.fdopen(fd, "w") as f:
         json.dump(token_data, f, indent=2)
+    # Windows: the file may have just been created, so the ACL rewrite has to
+    # happen after os.open rather than in the pre-chmod above.
+    if os.name == "nt":
+        _chmod_quiet(TOKEN_PATH, 0o600)
 
 
-def _persist_oauth_client_path(creds_path: str):
+def _update_config(updates: dict, remove: tuple = ()) -> None:
+    """Merge ``updates`` into the user config file and drop ``remove`` keys.
+
+    Atomic: writes a sibling temp file and renames over the target.
     """
-    Persist the absolute path to the OAuth client_secret JSON file in the
-    user config so future refresh_token flows can locate the client_secret
-    without re-prompting. Stores the PATH only; never the secret itself.
-
-    Closes the bug where every OAuth user 401'd within 1 hour because the
-    refresh path could not find oauth_client_path in config.
-    """
-    abs_path = os.path.abspath(os.path.expanduser(creds_path))
     os.makedirs(os.path.dirname(CONFIG_PATH), exist_ok=True)
     config = {}
     if os.path.exists(CONFIG_PATH):
@@ -304,8 +369,10 @@ def _persist_oauth_client_path(creds_path: str):
                 config = json.load(f)
         except (json.JSONDecodeError, IOError):
             config = {}
-    config["oauth_client_path"] = abs_path
-    # Atomic write: tempfile + replace
+    config.update(updates)
+    for key in remove:
+        config.pop(key, None)
+
     import tempfile
     fd, tmp_path = tempfile.mkstemp(
         dir=os.path.dirname(CONFIG_PATH), prefix=".google-api.", suffix=".tmp"
@@ -318,6 +385,47 @@ def _persist_oauth_client_path(creds_path: str):
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
         raise
+    _chmod_quiet(CONFIG_PATH, 0o600)
+
+
+def _persist_oauth_client_path(creds_path: str):
+    """
+    Persist the absolute path to the OAuth client_secret JSON file in the
+    user config so future refresh_token flows can locate the client_secret
+    without re-prompting. Stores the PATH only; never the secret itself.
+
+    Closes the bug where every OAuth user 401'd within 1 hour because the
+    refresh path could not find oauth_client_path in config.
+    """
+    _update_config({"oauth_client_path": os.path.abspath(os.path.expanduser(creds_path))})
+
+
+def _new_pkce_pair() -> tuple[str, str]:
+    """Return an (code_verifier, code_challenge) PKCE pair using S256."""
+    verifier = secrets.token_urlsafe(64)[:128]
+    digest = hashlib.sha256(verifier.encode("ascii")).digest()
+    challenge = base64.urlsafe_b64encode(digest).decode("ascii").rstrip("=")
+    return verifier, challenge
+
+
+def _persist_oauth_flow_state(verifier: str) -> None:
+    """Store the in-flight PKCE verifier so a later ``--exchange`` run (a
+    separate process, used when the browser could not reach the local
+    callback) can still redeem the code."""
+    _update_config({"oauth_pkce_verifier": verifier})
+
+
+def _read_oauth_flow_state() -> Optional[str]:
+    return load_config().get("oauth_pkce_verifier")
+
+
+def _clear_oauth_flow_state() -> None:
+    """Drop the one-shot PKCE verifier once the flow ends, successfully or
+    not — a stale verifier must never be reused across flows."""
+    try:
+        _update_config({}, remove=("oauth_pkce_verifier",))
+    except Exception:
+        pass
 
 
 def _refresh_oauth_token(client: dict, token_data: dict) -> Optional[dict]:
@@ -337,7 +445,7 @@ def _refresh_oauth_token(client: dict, token_data: dict) -> Optional[dict]:
 
     try:
         req = urllib.request.Request(client.get("token_uri", "https://oauth2.googleapis.com/token"), data=params)
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=OAUTH_HTTP_TIMEOUT) as resp:
             new_data = json.loads(resp.read())
         token_data["access_token"] = new_data["access_token"]
         token_data["expires_at"] = time.time() + new_data.get("expires_in", 3600)
@@ -368,13 +476,28 @@ def get_oauth_credentials(scopes: list):
         # Check if token needs refresh
         if time.time() > token_data.get("expires_at", 0) - 60:
             oauth_creds_path = config.get("oauth_client_path")
-            if oauth_creds_path:
-                client = _load_oauth_client(os.path.expanduser(oauth_creds_path))
-                if client:
-                    token_data = _refresh_oauth_token(client, token_data)
-                    if not token_data:
-                        print("OAuth token refresh failed. Re-run --auth.", file=sys.stderr)
-                        return get_service_account_credentials(scopes)
+            client = (
+                _load_oauth_client(os.path.expanduser(oauth_creds_path))
+                if oauth_creds_path
+                else None
+            )
+            if client:
+                token_data = _refresh_oauth_token(client, token_data)
+                if not token_data:
+                    print("OAuth token refresh failed. Re-run --auth.", file=sys.stderr)
+                    return get_service_account_credentials(scopes)
+            else:
+                # Without the client file we cannot refresh. Falling through
+                # would hand back the known-expired access token and every
+                # caller would fail with an opaque HTTP 401 instead of an
+                # actionable message.
+                print(
+                    "OAuth token expired and 'oauth_client_path' is not set in "
+                    f"{CONFIG_PATH}. Re-run: python scripts/google_auth.py "
+                    "--auth --creds /path/to/client_secret.json",
+                    file=sys.stderr,
+                )
+                return get_service_account_credentials(scopes)
 
         if token_data and token_data.get("access_token"):
             try:
@@ -420,45 +543,84 @@ def run_oauth_flow(creds_path: str):
         print("Error: Could not load OAuth client credentials.", file=sys.stderr)
         sys.exit(1)
 
+    # CSRF defence. Without `state`, any page the user visits while this
+    # server is listening can navigate to
+    # http://localhost:8085/?code=<attacker_code>; we would exchange it and
+    # bind this install to the attacker's Google account. The callback below
+    # refuses any request whose state does not match.
+    state = secrets.token_urlsafe(32)
+    # PKCE (RFC 7636). Google requires it for installed-app clients and it
+    # stops an intercepted authorization code from being redeemed elsewhere.
+    verifier, challenge = _new_pkce_pair()
+    _persist_oauth_flow_state(verifier)
+
     auth_url = (
         f"{client.get('auth_uri', 'https://accounts.google.com/o/oauth2/auth')}"
-        f"?client_id={client['client_id']}"
+        f"?client_id={urllib.parse.quote(client['client_id'])}"
         f"&redirect_uri={urllib.parse.quote(OAUTH_REDIRECT_URI)}"
         f"&response_type=code"
         f"&scope={urllib.parse.quote(OAUTH_SCOPES)}"
+        f"&state={urllib.parse.quote(state)}"
+        f"&code_challenge={urllib.parse.quote(challenge)}"
+        f"&code_challenge_method=S256"
         f"&access_type=offline&prompt=consent"
     )
 
     auth_code = [None]
+    callback_error = [None]
 
     class Handler(http.server.BaseHTTPRequestHandler):
         def do_GET(self):
             params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
-            if "code" in params:
-                auth_code[0] = params["code"][0]
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html")
-                self.end_headers()
-                self.wfile.write(b"<h1>Authentication successful!</h1><p>Close this tab.</p>")
-            else:
+            if "error" in params:
+                callback_error[0] = params["error"][0]
                 self.send_response(400)
                 self.end_headers()
+                return
+            if "code" not in params:
+                # Favicon probes, port scanners, stray reloads. Answer and
+                # keep listening — this must not end the flow.
+                self.send_response(404)
+                self.end_headers()
+                return
+            if not secrets.compare_digest(params.get("state", [""])[0], state):
+                callback_error[0] = "state mismatch (possible CSRF attempt); code refused"
+                self.send_response(400)
+                self.end_headers()
+                return
+            auth_code[0] = params["code"][0]
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            self.wfile.write(b"<h1>Authentication successful!</h1><p>Close this tab.</p>")
+
         def log_message(self, *a):
             pass
 
     server = http.server.HTTPServer(("localhost", 8085), Handler)
-    server.timeout = 300
+    # Bound per-request; the deadline loop below owns the overall timeout.
+    server.timeout = 5
 
     print(f"\nOpen this URL in your browser:\n\n{auth_url}\n")
-    print("Waiting up to 5 minutes for authentication...")
+    print(f"Waiting up to {OAUTH_CALLBACK_TIMEOUT // 60} minutes for authentication...")
 
     try:
         webbrowser.open(auth_url)
     except Exception:
         pass
 
-    server.handle_request()
+    # Serve until the real callback arrives. A single handle_request() would
+    # be consumed by the first favicon probe or error redirect, failing the
+    # flow before the browser ever delivered the code.
+    deadline = time.time() + OAUTH_CALLBACK_TIMEOUT
+    while auth_code[0] is None and callback_error[0] is None and time.time() < deadline:
+        server.handle_request()
     server.server_close()
+
+    if callback_error[0]:
+        _clear_oauth_flow_state()
+        print(f"\nAuthentication failed: {callback_error[0]}", file=sys.stderr)
+        sys.exit(1)
 
     if not auth_code[0]:
         print("\nAuthentication failed or timed out.", file=sys.stderr)
@@ -481,25 +643,35 @@ def _exchange_code(client: dict, code: str, creds_path: Optional[str] = None):
     import urllib.parse
     import urllib.request
 
-    params = urllib.parse.urlencode({
+    form = {
         "code": code,
         "client_id": client["client_id"],
         "client_secret": client["client_secret"],
         "redirect_uri": OAUTH_REDIRECT_URI,
         "grant_type": "authorization_code",
-    }).encode()
+    }
+    # The authorization request carried a PKCE challenge, so the token
+    # request must carry the matching verifier. It is persisted in the user
+    # config precisely so the manual `--exchange` fallback (a separate
+    # process) can still complete the flow.
+    verifier = _read_oauth_flow_state()
+    if verifier:
+        form["code_verifier"] = verifier
+    params = urllib.parse.urlencode(form).encode()
 
     try:
         req = urllib.request.Request(
             client.get("token_uri", "https://oauth2.googleapis.com/token"), data=params
         )
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=OAUTH_HTTP_TIMEOUT) as resp:
             token_data = json.loads(resp.read())
         token_data["expires_at"] = time.time() + token_data.get("expires_in", 3600)
         token_data["client_id"] = client["client_id"]
         # SECURITY: Never store client_secret in token file. It stays in client_secret.json only.
         token_data.pop("client_secret", None)
         _save_oauth_token(token_data)
+        # One-shot: the verifier must not survive to a later flow.
+        _clear_oauth_flow_state()
         print("OAuth token saved successfully!")
 
         # Persist oauth_client_path so refresh works after process restart.
@@ -518,6 +690,7 @@ def _exchange_code(client: dict, code: str, creds_path: Optional[str] = None):
 
         print(f"\nToken saved to: {TOKEN_PATH}")
     except Exception as e:
+        _clear_oauth_flow_state()
         print(f"Error exchanging authorization code: {e}", file=sys.stderr)
         sys.exit(1)
 
