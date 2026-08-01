@@ -3,12 +3,6 @@
   "name": "Powehi Universal SEO",
   "description": "Powehi Universal SEO & GEO is a Powehi-maintained fork and evolution of AgriciDaniel/claude-seo: a modular evidence-backed SEO intelligence suite for technical SEO, content, schema, local, ecommerce, backlinks, Google data, AI search visibility, and competitor research.",
   "version": "2.2.6",
-  "author": "Powehi",
-  "homepage": "https://powehi.eu",
-  "repository": "https://github.com/powehi-eu/powehi-seo-geo-universal",
-  "license": "MIT",
-  "skills": ["./skills"],
-  "entry": "./openclaw/index.js",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
