@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.6] - 2026-08-01
+
+- Added native OpenClaw/ClawHub packaging and Hermes skill distribution guidance.
+- Updated Universal documentation and platform artwork for OpenClaw and Hermes.
+- Added official OpenClaw and Hermes logo blocks to the cross-platform illustration.
+- Added bilingual OpenClaw/Hermes documentation and corrected the documentation CI contract.
+- Refreshed GitHub repository topics for OpenClaw, ClawHub, Hermes and SEO/GEO discovery.
+
 ## [2.2.5] - 2026-07-31
 
 ### Added

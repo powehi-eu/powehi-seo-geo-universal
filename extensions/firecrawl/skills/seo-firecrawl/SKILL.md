@@ -11,7 +11,7 @@ license: MIT
 compatibility: "Requires Firecrawl MCP server"
 metadata:
   author: Powehi
-  version: "2.2.5"
+  version: "2.2.6"
   category: seo
 ---
 

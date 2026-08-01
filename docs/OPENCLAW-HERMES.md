@@ -1,3 +1,5 @@
+> **Languages:** [Français](OPENCLAW-HERMES.fr.md) | English
+
 # OpenClaw and Hermes distribution
 
 The repository keeps one portable `skills/` source tree and publishes two

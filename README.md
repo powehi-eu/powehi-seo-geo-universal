@@ -17,6 +17,9 @@ validate every finding and turn it into an actionable plan.
 Its current distribution brings together **33 portable skills**, 18 specialist agents,
 56 deterministic Python tools and 8 optional data extensions.
 
+The core `skills/` tree contains **25 sub-skills**; the total portable skill
+surface reaches 33 when extension mirrors are included.
+
 “Universal” describes the operating model: one system across agent harnesses,
 data sources, site types and search surfaces. GEO remains an explicit capability
 for generative search and citation visibility; it is not treated as a separate
@@ -259,7 +262,7 @@ adapters over the same source of truth, not separate product implementations.
 
 OpenClaw users can install the native plugin from ClawHub. Hermes users can
 install the same portable skills from the repository tap. Universal is a
-Powehi-maintained fork and evolution of [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo),
+Powehi-maintained fork and evolution of the upstream Claude SEO project,
 with expanded GEO workflows, evidence controls, runtime safeguards and
 cross-agent packaging.
 

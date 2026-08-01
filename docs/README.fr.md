@@ -14,7 +14,7 @@ Cet index rassemble les guides publics de Powehi Universal SEO. Chaque guide est
 ## Intégrations et exploitation
 
 - [Plugin Codex](CODEX-PLUGIN.fr.md)
-- [Plugin OpenClaw et Hermes](OPENCLAW-HERMES.md)
+- [Plugin OpenClaw et Hermes](OPENCLAW-HERMES.fr.md)
 - [Intégration MCP](MCP-INTEGRATION.fr.md)
 - [MCP Google](GOOGLE-MCP.fr.md)
 - [Workflow public/privé](WORKFLOW-public-private.fr.md)

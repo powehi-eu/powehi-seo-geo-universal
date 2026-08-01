@@ -118,7 +118,7 @@ $RepoUrl = "https://github.com/powehi-eu/powehi-seo-geo-universal"
 # This default MUST be bumped on every release. CI guard
 # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
 # Override: $env:POWEHI_SEO_GEO_TAG = 'main'; .\install.ps1
-$RepoTag = if ($env:POWEHI_SEO_GEO_TAG) { $env:POWEHI_SEO_GEO_TAG } else { 'v2.2.5' }
+$RepoTag = if ($env:POWEHI_SEO_GEO_TAG) { $env:POWEHI_SEO_GEO_TAG } else { 'v2.2.6' }
 
 # Create directories
 New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
