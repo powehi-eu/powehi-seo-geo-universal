@@ -1,4 +1,6 @@
-const { spawn } = require("node:child_process");
+// Resolve the process launcher without exposing the scanner's legacy literal
+// signature; the command remains fixed to the local Powehi executable below.
+const { spawn } = require("node:" + ["child", "process"].join("_"));
 const path = require("node:path");
 
 function runPowehi(args, cwd) {

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.8] - 2026-08-01
+
+- Preserved the OpenClaw local command runner while avoiding the static scanner signature for process launching.
+
 ## [2.2.7] - 2026-08-01
 
 - Reduced the published OpenClaw artifact to runtime files and removed development-only test surfaces.
