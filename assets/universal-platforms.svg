@@ -7,15 +7,13 @@
     <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#292929" stroke-width="1"/></pattern>
     <filter id="glow"><feGaussianBlur stdDeviation="28"/></filter>
   </defs>
-  <rect width="1680" height="900" rx="30" fill="url(#grid)" opacity=".45"/>
-  <ellipse cx="840" cy="455" rx="430" ry="350" fill="url(#halo)" filter="url(#glow)"/>
 
   <g font-family="Inter,'Plus Jakarta Sans',Arial,sans-serif">
     <text x="840" y="62" text-anchor="middle" fill="#F59E0B" font-size="18" font-weight="800" letter-spacing="4.5">ONE SYSTEM. EVERY ENVIRONMENT.</text>
     <text x="840" y="116" text-anchor="middle" fill="#F5F5F5" font-size="40" font-weight="780">Universal by design</text>
 
     <g transform="translate(30 164)">
-      <rect width="570" height="632" rx="26" fill="#111" stroke="#343434" stroke-width="2"/>
+      <rect width="570" height="632" rx="26" fill="none" stroke="#343434" stroke-width="2"/>
       <text x="36" y="54" fill="#F59E0B" font-size="16" font-weight="800" letter-spacing="2.5">AGENT ENVIRONMENTS</text>
       <text x="36" y="86" fill="#999" font-size="16">Portable skills. Native workflows.</text>
 
@@ -52,7 +50,7 @@
     <path d="M1040 450h28" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/><path d="M1058 437l15 13-15 13" fill="none" stroke="#F59E0B" stroke-width="4"/>
 
     <g transform="translate(1080 164)">
-      <rect width="570" height="632" rx="26" fill="#111" stroke="#343434" stroke-width="2"/>
+      <rect width="570" height="632" rx="26" fill="none" stroke="#343434" stroke-width="2"/>
       <text x="36" y="54" fill="#F59E0B" font-size="16" font-weight="800" letter-spacing="2.5">OPERATING SYSTEMS</text>
       <text x="36" y="86" fill="#999" font-size="16">One command. Consistent contracts.</text>
       <g fill="#1B1B1B" stroke="#3A3A3A" stroke-width="1.5">
