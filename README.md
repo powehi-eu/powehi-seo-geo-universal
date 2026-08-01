@@ -1,6 +1,6 @@
 > **Languages:** [Français](README.fr.md) | English
 
-![Powehi Universal SEO works with OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI and other agent environments across Windows, macOS and Linux](assets/universal-platforms.svg)
+![Powehi Universal SEO works with Claude Code, OpenAI Codex, Cursor, Gemini CLI, OpenClaw, Hermes and other agent environments across Windows, macOS and Linux](assets/universal-platforms.svg)
 
 ![Powehi Universal SEO platform: audit, technical SEO, content, schema, Google, backlinks, AI Search and FLOW workflows](assets/cover.svg)
 
@@ -14,7 +14,7 @@ instructions, deterministic Python tools and optional data connectors in one
 workflow: inspect what can be measured, collect evidence, delegate the analysis,
 validate every finding and turn it into an actionable plan.
 
-Its current distribution brings together **25 sub-skills**, 18 specialist agents,
+Its current distribution brings together **33 portable skills**, 18 specialist agents,
 56 deterministic Python tools and 8 optional data extensions.
 
 “Universal” describes the operating model: one system across agent harnesses,
@@ -245,7 +245,7 @@ data/                      Update and repository-integrity manifests
 tests/                     Contract, security, portability and regression tests
 ```
 
-Current distribution: **25 portable skills**, **18 specialist agents**, **56
+Current distribution: **33 portable skills**, **18 specialist agents**, **56
 Python tools** and **8 optional extensions**. Skills use progressive disclosure:
 the orchestrator loads shared rules first, then only the references required by
 the active workflow.
@@ -253,9 +253,15 @@ the active workflow.
 ### Portable agent layer
 
 The repository supports Claude Code, OpenAI Codex, Cursor, Cursor Cloud Agents,
-Google Antigravity, Gemini CLI, Grok Build, Cline and Aider through portable
+Google Antigravity, Gemini CLI, Grok Build, Cline, Aider, OpenClaw and Hermes through portable
 `SKILL.md` files and root agent instructions. Platform-specific manifests are
 adapters over the same source of truth, not separate product implementations.
+
+OpenClaw users can install the native plugin from ClawHub. Hermes users can
+install the same portable skills from the repository tap. Universal is a
+Powehi-maintained fork and evolution of [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo),
+with expanded GEO workflows, evidence controls, runtime safeguards and
+cross-agent packaging.
 
 ### Deterministic execution layer
 
@@ -345,6 +351,7 @@ FLOW updates are staged and validated before they can replace local prompts. See
 - [Command reference](docs/COMMANDS.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Codex compatibility](docs/CODEX-PLUGIN.md)
+- [OpenClaw and Hermes plugin](docs/OPENCLAW-HERMES.md)
 - [Google connectors](docs/GOOGLE-MCP.md)
 - [MCP integrations](docs/MCP-INTEGRATION.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)

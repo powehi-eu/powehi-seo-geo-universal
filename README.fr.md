@@ -1,6 +1,6 @@
 > **Langue :** Français | [English](README.md)
 
-![Powehi Universal SEO fonctionne avec OpenAI Codex, Claude Code, VS Code, Cursor, Gemini CLI et d’autres environnements d’agents sous Windows, macOS et Linux](assets/universal-platforms.svg)
+![Powehi Universal SEO fonctionne avec Claude Code, OpenAI Codex, Cursor, Gemini CLI, OpenClaw, Hermes et d’autres environnements d’agents sous Windows, macOS et Linux](assets/universal-platforms.svg)
 
 ![Plateforme Powehi Universal SEO : audit, SEO technique, contenu, données structurées, Google, backlinks, AI Search et FLOW](assets/cover.svg)
 
@@ -15,7 +15,7 @@ et des connecteurs de données optionnels dans un même processus : identifier c
 qui peut être mesuré, recueillir les preuves, déléguer l’analyse, valider chaque
 constat et produire un plan d’action.
 
-La distribution actuelle comprend **25 sous-skills**, **18 agents spécialisés**,
+La distribution actuelle comprend **33 skills portables**, **18 agents spécialisés**,
 **56 outils Python** et **8 extensions de données optionnelles**.
 
 Le terme « Universal » décrit le modèle de fonctionnement : un même système pour
@@ -144,6 +144,26 @@ Framework et prompts FLOW © Daniel Agrici, sous licence CC BY 4.0.
 /plugin install powehi-universal-seo-geo@powehi-universal-seo-geo
 ```
 
+### Plugin OpenClaw / ClawHub
+
+```bash
+openclaw plugins install clawhub:powehi-universal-seo-geo
+openclaw plugins enable powehi-universal-seo-geo
+openclaw gateway restart
+```
+
+### Hermes
+
+```bash
+hermes skills tap add powehi-eu/powehi-seo-geo-universal
+hermes skills install powehi-eu/powehi-seo-geo-universal/skills/powehi-seo
+```
+
+Universal est un fork maintenu et une évolution Powehi de
+[AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo), avec des
+workflows GEO étendus, des contrôles de preuve, des garde-fous runtime et un
+packaging multi-agents.
+
 ### macOS ou Linux
 
 ```bash
@@ -241,6 +261,7 @@ Identifiants techniques conservés pour compatibilité :
 - [Commandes](docs/COMMANDS.fr.md)
 - [Architecture](docs/ARCHITECTURE.fr.md)
 - [Compatibilité Codex](docs/CODEX-PLUGIN.fr.md)
+- [Plugin OpenClaw et Hermes](docs/OPENCLAW-HERMES.md)
 - [Connecteurs Google](docs/GOOGLE-MCP.fr.md)
 - [Intégrations MCP](docs/MCP-INTEGRATION.fr.md)
 - [Dépannage](docs/TROUBLESHOOTING.fr.md)
