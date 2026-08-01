@@ -12,7 +12,7 @@ main() {
     # This default MUST be bumped on every release. CI guard
     # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
     # Override: POWEHI_SEO_GEO_TAG=main bash install.sh
-    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.6}"
+    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.9}"
 
     echo "════════════════════════════════════════"
     echo "║   Powehi Universal SEO - Installer             ║"

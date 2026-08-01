@@ -62,6 +62,11 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
       - name: Install runtime + test deps
         # Tests import scripts that import url_safety.py (and others), which
         # require the full runtime dependency set at module-import time. The
@@ -73,6 +78,11 @@ jobs:
 
       - name: Run deterministic pytest suite
         run: pytest tests/ -v -m "not network"
+
+      - name: Test OpenClaw runtime and package contents
+        run: |
+          npm run test:openclaw
+          npm pack --dry-run
 
   secret-scan:
     name: Secret scan

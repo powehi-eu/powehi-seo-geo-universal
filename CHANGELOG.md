@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.9] - 2026-08-01
+
+- Rebuilt the OpenClaw launcher around direct, shell-free Python execution on Windows, macOS, and Linux.
+- Routed agent workflows back through OpenClaw with `continueAgent` while keeping setup, doctor, and explicit script execution local.
+- Added bounded output, command timeouts, authenticated commands, configuration enforcement, and OpenClaw runtime tests.
+- Completed the ClawHub npm artifact with requirements, Python metadata, and optional extension files.
+- Aligned all plugin, skill, installer, and runtime version metadata on `2.2.9`.
+
 ## [2.2.8] - 2026-08-01
 
 - Preserved the OpenClaw local command runner while avoiding the static scanner signature for process launching.

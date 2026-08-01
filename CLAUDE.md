@@ -21,7 +21,7 @@ powehi-seo-geo/
   CONTRIBUTORS.md                    # Community credits (Pro Hub Challenge)
   AGENTS.md                          # Multi-platform agent instructions (Cursor, Antigravity)
   .claude-plugin/
-    plugin.json                    # Plugin manifest (v2.2.6)
+    plugin.json                    # Plugin manifest (v2.2.9)
     marketplace.json               # Marketplace catalog for distribution
   skills/                            # 25 sub-skills (auto-discovered)
     seo/                           # Main orchestrator skill
@@ -272,8 +272,8 @@ Promoting to public on release:
 - **`aimh` accepts day-to-day pushes.** No release-gate ceremony required
   for the private remote.
 - **Tags push to private first.** Historical pre-release illustration: v2.0.0
-  once lived on `aimh` before `origin`. Current released tags through v2.2.6
-  are on both remotes.
+  once lived on `aimh` before `origin`. Verify both remotes before describing
+  any release tag as mirrored.
 - **History stays shared.** Never rewrite history on either remote with
   force-push unless explicitly authorized for that specific operation.
 

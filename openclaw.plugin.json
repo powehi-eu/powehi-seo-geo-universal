@@ -2,7 +2,7 @@
   "id": "powehi-universal-seo-geo",
   "name": "Powehi Universal SEO",
   "description": "Powehi Universal SEO & GEO is a Powehi-maintained fork and evolution of AgriciDaniel/claude-seo: a modular evidence-backed SEO intelligence suite for technical SEO, content, schema, local, ecommerce, backlinks, Google data, AI search visibility, and competitor research.",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,

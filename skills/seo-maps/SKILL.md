@@ -14,7 +14,7 @@ license: MIT
 compatibility: "DataForSEO MCP for Tier 1+, Google Maps API for Tier 2"
 metadata:
   author: Powehi
-  version: "2.2.6"
+  version: "2.2.9"
   category: seo
 ---
 

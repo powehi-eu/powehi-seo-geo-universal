@@ -13,7 +13,7 @@ license: MIT
 metadata:
   author: Powehi
   original_author: "Florian Schmitz (Pro Hub Challenge)"
-  version: "2.2.6"
+  version: "2.2.9"
   category: seo
 ---
 

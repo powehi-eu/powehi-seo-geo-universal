@@ -14,7 +14,7 @@ license: MIT
 metadata:
   author: Powehi
   original_author: "Lutfiya Miller (Pro Hub Challenge Winner)"
-  version: "2.2.6"
+  version: "2.2.9"
   category: seo
 ---
 

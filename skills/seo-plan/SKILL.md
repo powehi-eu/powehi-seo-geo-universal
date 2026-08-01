@@ -11,7 +11,7 @@ argument-hint: "[business-type]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.6"
+  version: "2.2.9"
   category: seo
 ---
 
