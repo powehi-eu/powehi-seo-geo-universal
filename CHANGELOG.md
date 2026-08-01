@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.6] - 2026-08-01
 
+- Added the required OpenClaw package metadata for ClawHub code-plugin publishing.
+- Added the final source-package contract for reproducible ClawHub installs.
 - Added native OpenClaw/ClawHub packaging and Hermes skill distribution guidance.
 - Updated Universal documentation and platform artwork for OpenClaw and Hermes.
 - Added official OpenClaw and Hermes logo blocks to the cross-platform illustration.

@@ -1,0 +1,21 @@
+{
+  "name": "powehi-universal-seo-geo",
+  "version": "2.2.7",
+  "description": "Powehi Universal SEO and GEO intelligence plugin for OpenClaw.",
+  "main": "./openclaw/index.js",
+  "type": "commonjs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/powehi-eu/powehi-seo-geo-universal.git"
+  },
+  "openclaw": {
+    "extensions": ["./openclaw/index.js"],
+    "compat": {
+      "pluginApi": ">=2026.3.24-beta.2"
+    },
+    "build": {
+      "openclawVersion": "2026.3.24-beta.2"
+    }
+  }
+}
