@@ -332,7 +332,7 @@ TIER 1: MOZ API (free signup, 2,500 rows/month)
      - free-tier accessId:secret credentials, raw or base64 encoded
 
   Configure:
-    export MOZ_API_KEY="mozscape-xxxxxxxx"
+    export MOZ_API_KEY="<YOUR_MOZ_API_KEY>"
     # or: export MOZ_API_KEY="accessId:secret"
 
   Or save to """ + CONFIG_PATH + """:

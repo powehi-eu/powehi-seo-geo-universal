@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.7] - 2026-08-01
+
+- Reduced the published OpenClaw artifact to runtime files and removed development-only test surfaces.
+- Replaced credential-shaped documentation examples with explicit placeholders for security scanner compatibility.
+- Kept package and native manifest versions aligned for ClawHub validation.
+
 ## [2.2.6] - 2026-08-01
 
 - Added the required OpenClaw package metadata for ClawHub code-plugin publishing.
