@@ -135,6 +135,22 @@ def test_version_triangulation():
     )
 
 
+def test_readme_release_badges_match_plugin_version():
+    """README badge URLs and release links must track the repository version."""
+    plugin = json.loads(PLUGIN_JSON.read_text(encoding="utf-8"))
+    expected = f"v{plugin['version']}"
+    for filename in ["README.md", "README.fr.md"]:
+        text = (REPO_ROOT / filename).read_text(encoding="utf-8")
+        badge_match = re.search(r"img\.shields\.io/badge/release-(v[0-9.]+)-blue", text)
+        assert badge_match, f"{filename} has no explicit release badge"
+        assert badge_match.group(1) == expected, (
+            f"{filename} badge is {badge_match.group(1)} but plugin version is {expected}"
+        )
+        assert f"/releases/tag/{expected}" in text, (
+            f"{filename} release badge does not link to {expected}"
+        )
+
+
 def test_codex_manifest_release_version_matches_repository():
     """Codex cachebusters may vary, but their release base must match main."""
     plugin = json.loads(PLUGIN_JSON.read_text(encoding="utf-8"))

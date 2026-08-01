@@ -25,7 +25,7 @@ générative et à la citabilité ; il ne constitue pas une discipline séparée
 technique, de la qualité éditoriale et de l’autorité.
 
 [![CI](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml/badge.svg)](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/github/v/release/powehi-eu/powehi-seo-geo-universal)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases)
+[![Version](https://img.shields.io/badge/release-v2.2.9-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.9)
 [![Licence MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Powehi](https://img.shields.io/badge/Powehi-powehi.eu-E8922D)](https://powehi.eu)
 
