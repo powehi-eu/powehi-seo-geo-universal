@@ -6,8 +6,9 @@ Response to the ClawHub security audits of Powehi Universal SEO:
 
 | Audit date | Audited version | Section |
 |---|---|---|
-| 2026-08-01 | 2.2.9 | Everything below, up to the follow-up |
+| 2026-08-01 | 2.2.9 | Everything below, up to the follow-ups |
 | 2026-08-03 | 2.2.10 | [Follow-up: 2.2.10 re-audit](#follow-up-2210-re-audit) |
+| 2026-08-03 | 2.2.11 | [Follow-up: 2.2.11 re-audit](#follow-up-2211-re-audit) |
 
 Findings are grouped by outcome: **fixed** (code or docs changed), or
 **not a vulnerability** (scanner pattern match with a documented reason).
@@ -187,3 +188,57 @@ path, remaining argv treated as data.
 The call itself remains. Starting a Python interpreter is the file's entire
 purpose, and removing it means removing hook support. What has changed is that
 nothing about the invocation is now assembled dynamically.
+
+---
+
+## Follow-up: 2.2.11 re-audit
+
+The 2.2.11 re-audit cleared the three `exec_module()` findings and reported a
+single remaining Critical: `suspicious.dangerous_exec` on
+`hooks/run-python-hook.js:98`, matching `child_process` usage.
+
+The previous response argued the call could not be removed without removing hook
+support. That framing was wrong: it assumed the hook had to stay in Python.
+
+### Resolution: the subprocess was removed, not justified
+
+`hooks/validate-schema.py` used nothing but the Python standard library --
+regular expressions, JSON parsing, and a file read. It was ported to
+`hooks/validate-schema.js`, which uses only the Node built-ins `fs` and `path`.
+`hooks.json` now invokes it directly:
+
+```json
+{
+  "type": "command",
+  "command": "node",
+  "args": [
+    "${CLAUDE_PLUGIN_ROOT}/hooks/validate-schema.js",
+    "${tool_input.file_path}"
+  ]
+}
+```
+
+Node is guaranteed present in the harness, so no interpreter has to be located
+at all. `run-python-hook.js`, `python-probe.py`, and `validate-schema.py` were
+deleted. No file under `hooks/` imports `child_process`, and the repository has
+no remaining `spawnSync` / `execSync` / `execFileSync` call site.
+
+Validation behaviour is unchanged: same JSON-LD block extraction, same
+`@context` and `@type` checks, same placeholder list, same deprecated and
+retired type table, same FAQPage policy (never blocking), same file-type filter,
+same 10 MiB size guard, and the same 0 / 1 / 2 exit-code contract.
+
+### Regression coverage
+
+`tests/test_cross_platform_hooks.py` now asserts that no `hooks/*.js` file
+contains `child_process`, `spawnSync`, `execSync`, or `execFileSync`, that the
+removed launcher and probe files are absent, and that the hook declaration
+passes exactly two arguments with no shim between `node` and the gate. It also
+covers the exit codes end to end. `tests/test_schema_hook_policy.py` runs the
+same FAQPage and deprecated-type policy assertions against the Node hook.
+
+### Side effect
+
+The quality gate no longer depends on the plugin's Python runtime. It works on a
+machine with no Python installed, and it no longer needs interpreter discovery
+on Windows, which was the most fragile part of hook setup.

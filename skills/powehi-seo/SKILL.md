@@ -6,7 +6,7 @@ argument-hint: "[command] [url]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.11"
+  version: "2.2.12"
   category: seo
 ---
 

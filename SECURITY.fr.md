@@ -55,9 +55,9 @@ powehi-seo-geo est une boîte à outils de recherche et d'audit qui fonctionne s
 
 **Mitigation:** v2 force `0o600` sur chaque écriture (`os.open` + `os.fchmod`) et remédie aux anciens fichiers `0o644` en place sur la première charge. Les jetons ne contiennent jamais l'OAuth `client_secret` — seulement la paire access/refresh et les métadonnées d'expiration.
 
-4. **Environnement hostile contre le lanceur de hook.** `hooks/run-python-hook.js` résout un interpréteur Python et exécute le hook de validation de schéma du plugin. Sans contrainte, un `POWEHI_SEO_GEO_PYTHON` corrompu, ou un chemin de script fourni par un attaquant, en ferait un lanceur de programmes arbitraires.
+4. **Environnement hostile contre la couche de hooks.** Un hook qui résout et lance un interpréteur externe peut être détourné par une variable d'environnement corrompue ou un chemin de script fourni par un attaquant, ce qui en ferait un lanceur de programmes arbitraires.
 
-**Mitigation:** la liste d'interpréteurs est une constante gelée au niveau module (`PYTHON_ALLOWLIST`). La variable d'environnement n'est acceptée que comme chemin absolu vers un fichier existant dont le nom de base correspond à `python[0-9.]*(.exe)?` et ne contient aucun métacaractère de shell ; sinon elle est ignorée et l'ordre de détection normal s'applique. Le script de hook doit se résoudre en un fichier `.py` existant situé dans le répertoire `hooks/` du lanceur lui-même. Aucune chaîne de code `-c` en ligne n'est passée : la détection de version exécute le fichier committé `hooks/python-probe.py`, de sorte que chaque élément des deux vecteurs d'arguments est une constante gelée ou un chemin validé. Les deux appels `spawnSync` passent `shell: false` et un vecteur d'arguments : aucun shell n'intervient. Contrat complet : `hooks/README.md`. Non-régression : `tests/test_cross_platform_hooks.py`.
+**Mitigation:** supprimé par conception en v2.2.12. La validation de schéma est désormais `hooks/validate-schema.js`, exécuté directement par Node (garanti présent dans le harnais) et n'utilisant que `fs` et `path`. Il ne démarre aucun sous-processus, ne résout aucun interpréteur et n'importe pas `child_process`. Rien sous `hooks/` ne lance de processus. Contrat complet : `hooks/README.md`. Non-régression : `tests/test_cross_platform_hooks.py`, qui vérifie l'absence de `child_process`, `spawnSync`, `execSync` et `execFileSync` dans chaque fichier `hooks/*.js`.
 
 ## Risques résiduels connus
 
@@ -79,8 +79,8 @@ Si vous auditez, ce sont les fichiers à haut niveau de levier :
 | `scripts/google_auth.py` | Cycle de vie du jeton OAuth, écritures en `chmod 0o600`. |
 | `scripts/backlinks_auth.py` | Chargement des credentials d'API backlinks ; garde SSRF via `url_safety`. |
 | `tests/test_url_safety.py` | Batterie de non-régression de 91 cas couvrant chaque classe de contournement. |
-| `hooks/run-python-hook.js` | Lanceur de hook : allowlist d'interpréteurs, validation de l'override, confinement du chemin de hook. |
-| `hooks/README.md` | Contrat de sécurité du sous-processus pour le lanceur de hook. |
+| `hooks/validate-schema.js` | Validation de schéma ; built-ins Node uniquement, aucun sous-processus. |
+| `hooks/README.md` | Conception et contrat des hooks. |
 | `install.sh` / `install.ps1` | Génération du manifeste de propriété de l'installation. |
 | `uninstall.sh` / `uninstall.ps1` | Suppression limitée au manifeste ; confirmation exigée pour les installations anciennes. |
 
@@ -106,5 +106,6 @@ Si vous auditez, ce sont les fichiers à haut niveau de levier :
 |---|---|---|---|
 | 2026-08-01 | Audit de sécurité automatisé ClawHub | Plugin v2.2.9, dépôt complet | [docs/SECURITY-AUDIT-RESPONSE.fr.md](docs/SECURITY-AUDIT-RESPONSE.fr.md) |
 | 2026-08-03 | Audit de sécurité automatisé ClawHub (relancé) | Plugin v2.2.10, dépôt complet | [Section de suivi](docs/SECURITY-AUDIT-RESPONSE.fr.md#suivi--ré-audit-de-la-2210) |
+| 2026-08-03 | Audit de sécurité automatisé ClawHub (relancé) | Plugin v2.2.11, dépôt complet | [Section de suivi](docs/SECURITY-AUDIT-RESPONSE.fr.md#suivi--ré-audit-de-la-2211) |
 
 Le document de réponse indique, constat par constat, s'il a été corrigé ou classé comme faux positif du scanner, avec la justification.

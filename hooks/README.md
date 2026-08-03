@@ -5,42 +5,43 @@ Quality-gate hooks for Powehi Universal SEO.
 | File | Role |
 |---|---|
 | `hooks.json` | Hook declaration consumed by the plugin harness. |
-| `run-python-hook.js` | Interpreter-resolution shim; launches a hook script with a usable Python. |
-| `python-probe.py` | Committed interpreter probe used by the shim. |
-| `validate-schema.py` | PostToolUse gate: validates JSON-LD after `Edit` / `Write`. |
+| `validate-schema.js` | PostToolUse gate: validates JSON-LD after `Edit` / `Write`. |
 
-## Why a Node shim launches Python
+## Design
 
-`hooks.json` declares a `node` command because Node is guaranteed present in the
-harness, while a usable Python interpreter is not, and its invocation differs per
-platform (`py -3` on Windows, `python3` elsewhere). `run-python-hook.js` is the
-smallest shim that resolves an interpreter and runs one of this plugin's own
-hook scripts with it.
+`hooks.json` declares a `node` command that runs `validate-schema.js` directly.
+Node is guaranteed present in the harness, so the hook needs no interpreter
+resolution and **starts no subprocess**: it reads a file, parses JSON-LD blocks,
+and exits.
 
-## Subprocess safety contract
+Earlier versions shipped the gate as a Python script behind a Node shim that had
+to locate an interpreter (`py -3` on Windows, `python3` elsewhere) via
+`child_process.spawnSync`. Porting the gate to Node removed that layer
+entirely — no interpreter discovery, no subprocess, no `child_process` import
+anywhere under `hooks/`.
 
-`run-python-hook.js` calls `spawnSync` twice — once to probe an interpreter, once
-to run the hook. Both calls are constrained as follows:
+The hook uses only Node built-ins (`fs`, `path`). It has no dependencies and is
+not affected by the plugin's Python runtime setup.
 
-- **No shell.** Both calls pass `shell: false` and an argument vector. No
-  argument is ever parsed by a command interpreter, so there is no command
-  injection surface.
-- **Executable is allowlisted.** The executable comes from `PYTHON_ALLOWLIST`, a
-  frozen module-level constant (`py -3`, `python3`, `python`), or from
-  `POWEHI_SEO_GEO_PYTHON` after validation: absolute path, existing file,
-  basename matching `python[0-9.]*(.exe)?`, no shell metacharacters. An override
-  failing any check is ignored with a message on stderr.
-- **No inline code.** Interpreter arguments come from the same frozen constant.
-  The launcher never passes a `-c` code string; version probing executes the
-  committed `python-probe.py` file.
-- **Hook path is contained.** The hook script must resolve to an existing `.py`
-  file inside this directory. Anything else is refused with exit code 1.
-- **Remaining argv is data.** Everything after the hook script path is forwarded
-  to that script as arguments, never as executable input.
+## Contract
 
-Static scanners flag `spawnSync` on sight. The call is intrinsic to the file's
-purpose — resolving and starting a Python interpreter — and cannot be removed
-without removing hook support entirely. The constraints above are what bound it.
+**Input.** The file path arrives as `argv[2]` from the `${tool_input.file_path}`
+template, or from the hook-event JSON on stdin (Claude Code's documented
+contract). Whichever yields an existing file wins.
 
-Regression coverage: `tests/test_cross_platform_hooks.py` asserts the
-containment check, the override rejection, and exit-code propagation.
+**Scope.** Only `.html`, `.htm`, `.jsx`, `.tsx`, `.vue`, `.svelte`, `.php`, and
+`.ejs` files are inspected. Files above 10 MiB are skipped to bound memory and
+hook latency.
+
+**Exit codes.**
+
+| Code | Meaning |
+|---:|---|
+| 0 | Nothing to report, or nothing to validate. |
+| 1 | Warnings only; the edit proceeds. |
+| 2 | Critical errors (placeholders, deprecated or retired types); the edit is blocked. |
+
+Regression coverage: `tests/test_cross_platform_hooks.py` (hook declaration,
+exit codes, and an assertion that no file under `hooks/` references
+`child_process`) and `tests/test_schema_hook_policy.py` (FAQPage must not block;
+deprecated types must).

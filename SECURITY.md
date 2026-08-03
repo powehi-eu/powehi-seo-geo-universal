@@ -55,9 +55,9 @@ powehi-seo-geo is a research and audit toolkit that runs on a user's workstation
 
    **Mitigation:** v2 forces `0o600` on every write (`os.open` + `os.fchmod`) and remediates legacy `0o644` files in place on first load. Tokens never contain the OAuth `client_secret` — only the access/refresh pair plus expiry metadata.
 
-4. **Hostile environment against the hook launcher.** `hooks/run-python-hook.js` resolves a Python interpreter and runs the plugin's schema-validation hook. A poisoned `POWEHI_SEO_GEO_PYTHON`, or an attacker-supplied script path, would otherwise turn it into a general-purpose program launcher.
+4. **Hostile environment against the hook layer.** A hook that resolves and launches an external interpreter can be redirected by a poisoned environment variable or an attacker-supplied script path, turning it into a general-purpose program launcher.
 
-   **Mitigation:** the interpreter list is a frozen module-level constant (`PYTHON_ALLOWLIST`). The environment override is accepted only as an absolute path to an existing file whose basename matches `python[0-9.]*(.exe)?` and contains no shell metacharacters; otherwise it is ignored and the normal probe order applies. The hook script must resolve to an existing `.py` file inside the launcher's own `hooks/` directory. No inline `-c` code string is ever passed — version probing executes the committed `hooks/python-probe.py` file, so every element of both argument vectors is a frozen constant or a validated path. Both `spawnSync` calls pass `shell: false` and an argument vector; no shell is ever involved. Full contract: `hooks/README.md`. Regressions: `tests/test_cross_platform_hooks.py`.
+   **Mitigation:** removed by design in v2.2.12. The schema-validation gate is now `hooks/validate-schema.js`, running directly on Node (guaranteed present in the harness) using only `fs` and `path`. It starts no subprocess, resolves no interpreter, and imports no `child_process`. Nothing under `hooks/` spawns a process. Full contract: `hooks/README.md`. Regressions: `tests/test_cross_platform_hooks.py`, which asserts the absence of `child_process`, `spawnSync`, `execSync`, and `execFileSync` in every `hooks/*.js` file.
 
 ## Known residual risks
 
@@ -79,8 +79,8 @@ If you are auditing, these are the high-leverage files:
 | `scripts/google_auth.py` | OAuth token lifecycle, `chmod 0o600` writes. |
 | `scripts/backlinks_auth.py` | Backlink-API credential loading; SSRF guard via `url_safety`. |
 | `tests/test_url_safety.py` | 91-case regression battery covering every bypass class. |
-| `hooks/run-python-hook.js` | Hook launcher: interpreter allowlist, override validation, hook-path containment. |
-| `hooks/README.md` | Subprocess safety contract for the hook launcher. |
+| `hooks/validate-schema.js` | Schema gate; Node built-ins only, no subprocess. |
+| `hooks/README.md` | Hook design and contract. |
 | `install.sh` / `install.ps1` | Install-ownership manifest generation. |
 | `uninstall.sh` / `uninstall.ps1` | Manifest-scoped deletion; confirmation gate for legacy installs. |
 
@@ -106,5 +106,6 @@ If you are auditing, these are the high-leverage files:
 |---|---|---|---|
 | 2026-08-01 | ClawHub automated security audit | Plugin v2.2.9, full repository | [docs/SECURITY-AUDIT-RESPONSE.md](docs/SECURITY-AUDIT-RESPONSE.md) |
 | 2026-08-03 | ClawHub automated security audit (re-run) | Plugin v2.2.10, full repository | [Follow-up section](docs/SECURITY-AUDIT-RESPONSE.md#follow-up-2210-re-audit) |
+| 2026-08-03 | ClawHub automated security audit (re-run) | Plugin v2.2.11, full repository | [Follow-up section](docs/SECURITY-AUDIT-RESPONSE.md#follow-up-2211-re-audit) |
 
 The response document records, per finding, whether it was fixed or classified as a scanner false positive with the reasoning.

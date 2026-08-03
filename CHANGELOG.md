@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.12] - 2026-08-03
+
+### Security
+
+- Removed all subprocess execution from the hook layer. `hooks/validate-schema.py` was ported to `hooks/validate-schema.js`, which uses only the Node built-ins `fs` and `path`, and `hooks.json` now invokes it directly. `hooks/run-python-hook.js` and `hooks/python-probe.py` were deleted: no interpreter resolution, no `child_process` import, and no `spawnSync` / `execSync` / `execFileSync` call site remains anywhere in the repository.
+- Added a regression asserting that no `hooks/*.js` file references a process-spawning API.
+- Documented the 2.2.11 re-audit resolution in `docs/SECURITY-AUDIT-RESPONSE.md` and its French companion.
+
+### Changed
+
+- The schema quality gate no longer depends on the plugin's Python runtime. It works on machines without Python installed and no longer needs interpreter discovery on Windows. Validation behaviour is unchanged: same checks, same FAQPage policy, same 0 / 1 / 2 exit-code contract.
+
 ## [2.2.11] - 2026-08-03
 
 ### Security

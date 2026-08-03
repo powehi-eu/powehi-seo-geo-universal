@@ -7,15 +7,21 @@ confirmed. Genuinely deprecated types must still block the edit (exit 2).
 
 from __future__ import annotations
 
+import shutil
 import subprocess
-import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / "hooks" / "validate-schema.py"
+HOOK = ROOT / "hooks" / "validate-schema.js"
 
 
 def _run(tmp_path: Path, schema_type: str, extra: str = "") -> int:
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node is not available in this test environment")
+
     html = tmp_path / "page.html"
     html.write_text(
         '<html><head><script type="application/ld+json">\n'
@@ -23,7 +29,7 @@ def _run(tmp_path: Path, schema_type: str, extra: str = "") -> int:
         "</script></head></html>",
         encoding="utf-8",
     )
-    return subprocess.run([sys.executable, str(HOOK), str(html)]).returncode
+    return subprocess.run([node, str(HOOK), str(html)]).returncode
 
 
 def test_faqpage_not_blocked(tmp_path):

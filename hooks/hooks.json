@@ -8,8 +8,7 @@
             "type": "command",
             "command": "node",
             "args": [
-              "${CLAUDE_PLUGIN_ROOT}/hooks/run-python-hook.js",
-              "${CLAUDE_PLUGIN_ROOT}/hooks/validate-schema.py",
+              "${CLAUDE_PLUGIN_ROOT}/hooks/validate-schema.js",
               "${tool_input.file_path}"
             ]
           }

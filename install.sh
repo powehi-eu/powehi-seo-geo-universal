@@ -12,7 +12,7 @@ main() {
     # This default MUST be bumped on every release. CI guard
     # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
     # Override: POWEHI_SEO_GEO_TAG=main bash install.sh
-    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.11}"
+    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.12}"
 
     echo "════════════════════════════════════════"
     echo "║   Powehi Universal SEO - Installer             ║"
@@ -89,7 +89,7 @@ main() {
         mkdir -p "${SKILL_DIR}/hooks"
         cp -r "${TEMP_DIR}/powehi-seo-geo/hooks/"* "${SKILL_DIR}/hooks/"
         chmod +x "${SKILL_DIR}/hooks/"*.sh 2>/dev/null || true
-        chmod +x "${SKILL_DIR}/hooks/"*.py 2>/dev/null || true
+        chmod +x "${SKILL_DIR}/hooks/"*.js 2>/dev/null || true
         # Manual installs copy hook files only; enforcement loads through the plugin manifest.
         echo "  Note: hook enforcement requires plugin install (/plugin install ${REPO_URL}); manual hook copy is best-effort."
     fi

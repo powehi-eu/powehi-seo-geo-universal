@@ -6,8 +6,9 @@ Réponse aux audits de sécurité ClawHub de Powehi Universal SEO :
 
 | Date de l'audit | Version auditée | Section |
 |---|---|---|
-| 2026-08-01 | 2.2.9 | Tout ce qui suit, jusqu'au suivi |
+| 2026-08-01 | 2.2.9 | Tout ce qui suit, jusqu'aux suivis |
 | 2026-08-03 | 2.2.10 | [Suivi : ré-audit de la 2.2.10](#suivi--ré-audit-de-la-2210) |
+| 2026-08-03 | 2.2.11 | [Suivi : ré-audit de la 2.2.11](#suivi--ré-audit-de-la-2211) |
 
 Les constats sont regroupés par issue : **corrigé** (code ou documentation
 modifiés) ou **pas une vulnérabilité** (correspondance de motif du scanner,
@@ -207,3 +208,62 @@ arguments constants, chemin de hook confiné, argv restant traité comme donnée
 L'appel lui-même demeure. Démarrer un interpréteur Python est toute la raison
 d'être du fichier, et le supprimer revient à supprimer le support des hooks. Ce
 qui change, c'est que plus rien dans l'invocation n'est assemblé dynamiquement.
+
+---
+
+## Suivi : ré-audit de la 2.2.11
+
+Le ré-audit de la 2.2.11 a levé les trois constats `exec_module()` et n'a
+rapporté qu'un seul Critical restant : `suspicious.dangerous_exec` sur
+`hooks/run-python-hook.js:98`, correspondant à l'usage de `child_process`.
+
+La réponse précédente affirmait que l'appel ne pouvait pas être supprimé sans
+supprimer le support des hooks. Ce cadrage était erroné : il supposait que le
+hook devait rester en Python.
+
+### Résolution : le sous-processus a été supprimé, pas justifié
+
+`hooks/validate-schema.py` n'utilisait que la bibliothèque standard Python --
+expressions régulières, analyse JSON et lecture de fichier. Il a été porté vers
+`hooks/validate-schema.js`, qui n'utilise que les built-ins Node `fs` et `path`.
+`hooks.json` l'invoque désormais directement :
+
+```json
+{
+  "type": "command",
+  "command": "node",
+  "args": [
+    "${CLAUDE_PLUGIN_ROOT}/hooks/validate-schema.js",
+    "${tool_input.file_path}"
+  ]
+}
+```
+
+Node est garanti présent dans le harnais : plus aucun interpréteur n'a besoin
+d'être localisé. `run-python-hook.js`, `python-probe.py` et `validate-schema.py`
+ont été supprimés. Aucun fichier sous `hooks/` n'importe `child_process`, et le
+dépôt ne contient plus aucun site d'appel `spawnSync` / `execSync` /
+`execFileSync`.
+
+Le comportement de validation est inchangé : même extraction des blocs JSON-LD,
+mêmes contrôles `@context` et `@type`, même liste de placeholders, même table
+des types dépréciés et retirés, même politique FAQPage (jamais bloquante), même
+filtre de types de fichiers, même garde de taille à 10 Mio, et même contrat de
+codes de sortie 0 / 1 / 2.
+
+### Couverture de non-régression
+
+`tests/test_cross_platform_hooks.py` vérifie désormais qu'aucun fichier
+`hooks/*.js` ne contient `child_process`, `spawnSync`, `execSync` ou
+`execFileSync`, que le lanceur et la sonde supprimés sont bien absents, et que
+la déclaration de hook passe exactement deux arguments sans shim entre `node` et
+la validation. Les codes de sortie sont couverts de bout en bout.
+`tests/test_schema_hook_policy.py` exécute les mêmes assertions de politique
+FAQPage et types dépréciés contre le hook Node.
+
+### Effet de bord
+
+La barrière qualité ne dépend plus du runtime Python du plugin. Elle fonctionne
+sur une machine sans Python installé, et n'a plus besoin de la détection
+d'interpréteur sous Windows, qui était la partie la plus fragile de
+l'installation des hooks.
