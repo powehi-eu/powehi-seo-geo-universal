@@ -118,7 +118,7 @@ $RepoUrl = "https://github.com/powehi-eu/powehi-seo-geo-universal"
 # This default MUST be bumped on every release. CI guard
 # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
 # Override: $env:POWEHI_SEO_GEO_TAG = 'main'; .\install.ps1
-$RepoTag = if ($env:POWEHI_SEO_GEO_TAG) { $env:POWEHI_SEO_GEO_TAG } else { 'v2.2.9' }
+$RepoTag = if ($env:POWEHI_SEO_GEO_TAG) { $env:POWEHI_SEO_GEO_TAG } else { 'v2.2.10' }
 
 # Create directories
 New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
@@ -141,7 +141,7 @@ try {
 
     # Copy skill files
     Write-Host "=> Installing skill files..." -ForegroundColor Yellow
-    $skillSource = Join-Path $TempDir 'skills\seo'
+    $skillSource = Join-Path $TempDir 'skills\powehi-seo'
     if (-not (Test-Path $skillSource)) {
         throw "Could not find skill source folder in repo clone."
     }
@@ -245,6 +245,24 @@ try {
             }
         }
     }
+
+    # Record exactly what this install owns. The uninstaller deletes only the
+    # entries listed here, so a third-party skill or agent that happens to be
+    # named seo-* is never removed by a wildcard.
+    $manifestLines = @()
+    Get-ChildItem -Path $SkillsPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        $manifestLines += "skill:$($_.Name)"
+    }
+    Get-ChildItem -Path $ExtensionsPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        Get-ChildItem -Path (Join-Path $_.FullName 'skills') -Directory -ErrorAction SilentlyContinue |
+            ForEach-Object { $manifestLines += "skill:$($_.Name)" }
+        Get-ChildItem -Path (Join-Path $_.FullName 'agents') -File -Filter '*.md' -ErrorAction SilentlyContinue |
+            ForEach-Object { $manifestLines += "agent:$($_.Name)" }
+    }
+    Get-ChildItem -Path $AgentsPath -File -Filter '*.md' -ErrorAction SilentlyContinue | ForEach-Object {
+        $manifestLines += "agent:$($_.Name)"
+    }
+    Set-Content -Path (Join-Path $SkillDir '.install-manifest') -Value $manifestLines -Encoding utf8
 
     # Copy requirements.txt to skill dir for retry
     $reqFile = Join-Path $TempDir 'requirements.txt'

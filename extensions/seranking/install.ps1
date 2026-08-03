@@ -8,9 +8,16 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 $SkillDir = Join-Path $HOME ".claude/skills"
 $SettingsJson = Join-Path $HOME ".claude/settings.json"
 
-if (-not (Test-Path (Join-Path $SkillDir "seo"))) {
+if (-not (Test-Path (Join-Path $SkillDir "powehi-seo"))) {
     throw "powehi-seo-geo base plugin not installed."
 }
+
+Write-Host "Credential storage notice:" -ForegroundColor Yellow
+Write-Host "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+Write-Host "  Any process running as your user, and any backup or sync tool"
+Write-Host "  covering your profile, can read it. Use credentials you are able"
+Write-Host "  to revoke at the provider."
+Write-Host ""
 
 $Key = Read-Host "SE Ranking API key" -AsSecureString
 $Plain = [System.Net.NetworkCredential]::new("", $Key).Password

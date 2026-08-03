@@ -38,6 +38,7 @@ Cet index rassemble les guides publics de Powehi Universal SEO. Chaque guide est
 - [README du projet](../README.fr.md)
 - [Contribuer](../CONTRIBUTING.fr.md)
 - [Sécurité](../SECURITY.fr.md)
+- [Réponse à l’audit de sécurité](SECURITY-AUDIT-RESPONSE.fr.md)
 - [Confidentialité](../PRIVACY.fr.md)
 
 Les fichiers tels que `AGENTS.md`, `CLAUDE.md`, `skills/*/SKILL.md`, les définitions d’agents, les prompts, les schémas et les changelogs sont des contrats exécutables ou des archives historiques. Ils conservent leur langue technique canonique et ne sont pas considérés comme des guides destinés aux utilisateurs.

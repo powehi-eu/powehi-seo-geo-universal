@@ -6,7 +6,7 @@ argument-hint: "[command] [url]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.9"
+  version: "2.2.10"
   category: seo
 ---
 
@@ -142,6 +142,35 @@ Hard rules:
 - Never recommend HowTo schema (deprecated Sept 2023)
 - FAQ schema: Google retired FAQ rich results for ALL sites on May 7, 2026 (no SERP feature anymore; supersedes the Aug 2023 gov/health restriction). Flag existing FAQPage at Info (not Critical); do not claim confirmed AI/LLM citation benefit; do not recommend removal; do not recommend new FAQPage for Google SERP benefit; use QAPage for genuine user Q&A
 - All Core Web Vitals references use INP, never FID
+
+## Data Handling Rules
+
+These apply to every sub-skill and subagent. They are hard rules, not defaults.
+
+**Third-party submission.** URLs sent to an external service leave the user's
+machine and may be logged, cached, or indexed there, permanently. Before
+submitting any URL to PageSpeed Insights, CrUX, DataForSEO, Firecrawl, Ahrefs,
+SE Ranking, Profound, IndexNow, or the Google Indexing API, confirm the URL is
+public. Never submit a URL that is on `localhost`, a private IP, an internal
+hostname, a `staging.`/`dev.`/`preview.` subdomain, or that carries a token,
+session id, or signed-URL parameter in its query string. If the target looks
+non-public, stop and ask the user rather than guessing.
+
+**Indexing and publishing side effects.** IndexNow submission, Google Indexing
+API notifications, and any publish or deploy step change state that the user
+cannot fully undo. Ask for explicit confirmation each time, and state what will
+be submitted and to which service. Never chain them automatically onto the end
+of an analysis.
+
+**Screenshots.** `capture_screenshot.py` and any rendered capture may record
+authenticated or personal content -- a logged-in dashboard, a customer record,
+an email client. Capture only URLs the user named for this task, warn before
+capturing anything behind a login, and never capture a page the user did not
+ask for.
+
+**File writes.** Write output files only to a path the user gave, or to the
+current working directory after saying which file will be written. Never write
+into `~/.claude/` or another skill's directory as a side effect of an analysis.
 
 ## Community Footer
 

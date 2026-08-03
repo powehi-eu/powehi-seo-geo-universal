@@ -12,7 +12,7 @@ main() {
     # This default MUST be bumped on every release. CI guard
     # (tests/test_manifest_consistency.py) enforces this matches plugin.json.
     # Override: POWEHI_SEO_GEO_TAG=main bash install.sh
-    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.9}"
+    REPO_TAG="${POWEHI_SEO_GEO_TAG:-v2.2.10}"
 
     echo "════════════════════════════════════════"
     echo "║   Powehi Universal SEO - Installer             ║"
@@ -126,6 +126,25 @@ main() {
             fi
         done
     fi
+
+    # Record exactly what this install owns. The uninstaller deletes only the
+    # entries listed here, so a third-party skill or agent that happens to be
+    # named seo-* is never removed by a wildcard.
+    MANIFEST="${SKILL_DIR}/.install-manifest"
+    : > "${MANIFEST}"
+    chmod 600 "${MANIFEST}" 2>/dev/null || true
+    record_manifest() { printf '%s:%s\n' "$1" "$2" >> "${MANIFEST}"; }
+
+    for source_root in "${TEMP_DIR}/powehi-seo-geo/skills"/* \
+                       "${TEMP_DIR}/powehi-seo-geo/extensions"/*/skills/*; do
+        [ -d "${source_root}" ] || continue
+        record_manifest skill "$(basename "${source_root}")"
+    done
+    for source_doc in "${TEMP_DIR}/powehi-seo-geo/agents"/*.md \
+                      "${TEMP_DIR}/powehi-seo-geo/extensions"/*/agents/*.md; do
+        [ -f "${source_doc}" ] || continue
+        record_manifest agent "$(basename "${source_doc}")"
+    done
 
     # Copy requirements.txt to skill dir so users can retry later
     cp "${TEMP_DIR}/powehi-seo-geo/requirements.txt" "${SKILL_DIR}/requirements.txt" 2>/dev/null || true

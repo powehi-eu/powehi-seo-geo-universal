@@ -83,6 +83,13 @@ PY
         echo "Get a free key at: https://aistudio.google.com/apikey"
         echo ""
 
+        echo "⚠ Credential storage notice:"
+        echo "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+        echo "  Any process running as your user, and any backup or sync tool"
+        echo "  covering your home directory, can read it. Use credentials you"
+        echo "  are able to revoke at the provider."
+        echo ""
+
         read -rsp "Google AI API key (GOOGLE_AI_API_KEY): " GOOGLE_AI_API_KEY
         echo ""
         if [ -z "${GOOGLE_AI_API_KEY}" ]; then

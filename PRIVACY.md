@@ -63,3 +63,5 @@ Google API usage is governed by [Google's Privacy Policy](https://policies.googl
 - API keys and OAuth tokens are stored locally in `~/.config/powehi-seo-geo/` or environment variables
 - Credentials are never committed to the repository (blocked by `.gitignore`)
 - OAuth tokens use refresh tokens and never store client secrets in token files
+- MCP extension credentials (DataForSEO, Firecrawl, Ahrefs, SE Ranking, Profound, Bing Webmaster, Banana) are stored **in plaintext** in `~/.claude/settings.json`, because the MCP runtime reads them from the harness `env` block. The file is written atomically at mode `0600`, and every installer states this before prompting, but any process running as your user can read it. Use credentials you can revoke at the provider.
+- Nothing is transmitted to a third-party API unless you configured that provider's credentials. Non-public URLs (localhost, private IPs, internal hostnames, staging subdomains, URLs carrying tokens or session ids) are never submitted to a third-party API.

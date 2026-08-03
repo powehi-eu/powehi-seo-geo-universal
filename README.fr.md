@@ -25,7 +25,7 @@ générative et à la citabilité ; il ne constitue pas une discipline séparée
 technique, de la qualité éditoriale et de l’autorité.
 
 [![CI](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml/badge.svg)](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/release-v2.2.9-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.9)
+[![Version](https://img.shields.io/badge/release-v2.2.10-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.10)
 [![Licence MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Powehi](https://img.shields.io/badge/Powehi-powehi.eu-E8922D)](https://powehi.eu)
 
@@ -242,10 +242,31 @@ Identifiants techniques conservés pour compatibilité :
 ## Données et sécurité
 
 - Aucune API payante n’est requise par le cœur.
-- Les credentials Google et extensions sont optionnels.
-- Les URLs sont contrôlées contre les risques SSRF et DNS rebinding.
+- Les credentials Google sont optionnels et stockés dans
+  `~/.config/powehi-seo-geo/` avec des permissions `0600`.
+- Les credentials d’extensions (DataForSEO, Firecrawl, Ahrefs, SE Ranking,
+  Profound, Bing Webmaster, Banana) sont écrits **en clair** dans
+  `~/.claude/settings.json`, car c’est là que le runtime MCP les lit. Chaque
+  installeur l’indique avant la saisie. Tout processus tournant sous votre
+  compte, ainsi que tout outil de sauvegarde ou de synchronisation couvrant
+  votre répertoire personnel, peut lire ce fichier : utilisez des credentials
+  révocables chez le fournisseur.
+- Les URLs sont contrôlées contre les risques SSRF et DNS rebinding. Aucune URL
+  non publique (localhost, IP privées, noms d’hôtes internes, sous-domaines de
+  préproduction, URLs portant un jeton ou un identifiant de session) n’est
+  transmise à une API tierce.
+- Les soumissions d’indexation (IndexNow, API Google Indexing) et toute étape de
+  publication sont confirmées à chaque usage ; elles ne sont jamais enchaînées
+  automatiquement à la suite d’une analyse.
 - Un audit contacte les URLs ciblées et les fournisseurs explicitement activés.
 - Les secrets et erreurs d’authentification non expurgées ne doivent jamais entrer dans les rapports.
+- Les désinstalleurs ne suppriment que ce que l’installeur a enregistré dans son
+  propre manifeste : une skill tierce partageant le préfixe `seo-` n’est jamais
+  supprimée.
+
+Voir [SECURITY.fr.md](SECURITY.fr.md) pour le modèle de menace et
+[docs/SECURITY-AUDIT-RESPONSE.fr.md](docs/SECURITY-AUDIT-RESPONSE.fr.md) pour la
+réponse à l’audit ClawHub de la v2.2.9.
 
 ## Limites
 
@@ -266,6 +287,8 @@ Identifiants techniques conservés pour compatibilité :
 - [Intégrations MCP](docs/MCP-INTEGRATION.fr.md)
 - [Dépannage](docs/TROUBLESHOOTING.fr.md)
 - [Synchronisation upstream](docs/UPSTREAM.fr.md)
+- [Politique de sécurité](SECURITY.fr.md) et
+  [réponse à l’audit](docs/SECURITY-AUDIT-RESPONSE.fr.md)
 - [Contributeurs](CONTRIBUTORS.fr.md)
 
 ## Crédits et licence

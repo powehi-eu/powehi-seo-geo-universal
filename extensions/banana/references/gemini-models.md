@@ -143,12 +143,17 @@ Gemini uses a two-layer safety architecture:
 | `finishReason` | Meaning | Retryable? |
 |----------------|---------|:----------:|
 | `STOP` | Successful generation | N/A |
-| `IMAGE_SAFETY` | Output blocked by safety filter | Rephrase prompt |
+| `IMAGE_SAFETY` | Output blocked by safety filter | Once, if the subject is benign |
 | `PROHIBITED_CONTENT` | Content policy violation | No - topic is blocked |
-| `SAFETY` | General safety block | Rephrase prompt |
-| `RECITATION` | Detected copyrighted content | Rephrase prompt |
+| `SAFETY` | General safety block | Once, if the subject is benign |
+| `RECITATION` | Detected copyrighted content | No - pick an original concept |
 
-**Known issue:** Filters are known to be overly cautious. Benign prompts may be blocked. Iterate with rephrased wording if this happens.
+**Retry policy:** filters can be overly cautious, so a benign subject described
+too vaguely may be blocked. In that case describe the benign subject more
+concretely and retry **once**. A second block means the concept is unsuitable:
+report it and stop. Never reword a prompt in order to get restricted content
+past a filter -- see `prompt-engineering.md`, "When a Safety Filter Blocks a
+Prompt".
 
 ## Content Credentials
 

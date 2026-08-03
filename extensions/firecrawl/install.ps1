@@ -38,6 +38,13 @@ Write-Host "Sign up at: https://www.firecrawl.dev/app/sign-up"
 Write-Host "Free tier: 500 credits/month"
 Write-Host ""
 
+Write-Host "Credential storage notice:" -ForegroundColor Yellow
+Write-Host "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+Write-Host "  Any process running as your user, and any backup or sync tool"
+Write-Host "  covering your profile, can read it. Use credentials you are able"
+Write-Host "  to revoke at the provider."
+Write-Host ""
+
 $apiKey = Read-Host "Firecrawl API key" -AsSecureString
 $apiKeyPlain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR(
     [Runtime.InteropServices.Marshal]::SecureStringToBSTR($apiKey))

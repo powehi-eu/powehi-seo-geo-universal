@@ -13,7 +13,7 @@
 - [Prompt Adaptation Rules](#prompt-adaptation-rules) -- Model-specific adjustments
 - [Common Prompt Mistakes](#common-prompt-mistakes) -- Anti-patterns to avoid
 - [Proven Prompt Templates](#proven-prompt-templates) -- Ready-to-use templates by use case
-- [Safety Filter Rephrase Strategies](#safety-filter-rephrase-strategies) -- Workarounds for blocked prompts
+- [When a Safety Filter Blocks a Prompt](#when-a-safety-filter-blocks-a-prompt) -- Handling blocked prompts
 
 ## The 6-Component Reasoning Brief
 
@@ -380,42 +380,48 @@ branding, high resolution, dramatic contrast.
 - **"A bold call to action with..."**:describes marketing intent, not visual content
 - **Describing what the viewer should feel**:instead, describe what creates that feeling
 
-## Safety Filter Rephrase Strategies
+## When a Safety Filter Blocks a Prompt
 
-Gemini's safety filters (Layer 2: server-side output filter) cannot be disabled.
-When a prompt is blocked, the only path forward is rephrasing.
+Gemini's safety filters (Layer 2: server-side output filter) cannot be disabled,
+and this skill does not attempt to work around them.
 
-### Common Trigger Categories
+**Only one response is supported:** if the intended image is genuinely benign
+marketing or editorial imagery and the filter fired on a false positive,
+describe the benign subject more concretely and try once more. If the image is
+blocked again, stop and choose a different visual concept.
 
-| Category | Triggers on | Rephrase approach |
-|----------|------------|-------------------|
-| Violence/weapons | Combat, blood, injuries, firearms | Use metaphor or aftermath: "battle-worn" → "weathered veteran" |
-| Medical/gore | Surgery, wounds, anatomical detail | Abstract or clinical: "open wound" → "medical illustration" |
-| Real public figures | Named celebrities, politicians | Use archetypes: "Elon Musk" → "a tech entrepreneur in a minimalist office" |
-| Children + risk | Minors in any ambiguous context | Add safety context: specify educational, family, or playful framing |
-| NSFW/suggestive | Revealing clothing, intimate poses | Use artistic framing: "fashion editorial, fully clothed, editorial pose" |
+### Genuinely benign, described too vaguely
 
-### Rephrase Patterns
+An abstract or under-specified prompt gives the model room to render something
+you did not intend. The fix is precision about the actual subject, not softer
+wording for the same subject.
 
-1. **Abstraction**:Replace specific dangerous elements with abstract concepts
-2. **Artistic framing**:Frame content as art, editorial, or documentary
-3. **Metaphor**:Use symbolic language instead of literal descriptions
-4. **Positive emphasis**:Describe what IS present, not what's dangerous
-5. **Context shift**:Move from threatening to educational/professional context
+| Vague prompt | Concrete rewrite |
+|--------------|------------------|
+| "a scary horror monster" | "a stylised fantasy creature illustration for a game-review article, bioluminescent accents, concept art style" |
+| "medical surgery scene" | "a clean modern operating room, empty, viewed from the observation gallery, soft blue surgical lights" |
+| "dog in a fight" | "a golden retriever running across a sunny park, action shot, joyful expression" |
 
-### Example Rephrases
+### Do not attempt
 
-| Blocked prompt | Successful rephrase |
-|----------------|---------------------|
-| "a soldier in combat firing a rifle" | "a determined soldier standing guard at dawn, rifle slung over shoulder, morning mist over the outpost" |
-| "a scary horror monster" | "a fantastical creature from a dark fairy tale, intricate organic textures, bioluminescent accents, concept art style" |
-| "dog in a fight" | "a friendly golden retriever playing energetically in a sunny park, action shot, joyful expression" |
-| "medical surgery scene" | "a clean modern operating room viewed from the observation gallery, soft blue surgical lights, professional documentary style" |
-| "celebrity portrait of [name]" | "a distinguished middle-aged man in a tailored navy suit, warm studio lighting, editorial portrait style" |
+These are outside what this skill generates. Rewording will not make them
+acceptable, and rewording specifically to get past a filter is misuse of the
+API and a violation of the provider's terms:
+
+- Violence, gore, weapons in use, or injury depiction
+- Sexual or suggestive imagery
+- Any image placing a minor in an ambiguous, risky, or sexualised context
+- Likenesses of real, identifiable people (celebrities, politicians, private
+  individuals) -- this is also a publicity-rights and defamation exposure, not
+  only a filter issue. Use licensed stock photography or commissioned
+  photography of people who have consented.
+
+If a prompt falls in this list, report the block to the user and stop. Do not
+iterate on wording.
 
 ### Key Principle
 
-Layer 2 (output filter) analyzes the generated image, not just the prompt.
-Even well-phrased prompts can be blocked if the model's interpretation triggers
-the output filter. When this happens, try shifting the visual concept further
-from the trigger rather than just changing words.
+Layer 2 analyses the generated image, not just the prompt, so a block is a
+signal about the *concept*. Treat repeated blocks as the concept being
+unsuitable for AI generation and switch to a different concept or to licensed
+imagery.

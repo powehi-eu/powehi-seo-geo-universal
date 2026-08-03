@@ -44,18 +44,44 @@ def test_hook_launcher_documents_python_probe_order() -> None:
         assert marker in text
 
 
-def test_hook_launcher_preserves_blocking_exit_code_two(tmp_path: Path) -> None:
+def test_hook_launcher_preserves_blocking_exit_code_two() -> None:
     node = shutil.which("node")
     if not node:
         pytest.skip("node is not available in this test environment")
 
-    script = tmp_path / "block.py"
+    # The launcher only runs hook scripts that live beside it, so the fixture
+    # has to be created inside hooks/ and removed afterwards.
+    script = HOOK_LAUNCHER.parent / "_test_block_hook.py"
     script.write_text(
         "import sys\n"
         "assert sys.argv[1] == 'payload'\n"
         "sys.exit(2)\n",
         encoding="utf-8",
     )
+    env = os.environ.copy()
+    env["POWEHI_SEO_GEO_PYTHON"] = sys.executable
+
+    try:
+        proc = subprocess.run(
+            [node, str(HOOK_LAUNCHER), str(script), "payload"],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+    finally:
+        script.unlink(missing_ok=True)
+
+    assert proc.returncode == 2
+
+
+def test_hook_launcher_refuses_scripts_outside_hooks_directory(tmp_path: Path) -> None:
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node is not available in this test environment")
+
+    script = tmp_path / "attacker.py"
+    script.write_text("import sys; sys.exit(0)\n", encoding="utf-8")
     env = os.environ.copy()
     env["POWEHI_SEO_GEO_PYTHON"] = sys.executable
 
@@ -67,7 +93,35 @@ def test_hook_launcher_preserves_blocking_exit_code_two(tmp_path: Path) -> None:
         timeout=15,
     )
 
-    assert proc.returncode == 2
+    assert proc.returncode == 1
+    assert "must be .py files inside" in proc.stderr
+
+
+def test_hook_launcher_ignores_non_python_interpreter_override() -> None:
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node is not available in this test environment")
+
+    script = HOOK_LAUNCHER.parent / "_test_override_hook.py"
+    script.write_text("import sys; sys.exit(3)\n", encoding="utf-8")
+    env = os.environ.copy()
+    # node is a real executable, but its basename is not a python interpreter,
+    # so the override must be rejected and the normal probe order used instead.
+    env["POWEHI_SEO_GEO_PYTHON"] = node
+
+    try:
+        proc = subprocess.run(
+            [node, str(HOOK_LAUNCHER), str(script), "payload"],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    finally:
+        script.unlink(missing_ok=True)
+
+    assert "ignored POWEHI_SEO_GEO_PYTHON" in proc.stderr
+    assert proc.returncode == 3
 
 
 def test_windows_installer_prefers_py_launcher_and_rejects_store_stubs() -> None:

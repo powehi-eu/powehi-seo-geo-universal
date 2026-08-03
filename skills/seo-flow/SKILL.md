@@ -11,7 +11,7 @@ argument-hint: "[stage] [url|topic]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.9"
+  version: "2.2.10"
   category: seo
 ---
 

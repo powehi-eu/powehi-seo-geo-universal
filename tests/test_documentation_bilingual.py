@@ -49,7 +49,7 @@ def command_names(text: str) -> set[str]:
 
 def test_every_public_guide_has_a_french_companion() -> None:
     sources = guide_sources()
-    assert len(sources) == 30
+    assert len(sources) == 31
     for source in sources:
         french = source.with_name(f"{source.stem}.fr.md")
         assert french.is_file(), f"Missing French guide: {french.relative_to(ROOT)}"

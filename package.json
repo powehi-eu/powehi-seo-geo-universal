@@ -1,6 +1,6 @@
 {
   "name": "powehi-universal-seo-geo",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "description": "Powehi Universal SEO and GEO intelligence plugin for OpenClaw.",
   "main": "./openclaw/index.js",
   "type": "commonjs",

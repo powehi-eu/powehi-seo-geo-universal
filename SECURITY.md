@@ -55,11 +55,16 @@ powehi-seo-geo is a research and audit toolkit that runs on a user's workstation
 
    **Mitigation:** v2 forces `0o600` on every write (`os.open` + `os.fchmod`) and remediates legacy `0o644` files in place on first load. Tokens never contain the OAuth `client_secret` — only the access/refresh pair plus expiry metadata.
 
+4. **Hostile environment against the hook launcher.** `hooks/run-python-hook.js` resolves a Python interpreter and runs the plugin's schema-validation hook. A poisoned `POWEHI_SEO_GEO_PYTHON`, or an attacker-supplied script path, would otherwise turn it into a general-purpose program launcher.
+
+   **Mitigation:** the environment override is accepted only as an absolute path to an existing file whose basename matches `python[0-9.]*(.exe)?` and contains no shell metacharacters; otherwise it is ignored and the normal probe order applies. The hook script must resolve to an existing `.py` file inside the launcher's own `hooks/` directory. Both `spawnSync` calls pass `shell: false` and an argument vector — no shell is ever involved. Regressions: `tests/test_cross_platform_hooks.py`.
+
 ## Known residual risks
 
 - **Playwright + Chromium DNS rebinding.** Chromium does its own DNS resolution inside the renderer process. powehi-seo-geo's Python-layer DNS pin (`url_safety._pin_dns`) cannot reach it. The Playwright `route()` handler re-validates every subresource host (`make_safe_playwright_route_handler`), which closes the common case, but a true rebinding attacker can still race Chromium's resolver after our pre-flight returns. Mitigation: do not point `/powehi-seo` skills at untrusted sites with high-frequency redirects.
 - **IPv6-only audit targets.** The strict validator queries `family=AF_INET` for the initial resolution. Hosts with AAAA records only will surface as "DNS resolution failed". This is **fail-closed** by design — we'd rather refuse than connect to an unvalidated IPv6 endpoint. Tracked for a future patch (full dual-stack pinning, similar to the Playwright handler which already uses `AF_UNSPEC`).
 - **Windows file permissions.** `os.fchmod(fd, 0o600)` is a no-op on Windows for non-ACL filesystems. Users on Windows should rely on per-user directory ACLs instead of POSIX mode bits.
+- **Extension credentials in `~/.claude/settings.json`.** MCP servers receive their credentials through the harness `env` block, so extension API keys are necessarily stored there in plaintext. Installers write the file atomically at `0600` and pass secrets via `argv` (never interpolated into a script body), and every credential prompt now states the exposure before reading a value — but any process running as the user, and any backup or sync tool covering the home directory, can still read it. Treat a key handled this way as revocable-on-demand: revocation at the provider is the only complete remedy for a leak. Tracked for a future patch (OS keychain integration where a harness-supported indirection exists).
 
 ## Security-relevant code paths
 
@@ -74,6 +79,9 @@ If you are auditing, these are the high-leverage files:
 | `scripts/google_auth.py` | OAuth token lifecycle, `chmod 0o600` writes. |
 | `scripts/backlinks_auth.py` | Backlink-API credential loading; SSRF guard via `url_safety`. |
 | `tests/test_url_safety.py` | 91-case regression battery covering every bypass class. |
+| `hooks/run-python-hook.js` | Hook launcher: interpreter validation and hook-path containment. |
+| `install.sh` / `install.ps1` | Install-ownership manifest generation. |
+| `uninstall.sh` / `uninstall.ps1` | Manifest-scoped deletion; confirmation gate for legacy installs. |
 
 ## What this policy does **not** cover
 
@@ -87,3 +95,14 @@ If you are auditing, these are the high-leverage files:
 - Install scripts write only to user-level directories under `~/.claude/` and `~/.config/powehi-seo-geo/`.
 - Python dependencies install into an isolated virtual environment. Plugin installs use persistent `CLAUDE_PLUGIN_DATA`; manual installs use `~/.claude/skills/powehi-seo/.venv/`. The runtime never falls back to global or user package installation.
 - Every new fetcher must route through `scripts/url_safety.py` — there is no exception for "trusted" URLs.
+- Skills and subagents follow the **Data Handling Rules** in `skills/powehi-seo/SKILL.md`: no submission of non-public URLs to third-party APIs, explicit per-use confirmation for indexing and publishing side effects, screenshot capture limited to URLs the user named, and no file writes outside a user-specified path.
+- Uninstallers delete only paths recorded in the install manifest (`~/.claude/skills/powehi-seo/.install-manifest`). Pre-manifest installs fall back to `seo-*` enumeration but print the full candidate list and require explicit confirmation; a non-interactive shell exits instead of guessing.
+- Issue templates carry a redaction notice. Issues are public and indexed: a credential posted there must be revoked and rotated, since deleting the issue does not un-publish it.
+
+## Audit history
+
+| Date | Auditor | Scope | Response |
+|---|---|---|---|
+| 2026-08-01 | ClawHub automated security audit | Plugin v2.2.9, full repository | [docs/SECURITY-AUDIT-RESPONSE.md](docs/SECURITY-AUDIT-RESPONSE.md) |
+
+The response document records, per finding, whether it was fixed or classified as a scanner false positive with the reasoning.

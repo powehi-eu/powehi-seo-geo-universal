@@ -7,7 +7,7 @@ license: MIT
 compatibility: "Requires nanobanana MCP server"
 metadata:
   author: Powehi
-  version: "2.2.9"
+  version: "2.2.10"
   category: seo
 ---
 
@@ -142,7 +142,7 @@ Approximate costs:
 | MCP not configured | Run `./extensions/banana/install.sh` |
 | API key invalid | New key at https://aistudio.google.com/apikey |
 | Rate limited (429) | Wait 60s, retry. Free tier: ~10 RPM / ~500 RPD |
-| `IMAGE_SAFETY` | Rephrase prompt - see `references/prompt-engineering.md` Safety section |
+| `IMAGE_SAFETY` | If the subject is benign, describe it more concretely and retry once; a second block means stop. Never reword to get restricted content past the filter. See `references/prompt-engineering.md` Safety section |
 | MCP unavailable | Configure MCP with `./extensions/banana/install.sh`; powehi-seo-geo does not vendor a local generation fallback script |
 | Extension not installed | Show install instructions: `./extensions/banana/install.sh` |
 

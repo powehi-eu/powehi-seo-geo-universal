@@ -45,6 +45,13 @@ Write-Host "DataForSEO API credentials required." -ForegroundColor Yellow
 Write-Host "Sign up at: https://app.dataforseo.com/register"
 Write-Host ""
 
+Write-Host "Credential storage notice:" -ForegroundColor Yellow
+Write-Host "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+Write-Host "  Any process running as your user, and any backup or sync tool"
+Write-Host "  covering your profile, can read it. Use credentials you are able"
+Write-Host "  to revoke at the provider."
+Write-Host ""
+
 $DfseUsername = Read-Host "DataForSEO username (email)"
 if ([string]::IsNullOrEmpty($DfseUsername)) {
     Write-Host "✗ Username cannot be empty." -ForegroundColor Red

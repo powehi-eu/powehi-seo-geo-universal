@@ -126,6 +126,10 @@ bash powehi-seo-geo/uninstall.sh
 
 `uninstall.sh` supprime toutes les sous-compétences, sous-agents installés et les entrées MCP du plugin de `~/.claude/settings.json`. Ne maintenez pas de liste `rm` codée à la main. Le désinstaller expédié est la source canonique.
 
+**Ce qui est supprimé.** `install.sh` et `install.ps1` enregistrent chaque répertoire de skill et chaque fichier d’agent qu’ils créent dans un manifeste de propriété situé dans `~/.claude/skills/powehi-seo/.install-manifest`. Les désinstalleurs ne suppriment que ces entrées : une skill ou un agent tiers utilisant le préfixe `seo-` n’est jamais supprimé.
+
+Si votre installation est antérieure aux manifestes, le désinstalleur retombe sur l’énumération des chemins `seo-*`. Il affiche alors la liste complète des candidats et attend un `y` explicite avant toute suppression — relisez cette liste, car elle peut inclure des skills que ce projet n’a pas installées. Passez `--force` (ou `-Force` sous Windows) pour sauter l’invite une fois la vérification faite. Dans un shell non interactif, le désinstalleur s’arrête sans rien supprimer plutôt que de présumer un accord.
+
 ## Amélioration
 
 Pour passer à la dernière version :

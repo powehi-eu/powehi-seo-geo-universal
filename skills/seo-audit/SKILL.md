@@ -6,7 +6,7 @@ argument-hint: "[url]"
 license: MIT
 metadata:
   author: Powehi
-  version: "2.2.9"
+  version: "2.2.10"
   category: seo
 ---
 
@@ -97,7 +97,7 @@ Write `{domain}-audit/audit-data.json` with this shape so `powehi-seo-geo run go
   "schema_version": "2.0",
   "generator": {
     "name": "Powehi Universal SEO",
-    "version": "2.2.9"
+    "version": "2.2.10"
   },
   "audit_run": {
     "run_id": "ISO-8601-safe identifier",

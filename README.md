@@ -26,7 +26,7 @@ for generative search and citation visibility; it is not treated as a separate
 discipline disconnected from technical SEO, content quality and authority.
 
 [![CI](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml/badge.svg)](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/release-v2.2.9-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.9)
+[![Version](https://img.shields.io/badge/release-v2.2.10-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.10)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Powehi](https://img.shields.io/badge/Powehi-powehi.eu-2563EB)](https://powehi.eu)
 
@@ -310,13 +310,31 @@ See [docs/MCP-INTEGRATION.md](docs/MCP-INTEGRATION.md) and each extension’s
 ## Data, credentials and security
 
 - The core requires no paid API key.
-- Google and extension credentials are opt-in and stored under
-  `~/.config/powehi-seo-geo/` or the connector’s documented secure store.
+- Google credentials are opt-in and stored under `~/.config/powehi-seo-geo/`
+  with `0600` permissions.
+- Extension credentials (DataForSEO, Firecrawl, Ahrefs, SE Ranking, Profound,
+  Bing Webmaster, Banana) are written **in plaintext** to
+  `~/.claude/settings.json`, because that is where the MCP runtime reads them.
+  Each installer states this before prompting. Any process running as your user,
+  and any backup or sync tool covering your home directory, can read that file —
+  use credentials you can revoke at the provider.
 - URL tooling validates destinations against SSRF and DNS-rebinding risks.
+  Non-public URLs (localhost, private IPs, internal hostnames, staging
+  subdomains, URLs carrying tokens or session ids) are never submitted to a
+  third-party API.
+- Indexing submissions (IndexNow, Google Indexing API) and any publish step are
+  confirmed with you each time; they are never chained automatically onto an
+  analysis.
 - Audits contact the target URLs and any explicitly enabled provider APIs;
   “local-first” describes storage and execution, not an offline-only product.
 - Secrets, tokens and unredacted authentication errors must never enter reports
   or the repository.
+- The uninstallers delete only what the installer recorded in its own manifest,
+  so a third-party skill sharing the `seo-` naming prefix is never removed.
+
+See [SECURITY.md](SECURITY.md) for the threat model, and
+[docs/SECURITY-AUDIT-RESPONSE.md](docs/SECURITY-AUDIT-RESPONSE.md) for the
+response to the ClawHub audit of v2.2.9.
 
 ## Scope and limitations
 
@@ -359,6 +377,8 @@ FLOW updates are staged and validated before they can replace local prompts. See
 - [MCP integrations](docs/MCP-INTEGRATION.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Upstream synchronization and attribution](docs/UPSTREAM.md)
+- [Security policy](SECURITY.md) and
+  [audit response](docs/SECURITY-AUDIT-RESPONSE.md)
 - [Contributors](CONTRIBUTORS.md)
 
 ## Credits, license and contribution

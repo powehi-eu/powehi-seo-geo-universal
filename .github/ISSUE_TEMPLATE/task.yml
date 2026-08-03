@@ -3,6 +3,14 @@ description: Development task for async collaboration
 title: "[Task] "
 labels: []
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > **Redact secrets before submitting.** Issues are public. Replace any
+        > API key, token, `client_secret`, or private/staging hostname with
+        > `REDACTED`. If a credential was already posted, revoke and rotate it
+        > at the provider.
+
   - type: textarea
     id: summary
     attributes:

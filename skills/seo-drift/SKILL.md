@@ -12,7 +12,7 @@ license: MIT
 metadata:
   author: Powehi
   original_author: "Dan Colta (Pro Hub Challenge)"
-  version: "2.2.9"
+  version: "2.2.10"
   category: seo
 ---
 

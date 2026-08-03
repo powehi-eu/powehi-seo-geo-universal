@@ -7,6 +7,11 @@ body:
     attributes:
       value: |
         Have a great idea? We'd love to hear it! For general discussion, consider using [GitHub Discussions](https://github.com/powehi-eu/powehi-seo-geo-universal/discussions) instead.
+
+        > **Redact secrets before submitting.** Issues are public. Replace any
+        > API key, token, `client_secret`, or private/staging hostname with
+        > `REDACTED`. If a credential was already posted, revoke and rotate it
+        > at the provider.
   - type: textarea
     id: problem
     attributes:

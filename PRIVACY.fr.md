@@ -58,8 +58,10 @@ Recherche de requêtes pour la recherche YouTube SEO
 
 L'utilisation de l'API Google est régie par [Politique de confidentialité de Google](https://policies.google.com/privacy) et les [Conditions de l'API Google de Service](https://developers.google.com/terms).
 
-## Pouvoirs
+## Identifiants
 
 - Les clés API et les jetons OAuth sont stockés localement dans `~/.config/powehi-seo-geo/` ou des variables d'environnement
-- Les lettres de créances ne sont jamais liées au dépôt (bloquantes par `.gitignore`)
+- Les identifiants ne sont jamais versionnés dans le dépôt (bloqués par `.gitignore`)
 - Les jetons OAuth utilisent des jetons de rafraîchissement et ne stockent jamais les secrets clients dans les fichiers de jetons
+- Les identifiants des extensions MCP (DataForSEO, Firecrawl, Ahrefs, SE Ranking, Profound, Bing Webmaster, Banana) sont stockés **en clair** dans `~/.claude/settings.json`, car le runtime MCP les lit dans le bloc `env` du harnais. Le fichier est écrit de manière atomique en mode `0600`, et chaque installeur l'indique avant la saisie, mais tout processus tournant sous votre compte peut le lire. Utilisez des identifiants révocables chez le fournisseur.
+- Rien n'est transmis à une API tierce sans que vous ayez configuré les identifiants du fournisseur concerné. Aucune URL non publique (localhost, IP privées, noms d'hôtes internes, sous-domaines de préproduction, URLs portant un jeton ou un identifiant de session) n'est transmise à une API tierce.

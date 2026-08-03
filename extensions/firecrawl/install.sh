@@ -51,6 +51,13 @@ main() {
     echo "Free tier: 500 credits/month"
     echo ""
 
+    echo "⚠ Credential storage notice:"
+    echo "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+    echo "  Any process running as your user, and any backup or sync tool"
+    echo "  covering your home directory, can read it. Use credentials you are"
+    echo "  able to revoke at the provider."
+    echo ""
+
     read -rsp "Firecrawl API key: " FIRECRAWL_API_KEY
     echo ""
     if [ -z "${FIRECRAWL_API_KEY}" ]; then

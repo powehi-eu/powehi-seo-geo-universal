@@ -17,7 +17,7 @@ main() {
     echo ""
 
     # Support both traditional (curl|bash → ~/.claude/skills/powehi-seo) and marketplace
-    # (plugin install → ~/.claude/plugins/cache/.../skills/seo) installations.
+    # (plugin install → ~/.claude/plugins/cache/.../skills/powehi-seo) installations.
     # Resolve early using BASH_SOURCE so it works even when run from the plugin cache.
     _EARLY_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     _PLUGIN_SEO_DIR="$(cd "${_EARLY_SCRIPT_DIR}/../.." 2>/dev/null && pwd)/skills/powehi-seo"
@@ -61,6 +61,12 @@ main() {
     echo ""
     echo "DataForSEO API credentials required."
     echo "Sign up at: https://app.dataforseo.com/register"
+    echo ""
+    echo "⚠ Credential storage notice:"
+    echo "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json"
+    echo "  (written atomically, file mode 0600). Any process running as your"
+    echo "  user, and any backup or sync tool covering your home directory, can"
+    echo "  read it. Use credentials you are able to revoke at the provider."
     echo ""
 
     read -rp "DataForSEO username (email): " DFSE_USERNAME

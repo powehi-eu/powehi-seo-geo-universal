@@ -7,6 +7,14 @@ body:
     attributes:
       value: |
         Thanks for reporting a bug! Please fill in as much detail as possible.
+
+        > **Redact secrets before submitting.** Issues are public and are
+        > indexed by search engines. Terminal output and config snippets often
+        > contain API keys, OAuth tokens, `client_secret` values, DataForSEO
+        > credentials, Search Console property URLs, or private/staging
+        > hostnames. Replace them with `REDACTED` before you post. If you have
+        > already published a credential, revoke and rotate it at the provider
+        > -- deleting the issue does not un-publish it.
   - type: input
     id: os
     attributes:
@@ -32,7 +40,9 @@ body:
     id: error-output
     attributes:
       label: Full error output
-      description: Copy the complete terminal output
+      description: >
+        Copy the complete terminal output, with API keys, tokens, and private
+        hostnames replaced by REDACTED.
       render: shell
     validations:
       required: true

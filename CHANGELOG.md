@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.10] - 2026-08-03
+
+### Security
+
+- Scoped both uninstallers to an install-ownership manifest written by `install.sh` / `install.ps1`, so a third-party skill or agent sharing the `seo-` naming prefix is no longer deleted by a wildcard. Pre-manifest installs now list every candidate path and require explicit confirmation (`--force` / `-Force` to skip); a non-interactive shell exits instead of deleting.
+- Hardened `hooks/run-python-hook.js`: `POWEHI_SEO_GEO_PYTHON` is accepted only as an absolute path to an existing python-named executable with no shell metacharacters, hook scripts must resolve to an existing `.py` file inside the launcher's own `hooks/` directory, and both `spawnSync` calls pass `shell: false` explicitly.
+- Replaced the image-generation safety-filter rephrasing guide with false-positive recovery guidance capped at one retry, plus an explicit do-not-attempt list (violence, gore, minors in risky contexts, NSFW, likenesses of real people).
+- Added a credential storage notice to every extension installer prompt (DataForSEO, Firecrawl, Ahrefs, SE Ranking, Profound, Bing Webmaster, Banana; `.sh` and `.ps1`), stating that values are stored in plaintext in `~/.claude/settings.json`.
+- Added binding **Data Handling Rules** to `skills/powehi-seo/SKILL.md`: no submission of non-public URLs to third-party APIs, explicit per-use confirmation for indexing and publishing side effects, screenshot capture limited to user-named URLs, and no writes outside a user-specified path.
+- Added redaction warnings to all three GitHub issue templates.
+- Published `docs/SECURITY-AUDIT-RESPONSE.md` (and its French companion) documenting the response to each ClawHub v2.2.9 audit finding, including the reasoning for the findings classified as scanner false positives.
+
+### Fixed
+
+- Corrected the orchestrator skill path from `skills/seo` to `skills/powehi-seo` in `install.ps1`, `uninstall.ps1`, and the `ahrefs`, `bing-webmaster`, `profound`, `seranking`, and `unlighthouse` extension installers. Manual installation and extension installation on Windows previously failed against a correct base install.
+- Rebuilt the corrupted security-relevant code paths table in `SECURITY.fr.md`.
+
 ## [2.2.9] - 2026-08-01
 
 - Rebuilt the OpenClaw launcher around direct, shell-free Python execution on Windows, macOS, and Linux.

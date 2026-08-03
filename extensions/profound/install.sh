@@ -19,6 +19,14 @@ main() {
 
     SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd)"
 
+    echo ""
+    echo "⚠ Credential storage notice:"
+    echo "  What you enter is stored in PLAINTEXT in ~/.claude/settings.json."
+    echo "  Any process running as your user, and any backup or sync tool"
+    echo "  covering your home directory, can read it. Use credentials you are"
+    echo "  able to revoke at the provider."
+    echo ""
+
     read -rsp "Profound API key: " PROFOUND_KEY
     echo
     [ -z "${PROFOUND_KEY}" ] && { echo "✗ No key provided."; exit 1; }
