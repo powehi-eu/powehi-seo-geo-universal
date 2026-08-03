@@ -57,7 +57,7 @@ powehi-seo-geo est une boîte à outils de recherche et d'audit qui fonctionne s
 
 4. **Environnement hostile contre le lanceur de hook.** `hooks/run-python-hook.js` résout un interpréteur Python et exécute le hook de validation de schéma du plugin. Sans contrainte, un `POWEHI_SEO_GEO_PYTHON` corrompu, ou un chemin de script fourni par un attaquant, en ferait un lanceur de programmes arbitraires.
 
-**Mitigation:** la variable d'environnement n'est acceptée que comme chemin absolu vers un fichier existant dont le nom de base correspond à `python[0-9.]*(.exe)?` et ne contient aucun métacaractère de shell ; sinon elle est ignorée et l'ordre de détection normal s'applique. Le script de hook doit se résoudre en un fichier `.py` existant situé dans le répertoire `hooks/` du lanceur lui-même. Les deux appels `spawnSync` passent `shell: false` et un vecteur d'arguments : aucun shell n'intervient. Non-régression : `tests/test_cross_platform_hooks.py`.
+**Mitigation:** la liste d'interpréteurs est une constante gelée au niveau module (`PYTHON_ALLOWLIST`). La variable d'environnement n'est acceptée que comme chemin absolu vers un fichier existant dont le nom de base correspond à `python[0-9.]*(.exe)?` et ne contient aucun métacaractère de shell ; sinon elle est ignorée et l'ordre de détection normal s'applique. Le script de hook doit se résoudre en un fichier `.py` existant situé dans le répertoire `hooks/` du lanceur lui-même. Aucune chaîne de code `-c` en ligne n'est passée : la détection de version exécute le fichier committé `hooks/python-probe.py`, de sorte que chaque élément des deux vecteurs d'arguments est une constante gelée ou un chemin validé. Les deux appels `spawnSync` passent `shell: false` et un vecteur d'arguments : aucun shell n'intervient. Contrat complet : `hooks/README.md`. Non-régression : `tests/test_cross_platform_hooks.py`.
 
 ## Risques résiduels connus
 
@@ -79,7 +79,8 @@ Si vous auditez, ce sont les fichiers à haut niveau de levier :
 | `scripts/google_auth.py` | Cycle de vie du jeton OAuth, écritures en `chmod 0o600`. |
 | `scripts/backlinks_auth.py` | Chargement des credentials d'API backlinks ; garde SSRF via `url_safety`. |
 | `tests/test_url_safety.py` | Batterie de non-régression de 91 cas couvrant chaque classe de contournement. |
-| `hooks/run-python-hook.js` | Lanceur de hook : validation de l'interpréteur et confinement du chemin de hook. |
+| `hooks/run-python-hook.js` | Lanceur de hook : allowlist d'interpréteurs, validation de l'override, confinement du chemin de hook. |
+| `hooks/README.md` | Contrat de sécurité du sous-processus pour le lanceur de hook. |
 | `install.sh` / `install.ps1` | Génération du manifeste de propriété de l'installation. |
 | `uninstall.sh` / `uninstall.ps1` | Suppression limitée au manifeste ; confirmation exigée pour les installations anciennes. |
 
@@ -104,5 +105,6 @@ Si vous auditez, ce sont les fichiers à haut niveau de levier :
 | Date | Auditeur | Périmètre | Réponse |
 |---|---|---|---|
 | 2026-08-01 | Audit de sécurité automatisé ClawHub | Plugin v2.2.9, dépôt complet | [docs/SECURITY-AUDIT-RESPONSE.fr.md](docs/SECURITY-AUDIT-RESPONSE.fr.md) |
+| 2026-08-03 | Audit de sécurité automatisé ClawHub (relancé) | Plugin v2.2.10, dépôt complet | [Section de suivi](docs/SECURITY-AUDIT-RESPONSE.fr.md#suivi--ré-audit-de-la-2210) |
 
 Le document de réponse indique, constat par constat, s'il a été corrigé ou classé comme faux positif du scanner, avec la justification.

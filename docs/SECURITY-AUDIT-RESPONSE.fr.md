@@ -2,8 +2,12 @@
 
 # Réponse à l'audit de sécurité
 
-Réponse à l'audit de sécurité ClawHub de Powehi Universal SEO v2.2.9
-(date de l'audit : 2026-08-01).
+Réponse aux audits de sécurité ClawHub de Powehi Universal SEO :
+
+| Date de l'audit | Version auditée | Section |
+|---|---|---|
+| 2026-08-01 | 2.2.9 | Tout ce qui suit, jusqu'au suivi |
+| 2026-08-03 | 2.2.10 | [Suivi : ré-audit de la 2.2.10](#suivi--ré-audit-de-la-2210) |
 
 Les constats sont regroupés par issue : **corrigé** (code ou documentation
 modifiés) ou **pas une vulnérabilité** (correspondance de motif du scanner,
@@ -126,39 +130,13 @@ le dépublie pas.
 
 ## Pas une vulnérabilité
 
-### Exécution de code dynamique dans les tests (Critical, 3 occurrences)
-
-- `tests/test_banana_api_key_safety.py:24`
-- `tests/test_runtime.py:19`
-- `tests/test_sync_flow.py:121`
-
-Ces lignes appellent `importlib.util.spec_from_file_location()` puis
-`spec.loader.exec_module()` pour importer des scripts du dépôt qui ne sont pas
-empaquetés comme modules importables (`scripts/runtime.py`,
-`scripts/sync_flow.py`).
-
-Non exploitable, pour trois raisons indépendantes :
-
-1. Le chemin est une constante dérivée de
-   `Path(__file__).resolve().parents[1]`. Aucune entrée utilisateur, réseau ou
-   variable d'environnement ne l'atteint.
-2. Le fichier chargé est du code source du dépôt que le processus de test
-   pourrait exécuter de toute façon. Le charger n'accorde aucune capacité
-   supplémentaire à un attaquant capable de modifier le dépôt.
-3. `tests/` n'est pas distribué. Ce répertoire n'est copié ni par `install.sh`,
-   ni par `install.ps1`, ni par le manifeste du plugin : il n'atteint jamais la
-   machine d'un utilisateur final.
-
-C'est l'idiome standard pour tester un script dépourvu d'`__init__` de paquet,
-et la détection porte sur le nom de l'API plutôt que sur un flux de données réel.
-Aucune modification.
-
 ### Présence de `spawnSync` en elle-même (Critical)
 
-Le lanceur doit démarrer un interpréteur Python : c'est toute sa raison d'être.
-L'appel n'utilisait déjà aucun shell et passait un vecteur d'arguments. Voir
-ci-dessus le durcissement appliqué aux parties réellement actionnables de ce
-constat.
+Le lanceur doit démarrer un interpréteur Python : c'est toute sa raison d'être,
+et supprimer l'appel revient à supprimer le support des hooks. L'appel
+n'utilisait déjà aucun shell et passait un vecteur d'arguments. Voir ci-dessus,
+et dans le suivi 2.2.11 ci-dessous, le durcissement appliqué aux parties
+réellement actionnables de ce constat.
 
 ---
 
@@ -174,3 +152,58 @@ le rapport :
   `bing-webmaster`, `profound`, `seranking`, `unlighthouse`) vérifiaient le même
   chemin erroné `skills\seo` : l'installation de ces extensions sous Windows
   refusait de s'exécuter face à une installation de base pourtant correcte.
+
+---
+
+## Suivi : ré-audit de la 2.2.10
+
+Le ré-audit du 2026-08-03 sur la v2.2.10 a rapporté quatre constats Critical :
+le même appel `spawnSync` et les mêmes trois sites d'appel `exec_module()`. La
+réponse pour la 2.2.9 les avait classés faux positifs, avec justification. Ils
+ont été traités structurellement en v2.2.11, de sorte que le motif n'apparaît
+plus.
+
+### Exécution de code dynamique dans les tests (3 occurrences) -- supprimée
+
+- `tests/test_banana_api_key_safety.py`
+- `tests/test_runtime.py`
+- `tests/test_sync_flow.py`
+
+Ces fichiers utilisaient `importlib.util.spec_from_file_location()` puis
+`spec.loader.exec_module()` pour charger des scripts du dépôt non empaquetés
+comme modules importables. Le raisonnement expliquant pourquoi ce n'était pas
+exploitable reste valable -- chemins constants dérivés de `__file__`, code
+source du dépôt que le processus de test pourrait exécuter de toute façon, et
+répertoire `tests/` jamais distribué aux utilisateurs -- mais « non
+exploitable » est une position plus faible que « absent ».
+
+**Modification.** `tests/conftest.py` place `scripts/` et
+`extensions/banana/scripts/` sur `sys.path`, et les trois modules de test
+utilisent désormais des `import` ordinaires (`import runtime`,
+`import sync_flow`, `import generate as banana_generate`,
+`import edit as banana_edit`). La résolution des modules est statique et
+auditable, l'API de chargement dynamique a disparu de la suite de tests, et
+aucun comportement de test n'a changé.
+
+### `spawnSync` dans le lanceur de hook -- surface réduite
+
+Le ré-audit précisait que l'appel s'exécute « sans restrictions d'arguments
+visibles ni justification dans le manifeste ». Les deux moitiés étaient
+actionnables.
+
+**Restrictions d'arguments.** La liste d'interpréteurs est désormais
+`PYTHON_ALLOWLIST`, une constante gelée au niveau module. Surtout, la sonde ne
+passe plus de chaîne de code `-c` en ligne : la détection de version exécute le
+fichier committé `hooks/python-probe.py`. Chaque élément des deux vecteurs
+d'arguments est maintenant soit une constante gelée, soit un chemin validé --
+aucune chaîne de code n'est construite à l'exécution.
+
+**Justification.** `hooks/README.md` documente pourquoi un shim Node lance
+Python (Node est garanti présent dans le harnais, un Python utilisable ne l'est
+pas, et son invocation diffère selon la plateforme) et énonce le contrat de
+sécurité complet du sous-processus : pas de shell, exécutable en allowlist,
+arguments constants, chemin de hook confiné, argv restant traité comme donnée.
+
+L'appel lui-même demeure. Démarrer un interpréteur Python est toute la raison
+d'être du fichier, et le supprimer revient à supprimer le support des hooks. Ce
+qui change, c'est que plus rien dans l'invocation n'est assemblé dynamiquement.

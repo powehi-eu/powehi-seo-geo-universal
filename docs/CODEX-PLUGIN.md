@@ -59,7 +59,7 @@ The Codex manifest mirrors the existing plugin identity rather than introducing 
 ### Chosen values
 
 - `name`: `powehi-seo-geo`
-- `version`: `2.2.10`
+- `version`: `2.2.11`
 - `skills`: `./skills/`
 - `displayName`: `Powehi Universal SEO`
 - `developerName`: `Powehi`
@@ -89,7 +89,7 @@ The current repository remains Claude-first in its documentation and installatio
 
 The Codex surface is current on the repository's `main` branch as of 2026-07-29:
 
-- `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` both declare version `2.2.10`.
+- `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` both declare version `2.2.11`.
 - The Codex manifest points to the existing `./skills/` directory.
 - The manifest validator passes.
 - The portability check passes for all 33 `SKILL.md` files with zero errors or warnings.

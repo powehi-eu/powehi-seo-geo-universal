@@ -110,16 +110,14 @@ def test_agent_has_untrusted_webfetch_rule():
     )
 
 
-# ── Module-level loader for unit tests (no network calls) ─────────────────────
+# ── Module accessor for unit tests (no network calls) ─────────────────────────
 
-import importlib.util as _ilu
+# scripts/ is placed on sys.path by tests/conftest.py.
+import sync_flow
+
 
 def _load_sync_flow_module():
-    path = REPO_ROOT / "scripts" / "sync_flow.py"
-    spec = _ilu.spec_from_file_location("sync_flow", path)
-    mod = _ilu.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+    return sync_flow
 
 # ── Task 2 tests ──────────────────────────────────────────────────────────────
 

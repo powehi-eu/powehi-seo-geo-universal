@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.11] - 2026-08-03
+
+### Security
+
+- Removed dynamic module loading from the test suite. `tests/conftest.py` now places `scripts/` and `extensions/banana/scripts/` on `sys.path`, and `test_runtime.py`, `test_sync_flow.py`, and `test_banana_api_key_safety.py` use ordinary `import` statements instead of `importlib.util.exec_module()`. Module resolution is static and auditable; no test behaviour changed.
+- Reduced the hook launcher's subprocess surface: the interpreter list is now a frozen `PYTHON_ALLOWLIST` constant, and version probing executes the committed `hooks/python-probe.py` instead of an inline `-c` code string. Every element of both `spawnSync` argument vectors is now a frozen constant or a validated path.
+- Added `hooks/README.md` documenting why a Node shim launches Python and stating the launcher's full subprocess safety contract.
+- Extended `docs/SECURITY-AUDIT-RESPONSE.md` (and its French companion) with a follow-up section covering the 2026-08-03 re-audit of v2.2.10.
+
 ## [2.2.10] - 2026-08-03
 
 ### Security

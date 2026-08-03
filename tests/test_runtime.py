@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib.util
 import json
 import os
 import signal
@@ -12,11 +11,10 @@ from types import SimpleNamespace
 
 import pytest
 
+# scripts/ is placed on sys.path by tests/conftest.py.
+import runtime
+
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("claude_seo_runtime", ROOT / "scripts/runtime.py")
-assert SPEC and SPEC.loader
-runtime = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(runtime)
 
 
 def _fixture_root(tmp_path: Path) -> Path:

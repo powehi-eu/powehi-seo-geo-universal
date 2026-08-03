@@ -2,8 +2,12 @@
 
 # Security Audit Response
 
-Response to the ClawHub security audit of Powehi Universal SEO v2.2.9
-(audit date: 2026-08-01).
+Response to the ClawHub security audits of Powehi Universal SEO:
+
+| Audit date | Audited version | Section |
+|---|---|---|
+| 2026-08-01 | 2.2.9 | Everything below, up to the follow-up |
+| 2026-08-03 | 2.2.10 | [Follow-up: 2.2.10 re-audit](#follow-up-2210-re-audit) |
 
 Findings are grouped by outcome: **fixed** (code or docs changed), or
 **not a vulnerability** (scanner pattern match with a documented reason).
@@ -112,35 +116,12 @@ revoked and rotated -- deleting the issue does not un-publish it.
 
 ## Not a vulnerability
 
-### Dynamic code execution in tests (Critical, 3 instances)
-
-- `tests/test_banana_api_key_safety.py:24`
-- `tests/test_runtime.py:19`
-- `tests/test_sync_flow.py:121`
-
-These call `importlib.util.spec_from_file_location()` followed by
-`spec.loader.exec_module()` to import repository scripts that are not packaged
-as importable modules (`scripts/runtime.py`, `scripts/sync_flow.py`).
-
-Not exploitable, for three independent reasons:
-
-1. The path is a constant derived from `Path(__file__).resolve().parents[1]`.
-   No user input, no network input, no environment variable reaches it.
-2. The loaded file is repository source that the test process could execute
-   anyway. Loading it grants no capability an attacker did not already have if
-   they could modify the repo.
-3. `tests/` is not shipped. It is not copied by `install.sh`, `install.ps1`, or
-   the plugin manifest, so it never reaches an end-user machine.
-
-This is the standard idiom for testing a script that has no package `__init__`,
-and the scanner match is on the API name rather than on any dataflow. No change
-made.
-
 ### `spawnSync` presence itself (Critical)
 
-The launcher must start a Python interpreter -- that is its entire purpose. The
-call was already shell-free with an argument vector. See the hardening applied
-above for the parts of this finding that were actionable.
+The launcher must start a Python interpreter -- that is its entire purpose, and
+removing the call means removing hook support. The call was already shell-free
+with an argument vector. See the hardening applied above and in the v2.2.11
+follow-up below for the parts of this finding that were actionable.
 
 ---
 
@@ -155,3 +136,54 @@ Not audit findings, but real defects found while working through the report:
   `profound`, `seranking`, `unlighthouse`) checked for the same wrong
   `skills\seo` path, so extension installs on Windows would refuse to run
   against a correct base install.
+
+---
+
+## Follow-up: 2.2.10 re-audit
+
+The 2026-08-03 re-audit of v2.2.10 reported four Critical findings: the same
+`spawnSync` call and the same three `exec_module()` call sites. The 2.2.9
+response had classified all four as false positives with reasoning. They were
+addressed structurally in v2.2.11 instead, so the pattern no longer appears.
+
+### Dynamic code execution in tests (3 instances) -- removed
+
+- `tests/test_banana_api_key_safety.py`
+- `tests/test_runtime.py`
+- `tests/test_sync_flow.py`
+
+These used `importlib.util.spec_from_file_location()` plus
+`spec.loader.exec_module()` to load repository scripts that are not packaged as
+importable modules. The reasoning for why this was never exploitable still
+holds -- constant paths derived from `__file__`, repository source the test
+process could execute anyway, and a `tests/` directory that is never shipped to
+users -- but "not exploitable" is a weaker position than "not present".
+
+**Change.** `tests/conftest.py` puts `scripts/` and
+`extensions/banana/scripts/` on `sys.path`, and the three test modules now use
+ordinary `import` statements (`import runtime`, `import sync_flow`,
+`import generate as banana_generate`, `import edit as banana_edit`). Module
+resolution is static and auditable, the dynamic-loading API is gone from the
+test suite, and no test behaviour changed.
+
+### `spawnSync` in the hook launcher -- surface reduced
+
+The re-audit noted the call executes "through the Python runtime without visible
+argument restrictions or manifest justification". Both halves were actionable.
+
+**Argument restrictions.** The interpreter list is now `PYTHON_ALLOWLIST`, a
+frozen module-level constant. Crucially, the probe no longer passes an inline
+`-c` code string: version probing executes the committed
+`hooks/python-probe.py` file. Every element of both argument vectors is now
+either a frozen constant or a validated path -- no code string is constructed at
+runtime.
+
+**Justification.** `hooks/README.md` documents why a Node shim launches Python
+at all (Node is guaranteed present in the harness; a usable Python is not, and
+its invocation differs per platform), and states the full subprocess safety
+contract: no shell, allowlisted executable, constant arguments, contained hook
+path, remaining argv treated as data.
+
+The call itself remains. Starting a Python interpreter is the file's entire
+purpose, and removing it means removing hook support. What has changed is that
+nothing about the invocation is now assembled dynamically.

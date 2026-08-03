@@ -135,7 +135,7 @@ coverage; spokes provide deep dives into subtopics.
 
 ```json
 {
-  "version": "2.2.10",
+  "version": "2.2.11",
   "seed_keyword": "string",
   "created_at": "ISO-8601",
   "pillar": {

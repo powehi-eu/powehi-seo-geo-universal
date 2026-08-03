@@ -21,7 +21,7 @@ powehi-seo-geo/
   CONTRIBUTORS.md                    # Community credits (Pro Hub Challenge)
   AGENTS.md                          # Multi-platform agent instructions (Cursor, Antigravity)
   .claude-plugin/
-    plugin.json                    # Plugin manifest (v2.2.10)
+    plugin.json                    # Plugin manifest (v2.2.11)
     marketplace.json               # Marketplace catalog for distribution
   skills/                            # 25 sub-skills (auto-discovered)
     seo/                           # Main orchestrator skill

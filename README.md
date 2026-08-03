@@ -26,7 +26,7 @@ for generative search and citation visibility; it is not treated as a separate
 discipline disconnected from technical SEO, content quality and authority.
 
 [![CI](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml/badge.svg)](https://github.com/powehi-eu/powehi-seo-geo-universal/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/release-v2.2.10-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.10)
+[![Version](https://img.shields.io/badge/release-v2.2.11-blue)](https://github.com/powehi-eu/powehi-seo-geo-universal/releases/tag/v2.2.11)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Powehi](https://img.shields.io/badge/Powehi-powehi.eu-2563EB)](https://powehi.eu)
 
